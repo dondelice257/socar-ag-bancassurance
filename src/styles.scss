@@ -1,1 +1,237 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/scss/bootstrap';
+$main:#1F458E;
+$focus:#0f5be7;
+$main-less-light:#3e5681;
+$main-more-light:#4d5768;
+$level-1:#d9d9d9;
+$level-2:#f3f3f3;
+
+
+@font-face {
+  font-family: "lato";
+  src: url("../src/assets/fonts/Lato-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "lato";
+  src: url("../src/assets/fonts/Lato-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+}
+
+
+*{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+
+.bg-sec{
+    background-color: $level-1;
+}
+
+.border-sec{
+    border: 1px solid $main-more-light;
+}
+
+.border-l{
+  border: 6px solid $main-more-light;
+
+
+}
+
+.border-less{
+  border: 1px solid #3c7395;
+
+
+}
+
+.text-main{
+    color:$main
+}
+
+.text-main-1{
+  color:$main-less-light
+}
+
+.text-main-2{
+  color:$main-more-light
+}
+
+.bg-main{
+  background-color:$main
+}
+
+.bg-main-1{
+  background-color:$main-more-light
+}
+
+.border-main-right{
+  border-right:3px solid $main-less-light
+}
+
+.border-main-bottom{
+  border-bottom:5px solid $main
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width:75%;
+    padding: 20px;
+    border-radius: 20px;
+    position: relative;
+    background-color: white;
+    color: #fff;
+    border: 1px solid rgba(105, 105, 105, 0.397);
+  }
+  
+  .title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    color: $main-more-light;
+  }
+  
+  .title::before {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .title::after {
+    width: 18px;
+    height: 18px;
+    animation: pulse 0s linear infinite;
+    -webkit-animation: pulse 0s linear infinite;
+}
+  
+  .title::before,
+  .title::after {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    left: 0px;
+    background-color: $main-more-light;
+  }
+  
+  .message, 
+  .signin {
+    font-size: 14.5px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .signin {
+    text-align: center;
+  }
+  
+  .signin a:hover {
+    text-decoration: underline royalblue;
+  }
+  
+  .signin a {
+    color: #00bfff;
+  }
+  
+  .flex {
+    display: flex;
+    width: 100%;
+    gap: 6px;
+  }
+  
+  .form label {
+    position: relative;
+    // margin-left: 25px;
+  }
+  
+  .form label .input {
+    background-color: white;
+    color: black;
+    width: 100%;
+    padding: 20px 05px 05px 10px;
+    outline: 0;
+    border: 1px solid rgba(105, 105, 105, 0.397);
+    border-radius: 10px;
+  }
+  
+  .form label .input + span {
+    color: black;
+    position: absolute;
+    left: 20px;
+
+    top: 0px;
+    font-size: 0.9em;
+    cursor: text;
+    transition: 0.3s ease;
+  }
+  
+  .form label .input:placeholder-shown + span {
+    top: 12.5px;
+    font-size: 0.9em;
+    left:20px
+  }
+
+
+  label{
+    color:rgb(110, 107, 107)
+  }
+  
+  .form label .input:focus + span,
+  .form label .input:valid + span {
+    color: black;
+    top: 0px;
+    font-size: 0.7em;
+    font-weight: 600;
+    left:20px
+
+  }
+  
+  .input {
+    font-size: medium;
+  }
+  
+  .submit {
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    transform: .3s ease;
+    background-color: $main
+  }
+  
+  .submit:hover {
+    background-color: $main;
+  }
+  
+  @keyframes pulse {
+    from {
+      transform: scale(0.9);
+      opacity: 1;
+    }
+  
+    to {
+      transform: scale(1.8);
+      opacity: 0;
+    }
+  }
+
+
+  .w-30{
+    width: 30%
+  }
+
+
+  .w-70{
+    width: 70%
+  }

@@ -32,7 +32,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": ["node_modules/@fortawesome/fontawesome-free/js/all.min.js"],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -97,10 +97,13 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["node_modules/@fortawesome/fontawesome-free/js/all.min.js"]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "8191b84b-f20d-4767-bd11-5400593ed2b6"
   }
 }
