@@ -1,23 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgxPrintModule } from 'ngx-print';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { NgxPrintModule } from 'ngx-print';
+
 
 @Component({
-  selector: 'app-super-agent-badge',
-  templateUrl: './super-agent-badge.component.html',
-  standalone:true,
+  selector: 'app-new-insurance',
+  standalone: true,
   imports:[
     CommonModule,
     ReactiveFormsModule,
     NgxPrintModule
   ],
-  styleUrls: ['./super-agent-badge.component.scss']
+  templateUrl: './new-insurance.component.html',
+  styleUrl: './new-insurance.component.scss'
 })
-export class SuperAgentBadgeComponent implements OnInit {
+export class NewInsuranceComponent {
+
+
+
+
 
   badgeForm!: FormGroup | any;
   imageUrl: any;
@@ -46,8 +50,8 @@ export class SuperAgentBadgeComponent implements OnInit {
       plaque: new FormControl('', Validators.required),
       chasis: new FormControl('', Validators.required),
       usage: new FormControl('', Validators.required),
-      passagersCabine: new FormControl('', Validators.required),
-      passagersPlateau: new FormControl('', Validators.required),
+      passagersCabine: new FormControl(4, Validators.required),
+      passagersPlateau: new FormControl(0, Validators.required),
 
 
 
@@ -171,4 +175,6 @@ export class SuperAgentBadgeComponent implements OnInit {
         this.isModalShown = false;
     }
 }
+
+
 }

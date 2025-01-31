@@ -24,7 +24,7 @@
             <!-- First row: Three inputs -->
             <div class="row ">
               <label class="mb-2 col-6 col-lg-4 col-md-6 col-sm-1">
-                <input class="input" type="text" placeholder="" formControlName="assureur" required>
+                <input class="input" readonly type="text" placeholder="" formControlName="assureur" required>
                 <span>Assureur</span>
                 <small *ngIf="badgeForm.get('assureur').invalid && badgeForm.get('assureur').touched" class="text-danger">
                   L'assureur est obligatoire
@@ -117,7 +117,6 @@
              <div class="d-grid">
              <div class="d-flex justify-content-center mt-3">
               <button 
-                type="submit" 
                 *ngIf="badgeForm.valid"
                 class="submit w-25"
                 data-bs-toggle="modal"
@@ -237,7 +236,7 @@
       </div>
       <div id="print-section" class="w-70 p-3 row">
         <div class="w-50 to-print d-none col-6"></div>
-        <div class="d-grid w-50 col-6 really-print">
+        <div class="d-grid w-50 col-6 really-print pt-2">
           <div class="d-flex no-print justify-content-center">
             <img style="width:120px; height: 50px;" src="../../../assets/images/assur.webp" alt="">
           </div>
@@ -266,7 +265,7 @@
                 <span class="me-2 no-print">La présente attestation est valable du</span>
                 <small class="ms-3">{{ badgeForm.value.startDate | date:'dd/MM/yyyy' }}</small>
                 <span class="mx-2 no-print">au</span>
-                <small class="ms-2">{{ badgeForm.value.endDate | date:'dd/MM/yyyy' }}</small>
+                <small class="ms-4">{{ badgeForm.value.endDate | date:'dd/MM/yyyy' }}</small>
               </div>
               <div class="no-border-print mt-3">
                 <div class="d-flex align-items-start w-100">
@@ -277,7 +276,7 @@
                   <span class="me-3 w-30 no-print">Adresse</span>
                   <small class="w-70 t-right">{{ badgeForm.value.address }}</small>
                 </div>
-                <div class="d-flex align-items-center w-100 mt-3 mb-1">
+                <div class="d-flex align-items-center w-100 mt-2 mb-1">
                   <span class="me-3 w-30 no-print">No de Police</span>
                   <small class="w-70 t-right ms-5">{{ badgeForm.value.policeNumber }}</small>
                 </div>

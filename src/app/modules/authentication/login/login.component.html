@@ -1,0 +1,80 @@
+<div class="bg-green text-dark">
+  <div>
+    <div class="d-lg-flex mx-lg-0 align-items-center vh-100 justify-content-center">
+      
+      <div class="d-grid w-resp">
+        <div class="d-flex w-100 justify-content-center my-2">
+            <b>
+              <h3 class="text-white">TEKANA TURI KUMWE NAMWE</h3> 
+            </b>
+        </div>
+        <div class="mt-2 rounded shadow bg-white pt-3 px-lg-5 px-3 pb-2">
+          <div class="d-grid">
+            <div class="my-2 d-flex justify-content-center">
+              <b>Connectez-vous</b>
+            </div>
+            <div class="d-flex w-100 justify-content-center">
+              <img src="../../../../assets/images/serenity-logo.png" alt="" style="width:120px; height:70px">
+            </div>
+            
+            <form
+            [ngClass]="isLoading?'not-clickable':''"
+
+             [formGroup]="loginForm" class="mb-2" (ngSubmit)="onSubmit()">
+              <div class="form-floating mb-4">
+                <input 
+                  type="text" 
+                  class="form-control input" 
+                  id="username" 
+                  formControlName="username"
+                  placeholder="Nom d'utilisateur">
+                <label for="username" class="text-mut">Email</label>
+                <!-- Display validation error message if username is invalid -->
+                <div *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)" class="text-danger">
+                  <div *ngIf="loginForm.controls['username'].errors">
+
+                    L'email est obligatoire
+                  </div>
+                </div>
+              </div>
+              <div class="form-floating mb-4">
+                <input 
+                  type="password" 
+                  class="form-control input" 
+                  id="password" 
+                  formControlName="password" 
+                  placeholder="Mot de passe">
+                <label for="password" class="text-mut">Mot de passe</label>
+                <!-- Display validation error message if password is invalid -->
+                <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" class="text-danger">
+                  <div *ngIf="loginForm.controls['password'].errors">
+                    Le mot de passe est obligatoire
+                  </div>
+                </div>
+              </div>
+              <div class="d-grid bg-main">
+                <button 
+                  type="submit" 
+                  [disabled]="loginForm.invalid" 
+                  class="btn bg-main text-white py-2">
+                  <ng-container *ngIf="isLoading">
+                    <small class="spinner-border fs-xs"></small>
+                  </ng-container>
+                  <ng-container *ngIf="!isLoading">
+                    <span>Connexion</span>
+                  </ng-container>
+                </button>
+              </div>
+            </form>
+            
+            <div class="d-flex mt-3 mb-5 justify-content-center align-items-center">
+              <b class="">Probleme de connexion ?</b>
+              <a href="mailto:dondelicedushime@gmail.com" role="button" class="text-primary ms-2">Contacte l'admin</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

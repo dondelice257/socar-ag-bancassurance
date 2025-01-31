@@ -1,5 +1,6 @@
 @import 'bootstrap/scss/bootstrap';
 $main:#1F458E;
+$green:#A4CA39;
 $focus:#0f5be7;
 $main-less-light:#3e5681;
 $main-more-light:#4d5768;
@@ -26,6 +27,7 @@ $level-2:#f3f3f3;
   font-size: 15px;
   margin: 0;
   padding: 0;
+  font-weight:bold ;
 }
 
 
@@ -63,6 +65,14 @@ $level-2:#f3f3f3;
 
 .bg-main{
   background-color:$main
+}
+
+.bg-green{
+  background-color:$green
+}
+
+.text-green{
+  color:$green
 }
 
 .bg-main-1{
@@ -234,4 +244,13 @@ $level-2:#f3f3f3;
 
   .w-70{
     width: 70%
+  }
+
+
+  .bg-primary-2{
+    background-color: #A4CA39;
+  }
+
+  .bg-white-1{
+    background-color: #F7F9F8;
   }

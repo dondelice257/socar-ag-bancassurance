@@ -1,0 +1,44 @@
+.vh-100{
+    height: 100vh;
+}
+
+
+@media (min-width:992px){
+    .w-resp{
+        width: 40%;
+    }
+
+}
+
+@media (max-width:991px){
+    .w-resp{
+        width: 100%;
+    }
+
+}
+
+
+.loader {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border-top: 8px solid #fff;
+    border-left: 8px solid #fff;
+    border-right: 8px solid #ff00;
+    animation: loader .7s infinite linear;
+  }
+  
+  @keyframes loader {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .invalid-control {
+    border: 1px solid #ff0000; /* Red border color */
+  }
+  
+  .help-image{
+    width: 500px;
+  }

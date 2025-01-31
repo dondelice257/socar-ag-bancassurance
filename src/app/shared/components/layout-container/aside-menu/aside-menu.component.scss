@@ -1,0 +1,66 @@
+.sidebar {
+    height: calc(100vh - 67px); /* Adjust header height as per your actual header height */
+    min-width: 200px;
+}
+
+.section-1, .section-2 {
+    width: 100%;
+}
+
+.section-2 {
+    margin-top: auto; /* Push Section 2 to the bottom of the sidebar */
+}
+
+.sidebar-item {
+    cursor: pointer; /* Optionally add pointer cursor to menu items */
+}
+
+.sidebar-item.active {
+    background-color: #343a40; /* Example of active menu item background color */
+}
+
+.border {
+    width: 100%;
+}
+
+
+.active{
+    background-color: #1F458E!important;
+}
+
+.menu-container {
+    .sidebar-item {
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+  
+    .sidebar-item:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  
+    .submenu {
+      display: flex;
+      flex-direction: column;
+      padding-left: 20px;
+    }
+  
+    .submenu-item {
+      cursor: pointer;
+      color: black;
+      transition: background 0.3s;
+    }
+  
+    .submenu-item:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  
+    .active {
+      background: rgba(255, 255, 255, 0.3);
+
+    }
+    .active-menu{
+        font-weight: bold;
+        color: #1F458E;
+    }
+  }
+  
