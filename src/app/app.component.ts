@@ -15,7 +15,7 @@ import { CoreModule } from './core/services/core.module';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Dufashe';
+  title = 'Serenity Insurance Company';
   loading = true; // Hide splash screen after some time (e.g., data loaded)
   isAuthenticated = false
   isAuthenticated$:Observable<boolean> 

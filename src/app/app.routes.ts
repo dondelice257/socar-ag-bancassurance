@@ -14,7 +14,7 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: UnderConstructionComponent
+                component: DashboardComponent
             },
             {
                 path: 'production',

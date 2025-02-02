@@ -42,4 +42,26 @@ getConnectedUserInfo(){
 );
   
 }
+
+
+
+
+getConnectedOperator(connectedUser:string){
+  const url=`${environment.apiUrl}operator/?user=${connectedUser}`
+
+  const header={
+    'content-type': 'application/json',
+    'Authorization' : `Token ${this.token}`
+
+  }
+
+  return this.httpClient.get(url, {headers:header}).pipe(
+    map((data) => {
+        return data;
+    })
+);
+  
+}
+
+
 }

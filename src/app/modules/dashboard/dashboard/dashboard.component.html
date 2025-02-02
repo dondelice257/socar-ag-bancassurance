@@ -1,45 +1,60 @@
-<div class="ms-4 mt-4 d-grid text-white w-100">
-    <div>
-        <div class="row">
-            <div class="col-auto me-5 bg-info rounded ">
-                <div class="d-flex align-items-center justify-content-center">
-                    <span class="ticket ms-2 me-4">
-                        <i class="fa fa-ticket "></i>
-                    </span>
-                    <div class="d-grid me-3">
-                        <span class="fs-5">Contrats</span>
-                        <b class="fs-1">42</b>
-                        <span class="fs-5">Aujourd hui</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-auto bg-primary rounded me-5">
-                <div class="d-flex align-items-center justify-content-center">
-                    <span class="ticket ms-2 me-4">
-                        <i class="fa fa-ticket "></i>
-                    </span>
-                    <div class="d-grid me-3">
-                        <span class="fs-5">Sinistres</span>
-                        <b class="fs-1">14</b>
-                        <span class="fs-5">Aujourd hui</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-auto bg-secondary rounded me-5">
-                <div class="d-flex align-items-center justify-content-center">
-                    <span class="ticket ms-2 me-4">
-                        <i class="fa fa-ticket "></i>
-                    </span>
-                    <div class="d-grid me-3">
-                        <span class="fs-5">Declarations</span>
-                        <b class="fs-1">14</b>
-                        <span class="fs-5">Cette semaine</span>
-                    </div>
-                </div>
-            </div>
-
-
+<!-- operator-dashboard.component.html -->
+<div class="container dashboard-container">
+    <!-- Top Section: Statistics -->
+    <div class="row mb-4">
+      <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <div class="card bg-primary text-white h-100">
+          <div class="card-body">
+            <h5 class="card-title">Total Transactions ( This month )</h5>
+            <p class="card-text display-4">1,234</p>
+          </div>
         </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <div class="card bg-success text-white h-100">
+          <div class="card-body">
+            <h5 class="card-title">Active Policies</h5>
+            <p class="card-text display-4">567</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <div class="card bg-warning text-dark h-100">
+          <div class="card-body">
+            <h5 class="card-title">Pending Claims</h5>
+            <p class="card-text display-4">89</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <div class="card bg-main text-white h-100">
+          <div class="card-body">
+            <h5 class="card-title">Revenue</h5>
+            <p class="card-text display-4">$12,345</p>
+          </div>
+        </div>
+      </div>
     </div>
+  
+    <!-- Bottom Section: Charts -->
+    <div class="row">
+      <div class="col-12 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Transaction Evolution</h5>
+            <app-bar-chart [datas]="datasBar"></app-bar-chart>
 
-</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Transaction Types</h5>
+            <app-pie-chart [datas]="datas"></app-pie-chart>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

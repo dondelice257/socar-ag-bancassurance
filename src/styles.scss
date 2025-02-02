@@ -8,26 +8,26 @@ $level-1:#d9d9d9;
 $level-2:#f3f3f3;
 
 
+
+
 @font-face {
-  font-family: "lato";
-  src: url("../src/assets/fonts/Lato-Regular.ttf") format("truetype");
+  font-family: "roboto";
+  src: url("../src/assets/fonts/Roboto-Regular.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
 }
 @font-face {
-  font-family: "lato";
-  src: url("../src/assets/fonts/Lato-Bold.ttf") format("truetype");
+  font-family: "roboto";
+  src: url("../src/assets/fonts/Roboto-Bold.ttf") format("truetype");
   font-style: normal;
   font-weight: 700;
 }
 
 
 *{
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 15px;
+  font-family: "roboto";
   margin: 0;
   padding: 0;
-  font-weight:bold ;
 }
 
 
@@ -254,3 +254,5 @@ $level-2:#f3f3f3;
   .bg-white-1{
     background-color: #F7F9F8;
   }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
