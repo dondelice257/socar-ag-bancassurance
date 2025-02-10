@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxPrintModule } from 'ngx-print';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { LookupComponent } from '../../../../shared/components/reusable/lookup/lookup.component';
 
 
 @Component({
@@ -12,169 +13,95 @@ import jsPDF from 'jspdf';
   imports:[
     CommonModule,
     ReactiveFormsModule,
-    NgxPrintModule
+    NgxPrintModule,
+    LookupComponent
   ],
   templateUrl: './new-insurance.component.html',
   styleUrl: './new-insurance.component.scss'
 })
 export class NewInsuranceComponent {
+  step = 1;
+  insuranceForm: FormGroup;
+  selectedClientId: string | null = null;
+  endDate: string = '';
+  selectedGuarantees: number[] = [];
 
+  marques = ['Toyota', 'Mercedes', 'BMW', 'Nissan']; // Liste temporaire
+  puissances = ['100 CV', '150 CV', '200 CV', '250 CV']; // Liste temporaire
+  usages = ['Particulier', 'Commercial', 'Industriel']; // Liste temporaire
+  periods = ['Annuel', 'Trimestre', 'Semestre', 'Mois', 'Custom']; // Liste temporaire
 
+  guarantees = [
+    { id: 1, name: 'Responsabilité Civile' },
+    { id: 2, name: 'Dégâts Matériels' },
+    { id: 3, name: 'Vol' },
+    { id: 4, name: 'Incendie' }
+  ];
 
-
-
-  badgeForm!: FormGroup | any;
-  imageUrl: any;
-  isModalShown:boolean=false
-  isFormValid:boolean=true
-
-  isMenuShown:boolean=false
-  @ViewChild('myModal') myModal: ElementRef | any;
-  
-
-  
-  constructor() {
-
-  }
-
-  ngOnInit() {
-        this.badgeForm = new FormGroup({
-      assureur: new FormControl('SERENITY', Validators.required),
-      startDate: new FormControl('', Validators.required),
-      endDate: new FormControl('', Validators.required),
-
-      preneur: new FormControl('', Validators.required),
-      address: new FormControl('', Validators.required),
-      policeNumber: new FormControl('', Validators.required),
-      marque: new FormControl('', Validators.required),
-      plaque: new FormControl('', Validators.required),
-      chasis: new FormControl('', Validators.required),
-      usage: new FormControl('', Validators.required),
-      passagersCabine: new FormControl(4, Validators.required),
-      passagersPlateau: new FormControl(0, Validators.required),
-
-
-
-
-
-
-
+  constructor(private fb: FormBuilder) {
+    this.insuranceForm = this.fb.group({
+      clientId: ['', Validators.required],
+      marque: ['', Validators.required],
+      modele: ['', Validators.required],
+      plaque: ['', Validators.required],
+      chasis: ['', Validators.required],
+      puissanceMoteur: ['', Validators.required],
+      usageType: ['', Validators.required],
+      startDate: ['', Validators.required],
+      period: ['', Validators.required],
+      customDays: [''],
+      capitalAssure: [''], // Validation min 100,000
     });
   }
 
-  // previewImage(event: any) {
-  //   const file = event.target.files[0];
-  //   if (file) {
+  onClientSelected(clientId: string) {
+    this.selectedClientId = clientId;
+    this.insuranceForm.patchValue({ clientId });
+  }
 
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //       this.imageUrl = e.target.result;
+  onNext() {
+    if (this.step === 1 && this.selectedClientId) {
+      this.step++;
+    } else if (this.step === 2 && this.insuranceForm.valid) {
+    console.log('Formulaire etape 2:', { ...this.insuranceForm.value, selectedGuarantees: this.selectedGuarantees });
 
-  //       this.badgeForm.patchValue({
-  //         photo:this.imageUrl
-  //       })
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // }
-
-  checkGlobalForm() {
-    if (!this.badgeForm.valid) {
-      this.isFormValid = false;
-      
-      // Iterate over all form controls and mark them as touched
-      Object.keys(this.badgeForm.controls).forEach(field => {
-        const control = this.badgeForm.get(field);
-        if (control) {
-          control.markAsTouched();
-        }
-      });
+      this.calculateEndDate();
+      this.step++;
     }
   }
-  
 
-  toggleMenu(){
-    this.isMenuShown=!this.isMenuShown
+  onBack() {
+    if (this.step > 1) this.step--;
   }
 
-
-  saveAsImage() {
-    const modalContent = this.myModal.nativeElement;
-    html2canvas(modalContent).then(canvas => {
-      
-      const image = canvas.toDataURL('image/png');
-
-      
-      const link = document.createElement('a');
-      link.href = image;
-      link.download = `efeza-badge-${this.badgeForm.value.firstName}.png`; 
-      link.click(); 
-      this.toggleMenu()
-    });
+  onPeriodChange() {
+    this.calculateEndDate();
   }
 
-  saveAsPDF(pageSize: string) {
-    const modalContent = this.myModal.nativeElement;
-  
-    let pageWidth:any, pageHeight:any;
-    switch (pageSize) {
-      case 'A4':
-        pageWidth = 297;
-        pageHeight = 210;
-        break;
-      case 'A5':
-        pageWidth = 210;
-        pageHeight = 148;
-        break;
-      case 'A6':
-        pageWidth = 150;
-        pageHeight = 100;
-        break;
-      default:
-        pageWidth = 297;
-        pageHeight = 210;
-        break;
-    }
-  
-    const pdf = new jsPDF({
-      orientation: 'landscape',
-      unit: 'mm',
-      format: [pageWidth, pageHeight]
-    });
-  
-    html2canvas(modalContent, { scale: 4 }).then(canvas => {
-      const imageData = canvas.toDataURL('image/png');
+  calculateEndDate() {
+    const startDate = new Date(this.insuranceForm.get('startDate')?.value);
+    const period = this.insuranceForm.get('period')?.value;
+    const daysToAdd: { [key: string]: number } = {
+      Annuel: 365,
+      Trimestre: 90,
+      Semestre: 180,
+      Mois: 30,
+      Custom: Number(this.insuranceForm.get('customDays')?.value || 0)
+    };
 
-      pdf.addImage(imageData, 'PNG', 0, 0, pageWidth, pageHeight);
-
-      pdf.save(`efeza-badge-${this.badgeForm.value.firstName}.pdf`);
-      this.toggleMenu()
-    });
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + daysToAdd[period]);
+    this.endDate = endDate.toISOString().split('T')[0];
   }
 
-
-  printModalContent() {
-    const modalContent = this.myModal.nativeElement.innerHTML;
-    const printWindow :any= window.open('', '_blank');
-    printWindow.document.write('<html><head><title>Print</title></head><body>');
-    printWindow.document.write(modalContent);
-    printWindow.document.write('</body></html>');
-    printWindow.document.close();
-    printWindow.print();
+  toggleGuarantee(guaranteeId: number) {
+    this.selectedGuarantees = this.selectedGuarantees.includes(guaranteeId)
+      ? this.selectedGuarantees.filter(id => id !== guaranteeId)
+      : [...this.selectedGuarantees, guaranteeId];
   }
 
-  
-  
-  
-  
-  
-  
-
-  closeModal(event: MouseEvent): void {
-    if (!(event.target as HTMLElement).closest('.inner-container')) {
-        this.isModalShown = false;
-    }
+  onSubmit() {
+    console.log('Formulaire soumis:', { ...this.insuranceForm.value, selectedGuarantees: this.selectedGuarantees });
+  }
 }
 
-
-}

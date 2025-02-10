@@ -6,7 +6,7 @@
 
 export const environment = {
     production: true,
-    apiUrl: 'https://assets.dufashe.com/api/',
+    apiUrl: 'http://172.16.27.148:8000/api/',
 
 
 };

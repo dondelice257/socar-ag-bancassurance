@@ -1,18 +1,18 @@
 <div class="d-grid">
     @if(connectedOperator){
-    <div class="w-100 d-flex bg-main text-white justify-content-between" >
+    <div class="w-100 d-flex bg-main text-white justify-content-between align-items-center" >
         <div>
             <img style="width: 200px; height: 70px;" src="{{connectedOperator.company.logo}}" alt="">
         </div>
         
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center profile-border">
             <div class="profile-img overflow-hidden border-md-success me-2 rounded-circle">
                 <img src="{{connectedOperator.user.profile_picture}}" alt="">
             </div>
             <div class="d-grid me-3">
                 
                 <b>{{connectedOperator.full_name}}</b>
-                <span class="text-light">{{connectedOperator.role}}, {{connectedOperator.agency_name}}</span>
+                <span class="text-light"> <i class="fa fa-briefcase me-2"></i>{{connectedOperator.agency_name}}</span>
 
             </div>
 

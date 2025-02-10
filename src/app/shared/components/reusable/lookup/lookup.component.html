@@ -1,0 +1,138 @@
+<section class="searchMenu w-100 rounded bg-secondary position-relative">
+  <div class="d-flex level-2 rounded p-2 w-100" *ngIf="selectedItem">
+      <div style="line-height: 18px">
+          <div class="d-flex bg-secondary p-1 rounded">
+              
+              <div class="text-dark d-grid">
+                <div class="d-flex align-items-center">
+                    <b class="me-2">
+                    {{ selectedItem.lookup_title }}
+                  </b>
+                  <b>
+                    {{ selectedItem.lookup_subtitle }}
+                  </b>
+                </div>
+                  
+                  <span class="subtitle"
+                      >{{ selectedItem.lookup_description }}
+                  </span>
+              </div>
+          </div>
+      </div>
+      <div>
+          <span
+              class="text-danger"
+              style="right: 0 !important; position: absolute"
+              role="button"
+              (click)="deselect()"
+              ><i class="fa-solid fa-circle-xmark me-2"></i>
+          </span>
+      </div>
+  </div>
+
+  <!-- <label for="validationTooltipUsername">Username</label> -->
+  <div class="input-group" *ngIf="option === 'lookup' && !selectedItem">
+      <input
+          type="text"
+          class="form-control input lookup"
+          id="validationTooltipUsername"
+          placeholder="{{ lookupLabel }}"
+          aria-describedby="validationTooltipUsernamePrepend"
+          required
+          style="border: none"
+          [formControl]="lookup"
+      />
+
+      <div
+          class="input-group-prepend"
+          role="button"
+          (click)="DoLookup()"
+          *ngIf="!isLoading"
+      >
+          <span
+              class="input-group-text h-100 bg-dark text-white"
+              id="validationTooltipUsernamePrepend"
+              ><i class="fa-solid fa-search"></i>
+          </span>
+      </div>
+
+      <div class="input-group-prepend" *ngIf="isLoading">
+          <span
+              class="input-group-text h-100 bg-dark text-white"
+              id="validationTooltipUsernamePrepend"
+          >
+              <i class="fa-solid fa-pulse fa-circle-notch text-white"></i>
+          </span>
+      </div>
+  </div>
+
+  <div *ngIf="option === 'autocomplete'">
+      <div class="form-floating" *ngIf="!selectedItem">
+          <input
+              id="menu_group"
+              class="input form-control autocomplete"
+              placeholder="client"
+              (focus)="initAutocomplete()"
+              (keyup)="initAutocomplete()"
+              (click)="showAutoComplete = true"
+              [formControl]="search"
+              (input)="DoAutocomplete()"
+              autocomplete="false"
+          />
+          <label for="menu_group" class="form-label mx-3">{{
+              itemsLabel
+          }}</label>
+      </div>
+      <div
+          class="autoCompleteItems level-2 shadow rounded level-0 w-100 shadow py-2 mt-2"
+          *ngIf="showAutoComplete"
+      >
+          <div class="list mx-1">
+              <div class="d-flex">
+                  <b>Liste des {{ itemsLabel }} </b>
+                  <b
+                      style="right: 0 !important; position: absolute"
+                      role="button"
+                      class="me-2"
+                      (click)="close()"
+                      ><span class="ms-1">
+                          <i
+                              class="fa-solid fa-circle-xmark text-danger"
+                          ></i> </span
+                  ></b>
+              </div>
+
+              <span class="text-dark ms-5" *ngIf="isLoading"
+                  ><i class="fa-solid fa-pulse fa-circle-notch"></i>
+              </span>
+              <div *ngIf="!isLoading && items">
+                  <div
+                      class="item py-1 px-3 rounded"
+                      *ngFor="let item of items"
+                      role="button"
+                  >
+                      <div (click)="selectItem(item)">
+                          <div class="d-flex text-dark bg-secondary p-2 rounded">
+                              
+                              <div class="d-grid text-dark ">
+                <div class="d-flex align-items-center">
+                    <b class="me-2">
+                    {{ item.lookup_title }}
+                  </b>
+                  <b>
+                    {{ item.lookup_subtitle }}
+                  </b>
+                </div>
+                  
+                  <span class="subtitle"
+                      >{{ item.lookup_description }}
+                  </span>
+              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>

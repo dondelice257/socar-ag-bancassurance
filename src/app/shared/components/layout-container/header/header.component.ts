@@ -4,6 +4,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { AuthState } from '../../../states/auth/auth.state';
 import { UserService } from '../../../../core/services/user.service';
+import { OperatorService } from '../../../../core/services/operator.service';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +19,8 @@ export class HeaderComponent {
   loading = true; // Hide splash screen after some time (e.g., data loaded)
   connectedUser:any  
   connectedUser$!:Observable<any> 
+  connectedOperator$!:Observable<any> 
+
   connectedOperator: any;
 
 
@@ -26,28 +29,31 @@ export class HeaderComponent {
     private router : Router,
     private store : Store,
     private userService : UserService,
+    private operatorDetails : OperatorService,
+
   ){
 //
 
 this.connectedUser$ = store.select(AuthState.connectedUser)
+this.connectedOperator$ = store.select(AuthState.connectedOperator)
+
   }
 
 
 
   ngOnInit(){
 
-    this.connectedUser$.subscribe((connectedUser:any)=>{
-      this.connectedUser = connectedUser 
+    this.connectedOperator$.subscribe((connectedOperator:any)=>{
+      this.connectedOperator = connectedOperator 
+      console.log('from operatorrr conneccttteedd', this.connectedOperator)
 
-      this.getConnectedOperator()  // Get connected operator information when connectedUser is available
 
-      if(!connectedUser){
-    this.router.navigateByUrl('/login')
+      if(!connectedOperator){
+    // this.router.navigateByUrl('/login')
 
       }
 
 
-      console.log('conneccttteedd', this.connectedUser)
       // this.router.events.subscribe(event => {
       //   if (event instanceof NavigationEnd) {
       //     window.scrollTo(0, 0); // Scroll to top of the page
@@ -63,17 +69,7 @@ this.connectedUser$ = store.select(AuthState.connectedUser)
   }
 
 
-  getConnectedOperator(){
 
-    if(this.connectedUser){
-      this.userService.getConnectedOperator(this.connectedUser[0].id).subscribe((connectedOperator:any)=>{
-        console.log('connectedOperator', connectedOperator)
-
-        this.connectedOperator = connectedOperator[1]
-      })
-
-    }
-  }
 
 
 

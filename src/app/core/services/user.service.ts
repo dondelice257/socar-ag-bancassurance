@@ -44,10 +44,45 @@ getConnectedUserInfo(){
 }
 
 
+getUsersList(){
+  const url=`${environment.apiUrl}user/list`
+
+  const header={
+    'content-type': 'application/json',
+    'Authorization' : `Token ${this.token}`
+
+  }
+
+  return this.httpClient.get(url, {headers:header}).pipe(
+    map((data) => {
+        return data;
+    })
+);
+  
+}
+
+getClientsList(){
+  const url=`${environment.apiUrl}client`
+
+  const header={
+    'content-type': 'application/json',
+    'Authorization' : `Token ${this.token}`
+
+  }
+
+  return this.httpClient.get(url, {headers:header}).pipe(
+    map((data) => {
+        return data;
+    })
+);
+  
+}
+
+
 
 
 getConnectedOperator(connectedUser:string){
-  const url=`${environment.apiUrl}operator/?user=${connectedUser}`
+  const url=`${environment.apiUrl}operator/list/?user=${connectedUser}`
 
   const header={
     'content-type': 'application/json',

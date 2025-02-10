@@ -9,6 +9,8 @@ import { Store } from '@ngxs/store';
 import { SetAuthenticated } from '../../../shared/states/auth/auth.action';
 import { UserService } from '../../../core/services/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { OperatorService } from '../../../core/services/operator.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +22,8 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup; // Define the login form FormGroup
   isLoading: boolean=false
+  isAuthenticated = false
+  isAuthenticated$:Observable<boolean> 
   
   constructor(
     private formBuilder: FormBuilder, // Inject FormBuilder service
@@ -27,17 +31,47 @@ export class LoginComponent implements OnInit {
     private router : Router,
     private store : Store,
     private userService : UserService,
+    private operatorService : OperatorService,
+
     private toastr : ToastrService
   ) { 
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]], // Username field with required validation
       password: ['', [Validators.required]]  // Password field with required validation
     });
+
+this.isAuthenticated$ = store.select(AuthState.isAuthenticated)
+
   }
 
   ngOnInit() {
     // Initialize the login form with form controls and validators
+    this.isAuthenticated$.subscribe((isAuthenticated:boolean)=>{
+      this.isAuthenticated = isAuthenticated 
+      console.log('conneccttteedd APP', this.isAuthenticated)
 
+      if(isAuthenticated){
+    this.router.navigateByUrl('/home')
+
+    console.log('conneccttteedd', this.isAuthenticated)
+
+
+      }else{
+    this.router.navigateByUrl('/login')
+
+      }
+
+
+      console.log('conneccttteedd', this.isAuthenticated)
+      // this.router.events.subscribe(event => {
+      //   if (event instanceof NavigationEnd) {
+      //     window.scrollTo(0, 0); // Scroll to top of the page
+
+      //     console.log('NavigationEnd event:', event);
+      //     // this.vps.scrollToPosition([0,0]);
+      //   }
+      // });
+    })
   }
 
   // Convenience getter for easy access to form fields
@@ -63,14 +97,34 @@ export class LoginComponent implements OnInit {
 
         this.isLoading=false
         if(response.token){
-          this.router.navigateByUrl('/');
-        this.store.dispatch(new SetAuthenticated(true, response.token, null))
+          this.store.dispatch(new SetAuthenticated(true, response.token, null, null))
+          this.router.navigateByUrl('/home');
 
         this.userService.getConnectedUserInfo().subscribe({
           next : (data:any)=>{
-        this.store.dispatch(new SetAuthenticated(true, response.token, data))
+        this.store.dispatch(new SetAuthenticated(true, response.token, data, null))
+          console.log('connected user', data)
 
-        // console.log(data, response.token)
+
+
+        this.userService.getConnectedOperator(data[0].id).subscribe((connectedOperator:any)=>{
+          console.log('connected Operator', connectedOperator)
+
+          this.store.dispatch(new SetAuthenticated(true, response.token, data, null))
+
+          
+          this.operatorService.getOperatorDetails(connectedOperator[0].id).subscribe((connectedOperator:any)=>{
+            console.log('connected Operator details', connectedOperator)
+
+            this.store.dispatch(new SetAuthenticated(true, response.token, data, connectedOperator))
+
+          })
+
+
+          // this.store.dispatch(new SetAuthenticated(true, response.token, data))
+        })
+
+        console.log(data, response.token)
 
 
           }

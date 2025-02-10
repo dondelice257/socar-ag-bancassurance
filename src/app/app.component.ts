@@ -38,8 +38,16 @@ this.isAuthenticated$ = store.select(AuthState.isAuthenticated)
 
     this.isAuthenticated$.subscribe((isAuthenticated:boolean)=>{
       this.isAuthenticated = isAuthenticated 
+      console.log('conneccttteedd APP', this.isAuthenticated)
+      // this.router.navigateByUrl('/home')
 
-      if(!isAuthenticated){
+      if(isAuthenticated){
+    // this.router.navigateByUrl('/home')
+
+    console.log('conneccttteedd', this.isAuthenticated)
+
+
+      }else{
     this.router.navigateByUrl('/login')
 
       }

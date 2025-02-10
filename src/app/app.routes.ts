@@ -6,6 +6,14 @@ import { SubHeaderComponent } from './shared/components/layout-container/sub-hea
 import { MainContentComponent } from './shared/components/layout-container/main-content/main-content.component';
 import { UnderConstructionComponent } from './shared/components/layout-container/under-construction/under-construction.component';
 import { NewInsuranceComponent } from './modules/production/automobile/new-insurance/new-insurance.component';
+import { AsideMenuComponent } from './shared/components/layout-container/aside-menu/aside-menu.component';
+import { AgenciesListComponent } from './modules/agency/agencies-list/agencies-list.component';
+import { RolesListComponent } from './modules/operator/roles-list/roles-list.component';
+import { OperatorsListComponent } from './modules/operator/operators-list/operators-list.component';
+import { MenusListComponent } from './modules/operator/menus-list/menus-list.component';
+import { UsersListComponent } from './modules/authentication/users-list/users-list.component';
+import { ClientsListComponent } from './modules/client/clients-list/clients-list.component';
+import { ClientSearchComponent } from './modules/client/client-search/client-search.component';
 
 export const routes: Routes = [
     {
@@ -13,66 +21,42 @@ export const routes: Routes = [
         component: LayoutComponent,
         children: [
             {
-                path: '',
+                path: 'home',
                 component: DashboardComponent
             },
             {
-                path: 'production',
-                component: MainContentComponent,
-                children: [
-                    { path: 'automobiles', component: NewInsuranceComponent },
-                    { path: 'incendies', component: UnderConstructionComponent },
-                    { path: 'transport', component: UnderConstructionComponent }
-                ]
+                path: 'agency',
+                component: AgenciesListComponent
             },
             {
-                path: 'administration',
-                component: MainContentComponent,
-                children: [
-                    { path: 'utilisateurs', component: UnderConstructionComponent },
-                    { path: 'roles', component: UnderConstructionComponent },
-                    { path: 'parametres', component: UnderConstructionComponent }
-                ]
+                path: 'role',
+                component: RolesListComponent
             },
             {
-                path: 'comptabilite',
-                component: MainContentComponent,
-                children: [
-                    { path: 'facturation', component: UnderConstructionComponent },
-                    { path: 'paiements', component: UnderConstructionComponent },
-                    { path: 'recus', component: UnderConstructionComponent }
-                ]
+                path: 'operator',
+                component: OperatorsListComponent
             },
             {
-                path: 'sinistres',
-                component: MainContentComponent,
-                children: [
-                    { path: 'declarations', component: UnderConstructionComponent },
-                    { path: 'expertises', component: UnderConstructionComponent },
-                    { path: 'indemnisations', component: UnderConstructionComponent }
-                ]
+                path: 'menu',
+                component: MenusListComponent
             },
             {
-                path: 'audit',
-                component: MainContentComponent,
-                children: [
-                    { path: 'suivi', component: UnderConstructionComponent },
-                    { path: 'controle', component: UnderConstructionComponent }
-                ]
+                path: 'user',
+                component: UsersListComponent
             },
             {
-                path: 'commercial',
-                component: MainContentComponent,
-                children: [
-                    { path: 'clients', component: UnderConstructionComponent },
-                    { path: 'prospects', component: UnderConstructionComponent },
-                    { path: 'offres', component: UnderConstructionComponent }
-                ]
+                path: 'customer',
+                component: ClientsListComponent
             },
             {
-                path: 'rapports',
-                component: UnderConstructionComponent
-            }
+                path: 'quick-search',
+                component: ClientSearchComponent
+            },
+            {
+                path: 'production/automobile',
+                component: NewInsuranceComponent
+            },
+        
         ]
     },
     {

@@ -1,0 +1,19 @@
+<div class="d-grid">
+  <div class="w-100 d-flex justify-content-center">
+    <div class="w-50 mt-4 d-grid">
+      <div class="mb-3">
+        <b class="text-center">Recherche du client ( par nom ou par code )</b>
+      </div>
+      <div>
+        <app-lookup
+  url='user/list'
+  [option]="'autocomplete'"
+  itemsLabel="clients"
+  (selected)="onUserSelected($event)">
+</app-lookup>
+      </div>
+    </div>
+  </div>
+</div>
+
+

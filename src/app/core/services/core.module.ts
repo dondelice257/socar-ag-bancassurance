@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { GeneralService } from './general.service';
 import { UserService } from './user.service';
 import { ToastrService } from 'ngx-toastr';
+import { OperatorService } from './operator.service';
+import { AgencyService } from './agency.service';
 
 @NgModule({
   imports: [
@@ -18,6 +20,8 @@ import { ToastrService } from 'ngx-toastr';
     GeneralService,
     UserService,
     ToastrService,
+    OperatorService,
+    AgencyService
   ]
 })
 export class CoreModule { }

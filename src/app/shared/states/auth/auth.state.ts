@@ -15,7 +15,9 @@ import { AuthStateModel } from './auth.model';
   defaults: {
     isAuthenticated: false,
     token: null,
-    connectedUser : null
+    connectedUser : null,
+    connectedOperator : null,
+
   },
 })
 @Injectable()
@@ -36,12 +38,19 @@ export class AuthState {
     return state.connectedUser;
   }
 
+  @Selector()
+  static connectedOperator(state: AuthStateModel) {
+    return state.connectedOperator;
+  }
+
   @Action(SetAuthenticated)
   setAuthenticated(ctx: StateContext<AuthStateModel>, action: SetAuthenticated) {
     ctx.patchState({
       isAuthenticated: action.isAuthenticated,
       token: action.token,
-      connectedUser : action.connectedUser
+      connectedUser : action.connectedUser,
+      connectedOperator : action.connectedOperator
+
     });
   }
 }
