@@ -14,6 +14,7 @@ import { MenusListComponent } from './modules/operator/menus-list/menus-list.com
 import { UsersListComponent } from './modules/authentication/users-list/users-list.component';
 import { ClientsListComponent } from './modules/client/clients-list/clients-list.component';
 import { ClientSearchComponent } from './modules/client/client-search/client-search.component';
+import { NewFireInsuranceComponent } from './modules/production/fire-insurance/new-insurance/new-insurance.component';
 
 export const routes: Routes = [
     {
@@ -55,6 +56,10 @@ export const routes: Routes = [
             {
                 path: 'production/automobile',
                 component: NewInsuranceComponent
+            },
+            {
+                path: 'production/fire',
+                component: NewFireInsuranceComponent
             },
         
         ]

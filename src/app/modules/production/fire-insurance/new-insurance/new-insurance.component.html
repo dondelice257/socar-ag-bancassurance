@@ -1,0 +1,194 @@
+<div class="container mt-4">
+    <form [formGroup]="insuranceForm">
+      <!-- Étape 1 : Lookup Client -->
+      <div *ngIf="step === 1">
+        <h4 class="mb-3">Étape 1 : Recherche du client</h4>
+        <div class="w-50">
+          <app-lookup
+    url='user/list'
+    [option]="'lookup'"
+    itemsLabel="clients"
+    (selectedItemEvent)="onClientSelected($event)">
+  </app-lookup>
+        </div>
+        <button type="button" class="btn btn-primary mt-3" [disabled]="!selectedClientId" (click)="onNext()">Suivant</button>
+      </div>
+  
+  <div *ngIf="step === 2">
+        <h4 class="mb-3">Étape 2 : Infos véhicule et assurance</h4>
+  
+        <div class="row">
+
+          <div class="col-md-6 mb-3">
+            <div class="form-floating">
+              <input type="text" class="form-control" formControlName="nature" placeholder="Nature">
+              <label>Nature</label>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="form-floating">
+              <input type="text" class="form-control" formControlName="quartier" placeholder="Quartier">
+              <label>Quartier</label>
+            </div>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="form-floating">
+              <input type="text" class="form-control" formControlName="province" placeholder="Province">
+              <label>Province</label>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="form-floating">
+              <input type="text" class="form-control" formControlName="cadastre" placeholder="Cadastre">
+              <label>Cadastre</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+              <div class="form-floating">
+                <input type="text" class="form-control" formControlName="titre" placeholder="No Titre">
+                <label>No Titre</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="form-floating">
+                <input type="text" class="form-control" formControlName="defaultAssuredCapital" placeholder="Capital Assure">
+                <label>Capital Assure</label>
+              </div>
+            </div>
+          </div>
+  
+
+        <div class="row">
+            <div class="form-floating mb-3 col-lg-6">
+                <input type="date" class="form-control" formControlName="startDate" placeholder="Date de début">
+                <label>Date de début</label>
+              </div>
+              <div class="col-lg-6 mb-3">
+                <div class="form-floating">
+                  <select class="form-select" formControlName="period" >
+                    <option  [value]="1">Trimestre</option>
+                    <option  [value]="2">Semestre</option>
+                    <option  [value]="3">Annee</option>
+                    <option  [value]="'Custom'">Custom</option>
+    
+    
+    
+                  </select>
+                  <label>Période</label>
+                </div>
+              </div>
+              <div class="col-lg-6 mb-3" *ngIf="insuranceForm.get('period')?.value === 'Custom'">
+                <div class="form-floating">
+                  <input type="number"  class="form-control" formControlName="customDays" placeholder="Nombre de jours">
+                  <label>Nombre de jours</label>
+                </div>
+              </div>
+        </div>  
+
+  
+
+  
+        <!-- <p class="fw-bold">Date de fin: {{ endDate }}</p> -->
+  
+        <button type="button" class="btn btn-secondary me-2" (click)="onBack()">Retour</button>
+        <button type="button" class="btn btn-primary" [disabled]="!insuranceForm.valid" (click)="onNext()">Suivant</button>
+      </div>
+  
+      <div *ngIf="step === 3">
+        <h4 class="mb-3">Étape 3 : Sélection des garanties</h4>
+                  <!-- Display Selected Guarantees -->
+                  <div class="container my-4">
+                    <div class="card p-4 shadow-sm">
+                      <h4 class="text-center mb-4">Ajouter une Garantie</h4>
+                      <form [formGroup]="guaranteeForm">
+                        <div class="row">
+                          <div class="col-md-4">
+                            <label for="name" class="form-label">Nom</label>
+                            <input
+                              id="name"
+                              type="text"
+                              class="form-control"
+                              formControlName="name"
+                              placeholder="Nom de la garantie"
+                            />
+                          </div>
+                          <div class="col-md-4">
+                            <label for="capital" class="form-label">Capital Assuré</label>
+                            <input
+                              id="capital"
+                              type="number"
+                              class="form-control"
+                              formControlName="assured_capital"
+                              placeholder="Capital assuré"
+                            />
+                          </div>
+                          <div class="col-md-3">
+                            <label for="percentage" class="form-label">Pourcentage</label>
+                            <input
+                              id="percentage"
+                              type="number"
+                              class="form-control"
+                              formControlName="percentage"
+                              placeholder="Pourcentage"
+                            />
+                          </div>
+                          <div class="col-md-1 d-flex align-items-end">
+                            <button type="button" class="btn btn-primary w-100" (click)="addGuarantee()">
+                              Ajouter
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  
+                    <!-- Table Display for Selected Guarantees -->
+                    <div class="card p-4 mt-4 shadow-sm" *ngIf="selectedGuarantees.length > 0">
+                      <h4 class="text-center mb-3">Garanties Sélectionnées</h4>
+                      <table class="table table-bordered table-striped text-center">
+                        <thead class="table-dark">
+                          <tr>
+                            <th>Nom</th>
+                            <th>Capital Assuré</th>
+                            <th>Pourcentage</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let guarantee of selectedGuarantees; let i = index">
+                            <td>{{ guarantee.name }}</td>
+                            <td>{{ guarantee.assured_capital | number }}</td>
+                            <td>{{ guarantee.percentage }}%</td>
+                            <td>
+                              <button class="btn btn-danger btn-sm" (click)="removeGuarantee(i)">
+                                Supprimer
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  
+
+          
+        <button type="button" class="btn btn-secondary me-2" (click)="onBack()">Retour</button>
+        <button type="submit" (click)="onSubmit()" class="btn btn-success" [disabled]="selectedGuarantees.length === 0">
+          @if(!isSubmitting){
+            Soumettre
+
+          } 
+          @else{
+            <span>
+              <i class="fas fa-spinner fa-spin"></i> 
+            </span>
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+  

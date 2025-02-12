@@ -8,6 +8,7 @@ import { UserService } from './user.service';
 import { ToastrService } from 'ngx-toastr';
 import { OperatorService } from './operator.service';
 import { AgencyService } from './agency.service';
+import { PolicyService } from './policy.service';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { AgencyService } from './agency.service';
     UserService,
     ToastrService,
     OperatorService,
-    AgencyService
+    AgencyService,
+    PolicyService
   ]
 })
 export class CoreModule { }
