@@ -11,11 +11,13 @@
     (selectedItemEvent)="onClientSelected($event)">
   </app-lookup>
         </div>
-        <button type="button" class="btn btn-primary mt-3" [disabled]="!selectedClientId" (click)="onNext()">Suivant</button>
+        <button type="button" class="btn bg-main mt-3" [disabled]="!selectedClientId" (click)="onNext()">
+          <b>Suivant</b>
+        </button>
       </div>
   
   <div *ngIf="step === 2">
-        <h4 class="mb-3">Étape 2 : Infos véhicule et assurance</h4>
+        <h4 class="mb-3">Étape 2 : Infos du risque</h4>
   
         <div class="row">
 
@@ -34,12 +36,33 @@
         </div>
   
         <div class="row">
-          <div class="col-md-6 mb-3">
+          <div class="col-lg-6 mb-3">
             <div class="form-floating">
-              <input type="text" class="form-control" formControlName="province" placeholder="Province">
+              <select class="form-select" formControlName="province">
+                <!-- <option value="" disabled selected>Sélectionnez une province</option> -->
+                <option [value]="'Bubanza'">Bubanza</option>
+                <option [value]="'Bujumbura Mairie'">Bujumbura Mairie</option>
+                <option [value]="'Bujumbura Rural'">Bujumbura Rural</option>
+                <option [value]="'Bururi'">Bururi</option>
+                <option [value]="'Cankuzo'">Cankuzo</option>
+                <option [value]="'Cibitoke'">Cibitoke</option>
+                <option [value]="'Gitega'">Gitega</option>
+                <option [value]="'Karuzi'">Karuzi</option>
+                <option [value]="'Kayanza'">Kayanza</option>
+                <option [value]="'Kirundo'">Kirundo</option>
+                <option [value]="'Makamba'">Makamba</option>
+                <option [value]="'Muramvya'">Muramvya</option>
+                <option [value]="'Muyinga'">Muyinga</option>
+                <option [value]="'Mwaro'">Mwaro</option>
+                <option [value]="'Ngozi'">Ngozi</option>
+                <option [value]="'Rumonge'">Rumonge</option>
+                <option [value]="'Rutana'">Rutana</option>
+                <option [value]="'Ruyigi'">Ruyigi</option>
+              </select>
               <label>Province</label>
             </div>
           </div>
+          
           <div class="col-md-6 mb-3">
             <div class="form-floating">
               <input type="text" class="form-control" formControlName="cadastre" placeholder="Cadastre">
@@ -56,8 +79,8 @@
             </div>
             <div class="col-md-6 mb-3">
               <div class="form-floating">
-                <input type="text" class="form-control" formControlName="defaultAssuredCapital" placeholder="Capital Assure">
-                <label>Capital Assure</label>
+                <input type="text" class="form-control" formControlName="defaultAssuredCapital" placeholder="Capital Assuré">
+                <label>Capital Assuré</label>
               </div>
             </div>
           </div>
@@ -96,7 +119,7 @@
         <!-- <p class="fw-bold">Date de fin: {{ endDate }}</p> -->
   
         <button type="button" class="btn btn-secondary me-2" (click)="onBack()">Retour</button>
-        <button type="button" class="btn btn-primary" [disabled]="!insuranceForm.valid" (click)="onNext()">Suivant</button>
+        <button type="button" class="btn bg-main" [disabled]="!insuranceForm.valid" (click)="onNext()">Suivant</button>
       </div>
   
       <div *ngIf="step === 3">
@@ -128,17 +151,17 @@
                             />
                           </div>
                           <div class="col-md-3">
-                            <label for="percentage" class="form-label">Pourcentage</label>
+                            <label for="percentage" class="form-label">Taux</label>
                             <input
                               id="percentage"
                               type="number"
                               class="form-control"
                               formControlName="percentage"
-                              placeholder="Pourcentage"
+                              placeholder="Taux"
                             />
                           </div>
                           <div class="col-md-1 d-flex align-items-end">
-                            <button type="button" class="btn btn-primary w-100" (click)="addGuarantee()">
+                            <button type="button" class="btn bg-primary-2 w-100" (click)="addGuarantee()">
                               Ajouter
                             </button>
                           </div>
@@ -177,7 +200,7 @@
 
           
         <button type="button" class="btn btn-secondary me-2" (click)="onBack()">Retour</button>
-        <button type="submit" (click)="onSubmit()" class="btn btn-success" [disabled]="selectedGuarantees.length === 0">
+        <button type="submit" (click)="onSubmit()" class="btn bg-main" [disabled]="selectedGuarantees.length === 0">
           @if(!isSubmitting){
             Soumettre
 

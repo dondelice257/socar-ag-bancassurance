@@ -34,7 +34,7 @@
   <div class="input-group" *ngIf="option === 'lookup' && !selectedItem">
       <input
           type="text"
-          class="form-control input lookup"
+          class="form-control input lookup border"
           id="validationTooltipUsername"
           placeholder="{{ lookupLabel }}"
           aria-describedby="validationTooltipUsernamePrepend"
@@ -58,7 +58,7 @@
 
       <div class="input-group-prepend" *ngIf="isLoading">
           <span
-              class="input-group-text h-100 bg-dark text-white"
+              class="input-group-text h-100 bg-main text-white"
               id="validationTooltipUsernamePrepend"
           >
               <i class="fa-solid fa-pulse fa-circle-notch text-white"></i>
@@ -70,7 +70,7 @@
       <div class="form-floating" *ngIf="!selectedItem">
           <input
               id="menu_group"
-              class="input form-control autocomplete"
+              class="input form-control autocomplete border"
               placeholder="client"
               (focus)="initAutocomplete()"
               (keyup)="initAutocomplete()"

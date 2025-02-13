@@ -95,7 +95,6 @@ this.connectedOperator$ = store.select(AuthState.connectedOperator)
   }
 
   createPolicy() {
-        this.isSubmitting = true;
 
     const data = { 
       client: this.insuranceForm.value.clientId,
@@ -120,6 +119,8 @@ this.connectedOperator$ = store.select(AuthState.connectedOperator)
         this.policyId = response.id;
         console.log('Policy created:', response);
         this.createFireInsurance();
+        this.isSubmitting = false;
+
       },
       (error) => {
         this.isSubmitting = false;
@@ -203,12 +204,12 @@ submitGuarantees() {
   // Handle all promises
   Promise.all(promises)
     .then(responses => {
-        this.isSubmitting = true;
+        this.isSubmitting = false;
 
       console.log('All guarantees submitted:', responses);
     })
     .catch(error => {
-        this.isSubmitting = true;
+        this.isSubmitting = false;
 
       console.error('Error submitting guarantees:', error);
     });
