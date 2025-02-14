@@ -132,6 +132,8 @@ export class LookupComponent implements OnInit {
                         console.log('Loookkss ', this.selectedItem);
                     },
                     error: (msg:any) => {
+                    this.isLoading = false;
+
                         const notification = {
                             title: '',
                             type: 'failed',

@@ -5,13 +5,13 @@
       <h4 class="mb-3">Étape 1 : Recherche du client</h4>
       <div class="w-50">
         <app-lookup
-  url='user/list'
+  url='client'
   [option]="'lookup'"
   itemsLabel="clients"
   (selectedItemEvent)="onClientSelected($event)">
 </app-lookup>
       </div>
-      <button type="button" class="btn btn-primary mt-3" [disabled]="!selectedClientId" (click)="onNext()">Suivant</button>
+      <button type="button" class="btn text-white btn-primary mt-3" [disabled]="!selectedClientId" (click)="onNext()">Suivant</button>
     </div>
 
 <div *ngIf="step === 2">
@@ -90,8 +90,8 @@
 
       <p class="fw-bold">Date de fin: {{ endDate }}</p>
 
-      <button type="button" class="btn btn-secondary me-2" (click)="onBack()">Retour</button>
-      <button type="button" class="btn btn-primary" [disabled]="!insuranceForm.valid" (click)="onNext()">Suivant</button>
+      <button type="button" class="btn text-white btn-secondary me-2" (click)="onBack()">Retour</button>
+      <button type="button" class="btn text-white btn-primary" [disabled]="!insuranceForm.valid" (click)="onNext()">Suivant</button>
     </div>
 
     <div *ngIf="step === 3">
@@ -106,8 +106,8 @@
           <label>Capital Assuré</label>
         </div>
       </div>
-      <button type="button" class="btn btn-secondary me-2" (click)="onBack()">Retour</button>
-      <button type="submit" (click)="onSubmit()" class="btn btn-success" [disabled]="selectedGuarantees.length === 0">Soumettre</button>
+      <button type="button" class="btn text-white btn-secondary me-2" (click)="onBack()">Retour</button>
+      <button type="submit" (click)="onSubmit()" class="btn text-white btn-success" [disabled]="selectedGuarantees.length === 0">Soumettre</button>
     </div>
   </form>
 </div>

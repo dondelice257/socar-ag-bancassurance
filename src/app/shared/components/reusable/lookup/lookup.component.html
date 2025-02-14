@@ -5,17 +5,25 @@
               
               <div class="text-dark d-grid">
                 <div class="d-flex align-items-center">
-                    <b class="me-2">
-                    {{ selectedItem.lookup_title }}
-                  </b>
-                  <b>
+                    
+                  <b  class="me-2">
                     {{ selectedItem.lookup_subtitle }}
+                  </b>
+                  <b class=""
+                      >
+                      {{ selectedItem.lookup_title }}
+
                   </b>
                 </div>
                   
-                  <span class="subtitle"
-                      >{{ selectedItem.lookup_description }}
+                  
+                  
+                  <span class="me-2">
+                    {{ selectedItem.lookup_description }}
                   </span>
+                  <b class="me-2">
+                    {{ selectedItem.lookup_id }}
+                  </b>
               </div>
           </div>
       </div>
@@ -114,20 +122,26 @@
                       <div (click)="selectItem(item)">
                           <div class="d-flex text-dark bg-secondary p-2 rounded">
                               
-                              <div class="d-grid text-dark ">
-                <div class="d-flex align-items-center">
-                    <b class="me-2">
-                    {{ item.lookup_title }}
-                  </b>
-                  <b>
-                    {{ item.lookup_subtitle }}
-                  </b>
-                </div>
-                  
-                  <span class="subtitle"
-                      >{{ item.lookup_description }}
-                  </span>
-              </div>
+                            <div class="text-dark d-grid">
+                                <div class="d-flex align-items-center">
+                                    
+                                  
+                                  <b class="me-2">
+                                    {{ item.lookup_title }}
+                                  </b>
+                                  <b>
+                                    {{ item.lookup_subtitle }}
+                                  </b>
+                                </div>
+                                  
+                                  
+                                  
+                                  
+                                  <span class="subtitle"
+                                      >{{ item.lookup_description }}
+                                  </span>
+                                  
+                              </div>
                           </div>
                       </div>
                   </div>

@@ -6,6 +6,7 @@ import { PolicyService } from '../../../../core/services/policy.service';
 import { Observable } from 'rxjs';
 import { AuthState } from '../../../../shared/states/auth/auth.state';
 import { Store } from '@ngxs/store';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-new-insurance',
@@ -13,7 +14,8 @@ import { Store } from '@ngxs/store';
   imports: [
     LookupComponent,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   templateUrl: './new-insurance.component.html',
   styleUrl: './new-insurance.component.scss'
@@ -22,18 +24,23 @@ export class NewFireInsuranceComponent {
   step = 1;
   insuranceForm: FormGroup;
   guaranteeForm: FormGroup;
+  goodsForm: FormGroup;
+
   connectedOperator$!:Observable<any> 
 
   connectedOperator: any;
 
   selectedClientId: string | null = null;
   selectedGuarantees: any[] = [];
+  selectedGoods: any[] = [];
+
   policyId: string | null = null;
   fireInsuranceId: string | null = null;
   isSubmitting = false;
 
   constructor(
     private fb: FormBuilder,
+    private router : Router,
     private store: Store,
 
     private policyService: PolicyService
@@ -55,6 +62,12 @@ export class NewFireInsuranceComponent {
       name: ['', Validators.required],
       assured_capital: ['', [Validators.required, Validators.min(1)]],
       percentage: ['', [Validators.required, Validators.max(100)]],
+
+    });
+
+    this.goodsForm = this.fb.group({
+      name: ['', Validators.required],
+      assured_capital: ['', [Validators.required, Validators.min(1)]],
 
     });
 
@@ -87,6 +100,8 @@ this.connectedOperator$ = store.select(AuthState.connectedOperator)
       this.step++;
     } else if (this.step === 2 && this.insuranceForm.valid) {
       this.step++;
+    } else if (this.step === 3 && this.selectedGoods) {
+      this.step++;
     }
   }
 
@@ -104,7 +119,7 @@ this.connectedOperator$ = store.select(AuthState.connectedOperator)
       operator: this.connectedOperator.id,
       company: this.connectedOperator.company.id,
       type: 'AAAA',
-      period: 1,
+      period: 2,
 
 
 
@@ -136,18 +151,20 @@ this.connectedOperator$ = store.select(AuthState.connectedOperator)
 
     const data = {
       policy: this.policyId,
-      nature: this.insuranceForm.value.nature,
+      nature_risque: this.insuranceForm.value.nature,
       quartier: this.insuranceForm.value.quartier,
       province: this.insuranceForm.value.province,
-      cadastre: this.insuranceForm.value.cadastre,
-      titre: this.insuranceForm.value.titre,
-      assuredCapital: this.insuranceForm.value.defaultAssuredCapital,
+      cadastre_number: this.insuranceForm.value.cadastre,
+      titre_number: this.insuranceForm.value.titre,
+      defautl_assured_capital: this.insuranceForm.value.defaultAssuredCapital,
     };
 
     this.policyService.createFireInsurance(data).subscribe(
       (response: any) => {
         this.fireInsuranceId = response.id;
         this.submitGuarantees()
+        this.submitGoods()
+
         console.log('Fire insurance created:', response);
         this.isSubmitting = false;
 
@@ -179,9 +196,32 @@ this.connectedOperator$ = store.select(AuthState.connectedOperator)
       });
     }
   }
+
+  addGoods() {
+
+    if (this.goodsForm.valid) {
+      const goods = {
+        name: this.goodsForm.value.name,
+        assured_capital: this.goodsForm.value.assured_capital,
+
+      };
+      
+      this.selectedGoods.push(goods);
+      
+      // Reset fields after adding
+      this.goodsForm.patchValue({
+        name: '',
+        assured_capital: '',
+      });
+    }
+  }
   
   removeGuarantee(index: number) {
     this.selectedGuarantees.splice(index, 1);
+  }
+
+  removeGoods(index: number) {
+    this.selectedGoods.splice(index, 1);
   }
   
 
@@ -205,8 +245,38 @@ submitGuarantees() {
   Promise.all(promises)
     .then(responses => {
         this.isSubmitting = false;
-
+        this.router.navigateByUrl('/policy/list')
       console.log('All guarantees submitted:', responses);
+    })
+    .catch(error => {
+        this.isSubmitting = false;
+
+      console.error('Error submitting guarantees:', error);
+    });
+}
+
+
+submitGoods() {
+        this.isSubmitting = true;
+
+  if (!this.fireInsuranceId) return;
+
+  // Create a new array where each guarantee has the fireInsuranceId added
+  const goodsWithInsurance = this.selectedGoods.map(goods => ({
+    ...goods, // Spread the original guarantee object
+    fire_insurance: this.fireInsuranceId // Add the fireInsuranceId field
+  }));
+
+  // Map each guarantee with the added field to a promise
+  const promises = goodsWithInsurance.map(goods => {
+    return this.policyService.createFireGoods(goods).toPromise(); // Pass the individual guarantee object
+  });
+
+  // Handle all promises
+  Promise.all(promises)
+    .then(responses => {
+        this.isSubmitting = false;
+      console.log('All goods submitted:', responses);
     })
     .catch(error => {
         this.isSubmitting = false;

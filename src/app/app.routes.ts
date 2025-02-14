@@ -15,6 +15,9 @@ import { UsersListComponent } from './modules/authentication/users-list/users-li
 import { ClientsListComponent } from './modules/client/clients-list/clients-list.component';
 import { ClientSearchComponent } from './modules/client/client-search/client-search.component';
 import { NewFireInsuranceComponent } from './modules/production/fire-insurance/new-insurance/new-insurance.component';
+import { PoliciesListComponent } from './modules/policy/policies-list/policies-list.component';
+import { PolicyDetailsComponent } from './modules/policy/policy-details/policy-details.component';
+import { CreateClientComponent } from './modules/client/create-client/create-client.component';
 
 export const routes: Routes = [
     {
@@ -55,11 +58,28 @@ export const routes: Routes = [
             },
             {
                 path: 'production/automobile',
-                component: NewInsuranceComponent
+                component: UnderConstructionComponent
+            },
+            {
+                path: 'production/transport',
+                component: UnderConstructionComponent
             },
             {
                 path: 'production/fire',
                 component: NewFireInsuranceComponent
+            },
+            {
+                path: 'policy/list',
+                component: PoliciesListComponent
+            },
+            {
+                path: 'policy/details/:policyId',
+                component: PolicyDetailsComponent
+            },
+
+            {
+                path: 'client/create',
+                component: CreateClientComponent
             },
         
         ]
