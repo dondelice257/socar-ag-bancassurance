@@ -1,0 +1,101 @@
+<form [formGroup]="insuranceForm">
+  <div class="row">
+    <!-- Chasis Number -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="chasis" placeholder="No Chasis">
+        <label>Chasis</label>
+      </div>
+    </div>
+
+    <!-- Plaque -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="plaque" placeholder="Plaque">
+        <label>Plaque</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Limites Territoriales -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="limites_territoriales" placeholder="Limites Territoriales">
+        <label>Limites Territoriales</label>
+      </div>
+    </div>
+
+    <!-- Usage -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="usage" placeholder="Usage">
+        <label>Usage</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Marque -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="marque" placeholder="Marque">
+        <label>Marque</label>
+      </div>
+    </div>
+
+    <!-- Model -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="model" placeholder="Modèle">
+        <label>Modèle</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Année de Fabrication -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="number" class="form-control" formControlName="annee_fabrication" placeholder="Année de Fabrication">
+        <label>Année de Fabrication</label>
+      </div>
+    </div>
+
+    <!-- Puissance Moteur -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="puissance_moteur" placeholder="Puissance Moteur">
+        <label>Puissance Moteur</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Classe -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="classe" placeholder="Classe">
+        <label>Classe</label>
+      </div>
+    </div>
+
+    <!-- Places en Cabine -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="number" class="form-control" formControlName="places_cabine" placeholder="Places en Cabine">
+        <label>Places en Cabine</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Places sur le Plateau -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="number" class="form-control" formControlName="places_plateau" placeholder="Places sur le Plateau">
+        <label>Places sur le Plateau</label>
+      </div>
+    </div>
+  </div>
+</form>

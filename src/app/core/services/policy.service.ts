@@ -82,8 +82,9 @@ export class PolicyService {
     
   }
 
-  createFireInsurance(body:any){
-    const url=`${environment.apiUrl}policy/fire-insurance/`
+  createSpecificInsurance(body:any, category:string){
+
+    const url=`${environment.apiUrl}policy/${category}-insurance/`
   
     const header={
       'content-type': 'application/json',
@@ -99,8 +100,8 @@ export class PolicyService {
     
   }
 
-  createFireGuarantee(body:any){
-    const url=`${environment.apiUrl}policy/fire-guarantee/`
+  createGuarantee(body:any){
+    const url=`${environment.apiUrl}policy/guarantee/`
   
     const header={
       'content-type': 'application/json',
@@ -116,8 +117,8 @@ export class PolicyService {
     
   }
 
-  createFireGoods(body:any){
-    const url=`${environment.apiUrl}policy/fire-goods/`
+  createGoods(body:any){
+    const url=`${environment.apiUrl}policy/goods/`
   
     const header={
       'content-type': 'application/json',

@@ -1,0 +1,74 @@
+<form [formGroup]="insuranceForm">
+  <div class="row">
+    <!-- Depart -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="depart" placeholder="Depart">
+        <label>Départ</label>
+      </div>
+    </div>
+
+    <!-- Arrivee -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="arrivee" placeholder="Arrivée">
+        <label>Arrivée</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Nature de la marchandise -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="nature_marchandise" placeholder="Nature de la marchandise">
+        <label>Nature de la marchandise</label>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="description" placeholder="Description">
+        <label>Description</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Nature de l'emballage -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="nature_emballage" placeholder="Nature de l'emballage">
+        <label>Nature de l'emballage</label>
+      </div>
+    </div>
+
+    <!-- Quantité -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="number" class="form-control" formControlName="quantity" placeholder="Quantité">
+        <label>Quantité</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Numéro de colis -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="colis_number" placeholder="Numéro de colis">
+        <label>Numéro de colis</label>
+      </div>
+    </div>
+
+    <!-- Référence -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="reference" placeholder="Référence">
+        <label>Référence</label>
+      </div>
+    </div>
+  </div>
+
+</form>

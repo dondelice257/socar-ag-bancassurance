@@ -1,0 +1,419 @@
+<main class="d-grid">
+  <!-- Page header with dynamic insurance category title -->
+  <div class="w-100 d-flex justify-content-center my-3">
+    <h3>
+      <div class="d-flex align-items-center">
+        <b>Souscription </b>
+        @switch (selectedCategory) {
+          @case("auto"){
+            <b> - Automobile</b>
+          }
+          @case("fire"){
+            <b> - Incendie</b>
+          }
+          @case("transport"){
+            <b> - Transport</b>
+          }
+        }
+      </div>
+    </h3>
+  </div>
+  
+  <div class="container mt-2">
+    <form [formGroup]="policyForm">
+      <div>
+        <!-- Dynamic header based on current step -->
+        @switch(step){
+          @case(1){
+            <h4 class="mb-1"><b>Rechercher le client par nom ou par code</b></h4>
+          }
+          @default {
+            <h4 class="mb-1"><b>Client</b></h4>
+          }
+        }
+        
+        <!-- Client lookup component -->
+        <div class="w-50 mb-2">
+          <app-lookup
+            url='client'
+            [option]="'lookup'"
+            itemsLabel="clients"
+            (selectedItemEvent)="onClientSelected($event)">
+          </app-lookup>
+        </div>
+        
+        <!-- Link to create new client if not found -->
+        @if(!selectedClientId){
+          <div class="w-100 d-flex align-items-center">
+            <span class="me-2 text-secondary">Client non trouvé ?</span>
+            <b role="button" routerLink="/client/create/" class="text-main">Créez-le ici </b>
+          </div>
+        }
+        @else {
+          <!-- Space for selected client information -->
+        }
+      </div>
+      
+      <!-- Step 1: Client Lookup and Contract Information -->
+      <div *ngIf="step === 1">
+        <div class="my-3">
+          <h4 class="mb-3"><b>Informations du contrat</b></h4>
+          
+          <div class="row">
+            <!-- Insurance category selection -->
+            <div class="row">
+              <div class="col-lg-6 mb-3">
+                <div class="form-floating">
+                  <select class="form-select" formControlName="category">
+                    <option [value]="'auto'">Automobile</option>
+                    <option [value]="'transport'">Transport</option>
+                    <option [value]="'fire'">Incendie</option>
+                  </select>
+                  <label>Catégorie d'assurance</label>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Currency and capital section -->
+            <div class="row">
+              <!-- Currency selection -->
+              <div class="col-lg-2 mb-3">
+                <div class="form-floating">
+                  <select class="form-select" formControlName="currency">
+                    <option [value]="'BIF'" selected>BIF</option>
+                    <option [value]="'USD'">USD DOLLAR</option>
+                    <option [value]="'EURO'">EURO</option>
+                  </select>
+                  <label>Devise</label>
+                </div>
+              </div>
+              
+              <!-- Daily exchange rate -->
+              <div class="col-lg-4 mb-3">
+                <div class="form-floating">
+                  <input (input)="updateCapitalInBif()" type="text" class="form-control" formControlName="daily_rate" placeholder="Capital Assuré">
+                  <label>Taux du jour</label>
+                </div>
+              </div>
+              
+              <!-- Insured capital amount with BIF conversion display -->
+              <div class="col-lg-6 mb-3 d-grid">
+                <div class="form-floating">
+                  <input (input)="updateCapitalInBif()" type="text" class="form-control" formControlName="assured_capital_devise" placeholder="Capital Assuré">
+                  <label>Capital assuré</label>
+                </div>
+                <div class="d-flex align-items-center">
+                  <span class="me-2">Valeur en BIF : </span>
+                  <b>{{capitalInBif | number}}</b>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Policy dates and period selection -->
+          <div class="row align-items-center">
+            <!-- Start date -->
+            <div class="form-floating mb-3 col-lg-6">
+              <input (input)="checkItNow()" type="date" class="form-control" formControlName="issue_date" placeholder="Date de début">
+              <label>Date de début</label>
+            </div>
+            
+            <!-- Period selection -->
+            <div class="col-lg-6 mb-3">
+              <div class="form-floating">
+                <select class="form-select" formControlName="period">
+                  <option [value]="3">Mois</option>
+                  <option [value]="1">Trimestre</option>
+                  <option [value]="4">Semestre</option>
+                  <option [value]="2">Année</option>
+                  <option [value]="'Custom'">Custom</option>
+                </select>
+                <label>Période</label>
+              </div>
+            </div>
+            
+            <!-- Custom period days (conditional display) -->
+            <div class="col-lg-6 mb-3" *ngIf="policyForm.get('period')?.value === 'Custom'">
+              <div class="form-floating">
+                <input type="number" class="form-control" formControlName="custom_days" placeholder="Nombre de jours">
+                <label>Nombre de jours</label>
+              </div>
+            </div>
+            
+            <!-- Beneficiary field -->
+            <div class="col-lg-6 mb-3">
+              <div class="form-floating">
+                <input type="text" class="form-control" formControlName="beneficiaire" placeholder="Bénéficiaire">
+                <label>Bénéficiaire</label>
+              </div>
+            </div>
+            
+            <!-- VAT checkbox -->
+            <div class="col-lg-6 mb-3">
+              <mat-checkbox class="example-margin" formControlName="assujeti_tva">Assujetti à la TVA</mat-checkbox>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Next button for step 1 -->
+        <button type="button" class="p-2 rounded text-white bg-main mt-3" [disabled]="!policyForm.valid" (click)="onNext()">
+          <b>Suivant</b>
+        </button>
+      </div>
+      
+      <!-- Step 2: Risk Information -->
+      <div *ngIf="step === 2">
+        <h4 class="mb-3"><b>Info du risque</b></h4>
+        
+<!-- 
+  Dynamic Form Component: 
+  This section dynamically renders an insurance form based on the selected insurance category.
+  The selected category is determined by `selectedCategory`, and based on its value, 
+  a specific child component (`app-auto-form`, `app-fire-form`, or `app-transport-form`,... etc maybe others in the future) is rendered.
+  
+  Each child form component emits two events:
+  - `(body)`: Emits the form data whenever a change occurs.
+  - `(isFormValid)`: Emits a boolean indicating whether the form is valid.
+
+  These emitted values are handled by `onFormChange($event)` and `onFormValidityChange($event)`, 
+  ensuring that the parent component can track form data and validation status.
+-->
+
+<section>
+  @switch (selectedCategory) {
+    <!-- Case for "auto" insurance: Renders the auto insurance form component -->
+    @case("auto"){
+      <app-auto-form
+        (body)="onFormChange($event)"   
+        (isFormValid)="onFormValidityChange($event)"> <!-- Event binding: Captures form validation state -->
+      </app-auto-form>
+    }
+
+    <!-- Case for "fire" insurance: Renders the fire insurance form component -->
+    @case("fire"){
+      <app-fire-form
+        (body)="onFormChange($event)"  
+        (isFormValid)="onFormValidityChange($event)">
+      </app-fire-form>
+    }
+
+    <!-- Case for "transport" insurance: Renders the transport insurance form component -->
+    @case("transport"){
+      <app-transport-form
+        (body)="onFormChange($event)"  
+        (isFormValid)="onFormValidityChange($event)">
+      </app-transport-form>
+    }
+  }
+</section>
+
+        
+        <!-- Navigation buttons -->
+        <button type="button" class="btn text-white btn-secondary me-2" (click)="onBack()">Retour</button>
+        <button type="button" class="p-2 rounded text-white bg-main" [disabled]="!isSpecificInsuranceValid" (click)="onNext()">Suivant</button>
+      </div>
+      
+      <!-- Step 3: Assets to Insure -->
+      <div *ngIf="step === 3">
+        <h4 class="mb-3"><b>Biens à assurer</b></h4>
+        
+        <div class="container my-4">
+          <!-- Form to add insured assets -->
+          <div class="card p-4 shadow-sm">
+            <h4 class="text-center mb-4">Ajouter les biens à assurer</h4>
+            <form [formGroup]="goodsForm">
+              <div class="row">
+                <!-- Asset name field -->
+                <div class="col-md-4">
+                  <label for="name" class="form-label">Bien à assurer</label>
+                  <input
+                    id="name"
+                    type="text"
+                    class="form-control"
+                    formControlName="name"
+                    placeholder="Nom du bien"
+                  />
+                </div>
+                
+                <!-- Insured capital amount -->
+                <div class="col-md-4">
+                  <label for="capital" class="form-label">Capital Assuré</label>
+                  <input
+                    id="capital"
+                    type="number"
+                    class="form-control"
+                    formControlName="assured_capital"
+                    placeholder="Capital assuré"
+                  />
+                </div>
+                
+                <!-- Add button -->
+                <div class="col-md-2 d-flex align-items-end">
+                  <button type="button" class="btn text-white bg-primary-2 w-100" (click)="addGoods()">
+                    Ajouter
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Table of selected assets (conditional display) -->
+          <div class="card p-4 mt-4 shadow-sm" *ngIf="selectedGoods.length > 0">
+            <h4 class="text-center mb-3">Biens Assurés</h4>
+            <table class="table table-bordered table-striped text-center">
+              <thead class="table-dark">
+                <tr>
+                  <th>Nom</th>
+                  <th>Capital Assuré</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let goods of selectedGoods; let i = index">
+                  <td>{{ goods.name }}</td>
+                  <td>{{ goods.assured_capital | number }}</td>
+                  <td>
+                    <button class="btn text-white btn-danger btn-sm" (click)="removeGoods(i)">
+                      Supprimer
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Navigation buttons -->
+        <button type="button" class="btn text-white btn-secondary me-2" (click)="onBack()">Retour</button>
+        <button type="button" class="btn text-white bg-main" [disabled]="!selectedGoods" (click)="onNext()">Suivant</button>
+      </div>
+      
+      <!-- Step 4: Add Guarantees -->
+      <div *ngIf="step === 4">
+        <h4 class="mb-3"><b>Ajout des garanties</b></h4>
+        
+        <div class="container my-4">
+          <!-- Form to add guarantees -->
+          <div class="card p-4 shadow-sm">
+            <h4 class="text-center mb-4">Ajouter une Garantie</h4>
+            <form [formGroup]="guaranteeForm">
+              <div class="row">
+                <!-- Guarantee type selection -->
+                <div class="col-lg-2">
+                  <label for="name" class="form-label">Type de garantie</label>
+                  <select class="form-select" formControlName="guarantee_type">
+                    <option [value]="'percentage'">Taux</option>
+                    <option [value]="'fixed'">Montant</option>
+                  </select>
+                </div>
+                
+                <!-- Guarantee name field -->
+                <div class="col-lg-4">
+                  <label for="name" class="form-label">Garantie</label>
+                  <input
+                    id="name"
+                    type="text"
+                    class="form-control"
+                    formControlName="name"
+                    placeholder="Nom du bien"
+                  />
+                </div>
+                
+                <!-- Insured capital amount -->
+                <div class="col-lg-2">
+                  <label for="capital" class="form-label">Capital Assuré</label>
+                  <input
+                    id="capital"
+                    type="number"
+                    class="form-control"
+                    formControlName="assured_capital"
+                    placeholder="Capital assuré"
+                  />
+                </div>
+                
+                <!-- Conditional fields based on guarantee type -->
+                @switch(guaranteeForm.value.guarantee_type){
+                  @case("fixed"){
+                    <div class="col-md-2">
+                      <label for="capital" class="form-label">Valeur</label>
+                      <input
+                        id="capital"
+                        type="number"
+                        class="form-control"
+                        formControlName="value"
+                        placeholder="Valeur"
+                      />
+                    </div>
+                  }
+                  @case("percentage"){
+                    <div class="col-lg-2">
+                      <label for="capital" class="form-label">Taux</label>
+                      <input
+                        id="capital"
+                        type="number"
+                        class="form-control"
+                        formControlName="rate"
+                        placeholder="Taux"
+                      />
+                    </div>
+                  }
+                }
+                
+                <!-- Add button -->
+                <div class="col-lg-2 d-flex align-items-end">
+                  <button type="button" class="btn text-white bg-primary-2 w-100" (click)="addGuarantee()">
+                    Ajouter
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Table of selected guarantees (conditional display) -->
+          <div class="card p-4 mt-4 shadow-sm" *ngIf="selectedGuarantees.length > 0">
+            <h4 class="text-center mb-3">Garanties Sélectionnées</h4>
+            <table class="table table-bordered table-striped text-center">
+              <thead class="table-dark">
+                <tr>
+                  <th>Garantie</th>
+                  <th>Capital Assuré</th>
+                  <th>Type</th>
+                  <th>Valeur</th>
+                  <th>Pourcentage</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let guarantee of selectedGuarantees; let i = index">
+                  <td>{{ guarantee.name }}</td>
+                  <td>{{ guarantee.assured_capital | number }}</td>
+                  <td>{{ guarantee.guarantee_type }}</td>
+                  <td>{{ guarantee.value | number }}</td>
+                  <td>{{ guarantee.rate }}%</td>
+                  <td>
+                    <button class="btn text-white btn-danger btn-sm" (click)="removeGuarantee(i)">
+                      Supprimer
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Navigation and submission buttons -->
+        <button type="button" class="btn text-white btn-secondary me-2" (click)="onBack()">Retour</button>
+        <button type="submit" (click)="onSubmit()" class="btn text-white bg-main" [disabled]="selectedGuarantees.length === 0">
+          @if(!isSubmitting){
+            Soumettre
+          } 
+          @else{
+            <span>
+              <i class="fas fa-spinner fa-spin"></i> 
+            </span>
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</main>

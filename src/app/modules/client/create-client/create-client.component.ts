@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-client',
@@ -15,6 +16,8 @@ import { CommonModule } from '@angular/common';
 })
 export class CreateClientComponent {
   private fb = inject(FormBuilder);
+  private router = inject(Router);
+
   private authService = inject(AuthService);
 
   clientForm: FormGroup = this.fb.group({
@@ -47,7 +50,7 @@ export class CreateClientComponent {
       next: (response:any) => {
         console.log('Client created successfully:', response);
         this.isLoading = false;
-
+        this.router.navigateByUrl('/customer')
         this.clientForm.reset();
       },
       error: (error:any) => {

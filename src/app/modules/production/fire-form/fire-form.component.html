@@ -1,0 +1,73 @@
+<!-- 
+  Fire Insurance Form:
+  This form captures details related to fire insurance. 
+  It uses Angular's reactive forms and the FormGroup instance `insuranceForm`.
+-->
+
+<form [formGroup]="insuranceForm">
+  <div class="row">
+    <!-- Input field for "Nature du risque" -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="nature_risque" placeholder="Nature">
+        <label>Nature</label>
+      </div>
+    </div>
+    
+    <!-- Input field for "Quartier" -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="quartier" placeholder="Quartier">
+        <label>Quartier</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Dropdown for selecting "Province" -->
+    <div class="col-lg-6 mb-3">
+      <div class="form-floating">
+        <select class="form-select" formControlName="province">
+          <!-- Options for different provinces -->
+          <option [value]="'Bubanza'">Bubanza</option>
+          <option [value]="'Bujumbura Mairie'">Bujumbura Mairie</option>
+          <option [value]="'Bujumbura Rural'">Bujumbura Rural</option>
+          <option [value]="'Bururi'">Bururi</option>
+          <option [value]="'Cankuzo'">Cankuzo</option>
+          <option [value]="'Cibitoke'">Cibitoke</option>
+          <option [value]="'Gitega'">Gitega</option>
+          <option [value]="'Karuzi'">Karuzi</option>
+          <option [value]="'Kayanza'">Kayanza</option>
+          <option [value]="'Kirundo'">Kirundo</option>
+          <option [value]="'Makamba'">Makamba</option>
+          <option [value]="'Muramvya'">Muramvya</option>
+          <option [value]="'Muyinga'">Muyinga</option>
+          <option [value]="'Mwaro'">Mwaro</option>
+          <option [value]="'Ngozi'">Ngozi</option>
+          <option [value]="'Rumonge'">Rumonge</option>
+          <option [value]="'Rutana'">Rutana</option>
+          <option [value]="'Ruyigi'">Ruyigi</option>
+        </select>
+        <label>Province</label>
+      </div>
+    </div>
+
+    <!-- Input field for "Cadastre" (Land Registry) -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="cadastre" placeholder="Cadastre">
+        <label>Cadastre</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Input field for "No Titre" (Title Number) -->
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="text" class="form-control" formControlName="titre" placeholder="No Titre">
+        <label>No Titre</label>
+      </div>
+    </div>
+  </div>
+</form>
