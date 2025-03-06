@@ -50,8 +50,8 @@ export const appConfig: ApplicationConfig = {
 
     // provideToastr(),
     provideToastr({
-      timeOut: 5000,
-      positionClass: 'toast-bottom-right',
+      timeOut: 20000,
+      positionClass: 'toast-top-right',
       preventDuplicates: false,
     }), 
     provideAnimations(), provideAnimationsAsync(), provideAnimationsAsync()
