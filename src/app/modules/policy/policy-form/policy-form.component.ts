@@ -138,11 +138,12 @@ export class PolicyFormComponent {
    */
   updateCapitalInBif() {
     const value = this.policyForm.value.assured_capital_devise * this.policyForm.value.daily_rate;
-    this.policyForm.patchValue(
-      { assured_capital_bif: value },
-    );
-    this.capitalInBif = value;
+    const roundedValue = Math.round(value); // Arrondi à l'entier le plus proche
+  
+    this.policyForm.patchValue({ assured_capital_bif: roundedValue });
+    this.capitalInBif = roundedValue;
   }
+  
   
   /**
    * Handles client selection from lookup component
@@ -408,7 +409,7 @@ submitGoods() {
     console.error('Erreur API:', error);
   
     if (error?.status === 400 && error?.error) {
-      
+
       const messages = Object.values(error.error).flat();
       messages.forEach((msg: any) => this.toastr.error(msg, 'Erreur côté utilisateur'));
     } 
