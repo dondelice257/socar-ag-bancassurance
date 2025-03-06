@@ -57,7 +57,7 @@
       <!-- Step 1: Client Lookup and Contract Information -->
       <div *ngIf="step === 1">
         <div class="my-3">
-          <h4 class="mb-3"><b>Informations du contrat</b></h4>
+          <h4 class="mb-3"><b>Informations de la police</b></h4>
           
           <div class="row">
             <!-- Insurance category selection -->
@@ -122,11 +122,11 @@
             <div class="col-lg-6 mb-3">
               <div class="form-floating">
                 <select class="form-select" formControlName="period">
-                  <option [value]="3">Mois</option>
+                  <!-- <option [value]="3">Mois</option> -->
                   <option [value]="1">Trimestre</option>
                   <option [value]="4">Semestre</option>
                   <option [value]="2">Année</option>
-                  <option [value]="'Custom'">Custom</option>
+                  <!-- <option [value]="'Custom'">Custom</option> -->
                 </select>
                 <label>Période</label>
               </div>
@@ -151,11 +151,11 @@
             <!-- VAT checkbox -->
 
             <div class="col-lg-3 mb-3">
-              <mat-checkbox class="example-margin" formControlName="assujeti_tva">Assujetti à la TVA</mat-checkbox>
+              <mat-checkbox class="example-margin" formControlName="assujeti_tva">Exoneré à la TVA</mat-checkbox>
             </div>
-            <div class="col-lg-3 mb-3">
+            <div class="col-lg-3 mb-3" title="En cochant cette option, votre police sera enregistrée comme une proposition. Aucune facture ne sera générée, il s'agira seulement d'un test. Vous pourrez la valider plus tard depuis la liste des offres.">
               <mat-checkbox class="example-margin" formControlName="is_demo">Offre</mat-checkbox>
-            </div>
+
           </div>
         </div>
         
@@ -164,7 +164,7 @@
           <b>Suivant</b>
         </button>
       </div>
-      
+      </div>
       <!-- Step 2: Risk Information -->
       <div *ngIf="step === 2">
         <h4 class="mb-3"><b>Info du risque</b></h4>
@@ -277,7 +277,7 @@
                   <td>{{ goods.name }}</td>
                   <td>{{ goods.assured_capital | number }}</td>
                   <td>
-                    <button class="p-2 rounded text-white btn-danger btn-sm" (click)="removeGoods(i)">
+                    <button class="text-white bg-danger p-2 rounded" (click)="removeGoods(i)">
                       Supprimer
                     </button>
                   </td>
@@ -398,7 +398,7 @@
                   <td>{{ guarantee.value | number }}</td>
                   <td>{{ guarantee.rate }}%</td>
                   <td>
-                    <button class="p-2 rounded text-white btn-danger btn-sm" (click)="removeGuarantee(i)">
+                    <button class="text-white bg-danger p-2 rounded" (click)="removeGuarantee(i)">
                       Supprimer
                     </button>
                   </td>
