@@ -12,6 +12,7 @@ import { FireFormComponent } from '../../production/fire-form/fire-form.componen
 import { TransportFormComponent } from '../../production/transport-form/transport-form.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-policy-form',
@@ -71,12 +72,13 @@ export class PolicyFormComponent {
     private fb: FormBuilder,
     private router: Router,
     private store: Store,
-    private policyService: PolicyService
+    private policyService: PolicyService,
+    private toastr : ToastrService
   ) {
     // Initialize guarantee form with validations
     this.guaranteeForm = this.fb.group({
       name: ['', Validators.required],
-      assured_capital: ['', [Validators.required, Validators.min(1)]],
+      assured_capital: ['', [Validators.required, Validators.min(0)]],
       rate: [0, Validators.max(100)],
       guarantee_type: ['percentage', [Validators.required]],
       value: [0],
@@ -179,59 +181,59 @@ export class PolicyFormComponent {
     this.selectedCategory = this.policyForm.value.category;
   }
   
-  /**
-   * Creates the main policy record in the database
+/**
+   * Crée une police et soumet les données associées.
    */
-  createPolicy() {
-    const data = { 
-      operator: this.connectedOperator.id,
-      company: this.connectedOperator.company.id,
-      type: 'AAAA',
-      ...this.policyForm.value
-    };
-    
-    this.isSubmitting = true;
+createPolicy() {
+  this.isSubmitting = true;
+
+  const data = { 
+    operator: this.connectedOperator.id,
+    company: this.connectedOperator.company.id,
+    type: 'AAAA',
+    ...this.policyForm.value
+  };
+
+  this.policyService.createPolicy(data).subscribe(
+    (response: any) => {
+      this.policyId = response.id;
+      this.isSubmitting = false;
+      this.toastr.success('La police a été créée avec succès !', 'Succès');
+      
+      // Soumettre les données associées
+      this.submitGuarantees();
+      this.submitGoods();
+      this.createSpecificInsurance();
+
+      console.log('Police créée:', response);
+    },
+    (error) => {
+      this.isSubmitting = false;
+      this.handleError(error);
+    }
+  );
+}
   
-    this.policyService.createPolicy(data).subscribe(
-      (response: any) => {
-        this.policyId = response.id;
-        console.log('Policy created:', response);
-        // After policy creation, submit related data
-        this.submitGuarantees();
-        this.submitGoods();
-        this.createSpecificInsurance();
-        this.isSubmitting = false;
-      },
-      (error) => {
-        this.isSubmitting = false;
-        console.error('Error creating policy:', error);
-      }
-    );
-  }
-  
-  /**
-   * Creates specific insurance record (auto, fire, transport)
-   * linked to the main policy
-   */
   createSpecificInsurance() {
-    this.isSubmitting = true;
-  
     if (!this.policyId) return;
-  
+
+    this.isSubmitting = true;
+    
     const body = {
       policy: this.policyId,
       ...this.specificInsurance
     };
-  
+
     this.policyService.createSpecificInsurance(body, this.selectedCategory).subscribe(
       (response: any) => {
         this.specificInsuranceId = response.id;
-        console.log('Specific insurance created:', response);
         this.isSubmitting = false;
+        this.toastr.success('L’assurance' +response.category + ' a été créée avec succès !', 'Succès');
+        console.log('Assurance spécifique créée:', response);
       },
       (error) => {
         this.isSubmitting = false;
-        console.error('Error creating specific insurance:', error);
+        this.handleError(error);
       }
     );
   }
@@ -300,72 +302,68 @@ export class PolicyFormComponent {
   }
   
   /**
-   * Submits all selected guarantees to the API
-   * Associates them with the created policy
+   * Soumet toutes les garanties sélectionnées à l'API
+   * et les associe à la police créée.
    */
   submitGuarantees() {
     this.isSubmitting = true;
-  
-    // Add policy ID to each guarantee object
+
     const guaranteesWithInsurance = this.selectedGuarantees.map(guarantee => ({
       ...guarantee,
       policy: this.policyId
     }));
-  
-    // Create promises for all guarantee API calls
-    const promises = guaranteesWithInsurance.map(guarantee => {
-      return this.policyService.createGuarantee(guarantee).toPromise();
-    });
-  
-    // Handle all promises completion
+
+    const promises = guaranteesWithInsurance.map(guarantee =>
+      this.policyService.createGuarantee(guarantee).toPromise()
+    );
+
     Promise.all(promises)
       .then(responses => {
         this.isSubmitting = false;
-
-        if(this.policyForm.value.is_demo){
-        this.router.navigateByUrl('/policy/offer');
-
-        }else{
-        this.router.navigateByUrl('/policy/list');
-
+        this.toastr.success('Toutes les garanties ont été soumises avec succès !', 'Succès');
+        
+        if (this.policyForm.value.is_demo) {
+          this.router.navigateByUrl('/policy/offer');
+        } else {
+          this.router.navigateByUrl('/policy/list');
         }
-        console.log('All guarantees submitted:', responses);
+        
+        console.log('Garanties soumises:', responses);
       })
       .catch(error => {
         this.isSubmitting = false;
-        console.error('Error submitting guarantees:', error);
+        this.handleError(error);
       });
   }
   
-  /**
-   * Submits all selected insured assets to the API
-   * Associates them with the created policy
+/**
+   * Soumet tous les biens assurés sélectionnés à l'API
+   * et les associe à la police créée.
    */
-  submitGoods() {
-    this.isSubmitting = true;
-  
-    // Add policy ID to each goods object
-    const goodsWithInsurance = this.selectedGoods.map(goods => ({
-      ...goods,
-      policy: this.policyId
-    }));
-  
-    // Create promises for all goods API calls
-    const promises = goodsWithInsurance.map(goods => {
-      return this.policyService.createGoods(goods).toPromise();
+submitGoods() {
+  this.isSubmitting = true;
+
+  const goodsWithInsurance = this.selectedGoods.map(goods => ({
+    ...goods,
+    policy: this.policyId
+  }));
+
+  const promises = goodsWithInsurance.map(goods =>
+    this.policyService.createGoods(goods).toPromise()
+  );
+
+  Promise.all(promises)
+    .then(responses => {
+      this.isSubmitting = false;
+      this.toastr.success('Tous les biens assurés ont été soumis avec succès !', 'Succès');
+      console.log('Biens soumis:', responses);
+    })
+    .catch(error => {
+      this.isSubmitting = false;
+      this.handleError(error);
     });
-  
-    // Handle all promises completion
-    Promise.all(promises)
-      .then(responses => {
-        this.isSubmitting = false;
-        console.log('All goods submitted:', responses);
-      })
-      .catch(error => {
-        this.isSubmitting = false;
-        console.error('Error submitting goods:', error);
-      });
-  }
+}
+
   
   /**
    * Main form submission handler
@@ -405,4 +403,24 @@ export class PolicyFormComponent {
     console.log('Form Valid:', isValid);
     this.isSpecificInsuranceValid = isValid;
   }
+
+  handleError(error: any) {
+    console.error('Erreur API:', error);
+  
+    if (error?.status === 400 && error?.error) {
+      
+      const messages = Object.values(error.error).flat();
+      messages.forEach((msg: any) => this.toastr.error(msg, 'Erreur côté utilisateur'));
+    } 
+    else if (error?.status === 403) {
+      this.toastr.error("Vous n'avez pas l'autorisation d'effectuer cette action.", 'Accès refusé');
+    }
+    else if (error?.status === 500) {
+      this.toastr.error("Une erreur interne du serveur s'est produite. Réessayez plus tard.", 'Erreur serveur');
+    }
+    else {
+      this.toastr.error("Une erreur s'est produite. Veuillez contacter l'administrateur.", 'Erreur système');
+    }
+  }
+  
 }
