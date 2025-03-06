@@ -1,8 +1,9 @@
-@if(tableData){
     <app-list 
 [columns]="tableColumns" 
-[data]="tableData" 
 [enablePagination]="true"
-title="Clients">
+[showFilters]="true"
+
+title="Clients"
+url="client/?"
+>
 </app-list>
-}

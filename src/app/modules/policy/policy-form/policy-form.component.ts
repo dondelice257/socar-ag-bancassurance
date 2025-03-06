@@ -77,7 +77,7 @@ export class PolicyFormComponent {
     this.guaranteeForm = this.fb.group({
       name: ['', Validators.required],
       assured_capital: ['', [Validators.required, Validators.min(1)]],
-      rate: ['', Validators.max(100)],
+      rate: [0, Validators.max(100)],
       guarantee_type: ['percentage', [Validators.required]],
       value: [0],
     });
@@ -98,9 +98,10 @@ export class PolicyFormComponent {
       custom_days: [0],
       daily_rate: [1],
       assujeti_tva: [false],
+      is_demo: [false],
       currency: ['BIF', Validators.required],
       assured_capital_bif: [0],
-      assured_capital_devise: [0],
+      assured_capital_devise: [0, Validators.required],
     });
   
     // Get the connected operator from the auth state
@@ -117,6 +118,15 @@ export class PolicyFormComponent {
       if (!connectedOperator) {
         // this.router.navigateByUrl('/login')
       }
+    });
+
+    this.policyForm.valueChanges.subscribe(() => {
+
+      const capitalAssured = this.policyForm.get('assured_capital_bif')?.value
+
+      this.guaranteeForm.patchValue({
+        assured_capital: capitalAssured
+      })
     });
   }
 
@@ -245,7 +255,6 @@ export class PolicyFormComponent {
       // Reset form fields after adding
       this.guaranteeForm.patchValue({
         name: '',
-        assured_capital: '',
         rate: 0,
         guarantee_type: '',
         value: 0,
@@ -312,7 +321,14 @@ export class PolicyFormComponent {
     Promise.all(promises)
       .then(responses => {
         this.isSubmitting = false;
+
+        if(this.policyForm.value.is_demo){
+        this.router.navigateByUrl('/policy/offer');
+
+        }else{
         this.router.navigateByUrl('/policy/list');
+
+        }
         console.log('All guarantees submitted:', responses);
       })
       .catch(error => {

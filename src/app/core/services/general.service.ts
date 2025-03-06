@@ -58,6 +58,20 @@ DoLookup(url: string, search: string = ''): Observable<any> {
   );
 }
 
+GetList(url: string, query: string, date_from: string, date_to: string): Observable<any> {
+  const lookupUrl = `${environment.apiUrl}${url}&query=${encodeURIComponent(query)}&date_from=${encodeURIComponent(date_from)}&date_to=${encodeURIComponent(date_to)}`;
+  const header={
+    'content-type': 'application/json',
+    'Authorization' : `Token ${this.token}`
+
+  }
+  return this.httpClient.get(lookupUrl, {headers:header}).pipe(
+    map((data) => {
+        return data;
+    })
+);
+}
+
 
 
 }

@@ -6,7 +6,7 @@
 
 export const environment = {
     production: true,
-    apiUrl: 'http://172.16.27.148:8000/api/',
+    apiUrl: 'https://gasago.pythonanywhere.com/api/',
 
 
 };

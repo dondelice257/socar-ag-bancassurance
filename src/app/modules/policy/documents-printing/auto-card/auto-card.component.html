@@ -1,0 +1,294 @@
+<main>
+    <div>
+      <div style="background-image: url(../../../assets/images/Flag-of-Burundi-07\ 1.png);background-size:contain"
+        class="bg-white position-relative mx-1 lg-radius">
+  
+        <!-- Print-only attestation -->
+        <div class="attestation d-none print-only">
+          <div class="d-flex">
+            <div class="d-grid w-30 me-3 pe-3 pb-2" style="border-right: 2px dotted black; padding-top: 110px;">
+              <div class="mb-2">
+                <b>No {{ policy.policy_number }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">ASSUREUR :</span>
+                <b>{{ policy.company.name }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center">
+                <span class="me-2">Valable du</span>
+                <b>{{ policy.issue_date | date:'dd/MM/yyyy' }}</b>
+                <span class="mx-2">au</span>
+                <b>{{ policy.expiration_date | date:'dd/MM/yyyy' }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">Adresse :</span>
+                <b>{{ policy.client.user_quartier }}, {{ policy.client.user_commune }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">Police No :</span>
+                <b>{{ policy.policy_number }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">Marque :</span>
+                <b>{{ policy.auto_insurance.marque }} {{ policy.auto_insurance.model }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">Plaque No :</span>
+                <b>{{ policy.auto_insurance.plaque }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">Chassis No :</span>
+                <b>{{ policy.auto_insurance.chasis }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">Usage :</span>
+                <b>{{ policy.auto_insurance.usage }}</b>
+              </div>
+              <div class="d-flex">
+                <span>Passagers</span>
+              </div>
+              <div class="d-flex w-100">
+                <div class="d-grid w-50">
+                  <span>en cabine</span>
+                  <b>{{ policy.auto_insurance.places_cabine }}</b>
+                </div>
+                <div class="d-grid w-50">
+                  <span>sur plateau</span>
+                  <b>{{ policy.auto_insurance.places_plateau }}</b>
+                </div>
+              </div>
+            </div>
+            <div id="print-section" class="w-70 p-3 row">
+              <div class="w-50 to-print d-none col-6"></div>
+              <div class="d-grid w-50 col-6 really-print">
+                <div class="d-flex no-print justify-content-center">
+                  <img style="width:120px; height: 50px;" src="../../../assets/images/assur.webp" alt="">
+                </div>
+                <div class="d-flex no-print justify-content-center mb-4">
+                  <span class="text-center">
+                    <b class="text-center fs-3">ATTESTATION D'ASSURANCE</b>
+                  </span>
+                </div>
+                <div class="d-grid mt-5">
+                  <div class="d-flex mb-5 align-items-center">
+                    <div class="d-grid mb-4 w-30 no-print">
+                      <b>No {{ policy.policy_number }}</b>
+                      <span class="">La société d'Assurances</span>
+                    </div>
+                    <div class="p-1 ps-5 no-border-print w-70">
+                      <small class="mt-3 ms-4" style="margin-left: 30px;">
+                        <span>{{ policy.company.name }}</span>
+                      </small>
+                    </div>
+                  </div>
+                  <div class="mb-1 no-print">
+                    <p class="">Certifie que la responsabilité civile du preneur d'assurance ci-après est couverte conformément aux dispositions légales et réglementaires relatives à l'assurance des véhicules automobiles.</p>
+                  </div>
+                  <div class="mb-2 mt-3">
+                    <div class="d-flex align-items-center mb-2 ms-5">
+                      <span class="me-2 no-print">La présente attestation est valable du</span>
+                      <small class="ms-2">{{ policy.issue_date | date:'dd/MM/yyyy' }}</small>
+                      <span class="mx-2 no-print">au</span>
+                      <small class="ms-4">{{ policy.expiration_date | date:'dd/MM/yyyy' }}</small>
+                    </div>
+                    <div class="no-border-print mt-3">
+                      <div class="d-flex align-items-start w-100">
+                        <span class="me-3 w-30 no-print">Preneur d'Assurance</span>
+                        <small class="w-70 t-right" style="min-height: 50px;">{{ policy.client.user_full_name }}</small>
+                      </div>
+                      <div class="d-flex align-items-center w-100">
+                        <span class="me-3 w-30 no-print">Adresse</span>
+                        <small class="w-70 t-right">{{ policy.client.user_quartier }}, {{ policy.client.user_commune }}</small>
+                      </div>
+                      <div class="d-flex align-items-center w-100 mt-3 mb-1">
+                        <span class="me-3 w-30 no-print">No de Police</span>
+                        <small class="w-70 t-right ms-5">{{ policy.policy_number }}</small>
+                      </div>
+                      <div class="d-flex align-items-center w-100">
+                        <span class="me-3 w-30 no-print">Marque et Type de véhicule</span>
+                        <small class="w-70 t-right">{{ policy.auto_insurance.marque }} {{ policy.auto_insurance.model }}</small>
+                      </div>
+                      <div class="d-flex align-items-center w-100">
+                        <span class="me-3 w-30 no-print">Plaque No</span>
+                        <small class="w-70 t-right">{{ policy.auto_insurance.plaque }}</small>
+                      </div>
+                      <div class="d-flex align-items-center w-100">
+                        <span class="me-3 w-30 no-print">Châssis No</span>
+                        <small class="w-70 t-right">{{ policy.auto_insurance.chasis }}</small>
+                      </div>
+                      <div class="d-flex align-items-center w-100">
+                        <span class="me-3 w-30 no-print">Usage</span>
+                        <small class="w-70 t-right">{{ policy.auto_insurance.usage }}</small>
+                      </div>
+                      <div class="d-flex align-items-start w-100">
+                        <span class="me-3 w-30 no-print">Passagers</span>
+                        <div class="w-70 d-flex t-right">
+                          <div class="d-grid w-50">
+                            <span class="no-print">en cabine</span>
+                            <small class="go-down">{{ policy.auto_insurance.places_cabine }}</small>
+                          </div>
+                          <div class="d-grid w-50">
+                            <span class="no-print">sur plateau</span>
+                            <small class="go-down">{{ policy.auto_insurance.places_plateau }}</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Regular visible attestation -->
+        <div class="attestation">
+          <div class="d-flex">
+            <div class="d-grid w-30 me-3 pe-3 pb-2" style="border-right: 2px dotted black; padding-top: 110px;">
+              <div class="mb-2">
+                <!-- <b>No 1958062</b> -->
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">ASSUREUR :</span>
+                <b>{{ policy.company.name }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center">
+                <span class="me-2">Valable du</span>
+                <b>{{ policy.issue_date | date:'dd/MM/yyyy' }}</b>
+                <span class="mx-2">au</span>
+                <b>{{ policy.expiration_date | date:'dd/MM/yyyy' }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">Adresse :</span>
+                <b>{{ policy.client.user_quartier }}, {{ policy.client.user_commune }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">Police No :</span>
+                <b>{{ policy.policy_number }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">Marque :</span>
+                <b>{{ policy.auto_insurance.marque }} {{ policy.auto_insurance.model }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">Plaque No :</span>
+                <b>{{ policy.auto_insurance.plaque }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">Chassis No :</span>
+                <b>{{ policy.auto_insurance.chasis }}</b>
+              </div>
+              <div class="d-flex mb-2 align-items-center w-100">
+                <span class="me-3">Usage :</span>
+                <b>{{ policy.auto_insurance.usage }}</b>
+              </div>
+              <div class="d-flex">
+                <span>Passagers</span>
+              </div>
+              <div class="d-flex w-100">
+                <div class="d-grid w-50">
+                  <span>en cabine</span>
+                  <b>{{ policy.auto_insurance.places_cabine }}</b>
+                </div>
+                <div class="d-grid w-50">
+                  <span>sur plateau</span>
+                  <b>{{ policy.auto_insurance.places_plateau }}</b>
+                </div>
+              </div>
+            </div>
+      
+            <div class="d-grid w-70 p-3">
+              <div class="d-flex justify-content-center">
+                <img style="width:120px; height: 50px;" src="../../../assets/images/assur.webp" alt="">
+              </div>
+              <div class="d-flex justify-content-center mb-4">
+                <span class="text-center">
+                  <b class="text-center fs-3">ATTESTATION D'ASSURANCE</b>
+                </span>
+              </div>
+              <div class="d-grid">
+                <div class="d-flex align-items-center">
+                  <div class="d-grid w-30">
+                    <b>No {{ policy.policy_number }}</b>
+                    <span class="">La société d'Assurances</span>
+                  </div>
+                  <div class="p-1 border border-dark w-70">
+                    <b><span>{{ policy.company.name }}</span></b>
+                  </div>
+                </div>
+                <div class="mb-1">
+                  <p class="">Certifie que la responsabilité civile du preneur d'assurance ci-après est couverte conformément aux dispositions légales et réglementaires relatives à l'assurance des véhicules automobiles.</p>
+                </div>
+                <div class="mb-2">
+                  <div class="d-flex align-items-center mb-2">
+                    <span class="me-2">La présente attestation est valable du</span>
+                    <b>{{ policy.issue_date | date:'dd/MM/yyyy' }}</b>
+                    <span class="mx-2">au</span>
+                    <b>{{ policy.expiration_date | date:'dd/MM/yyyy' }}</b>
+                  </div>
+                  <div class="border border-dark" style="border-radius: 30px;">
+                    <div class="d-flex align-items-start w-100">
+                      <span class="me-3 w-30">Preneur d'Assurance</span>
+                      <b class="w-70 t-right" style="min-height: 100px;">{{ policy.client.user_full_name }}</b>
+                    </div>
+                    <div class="d-flex align-items-center w-100">
+                      <span class="me-3 w-30">Adresse</span>
+                      <b class="w-70 t-right">{{ policy.client.user_quartier }}, {{ policy.client.user_commune }}</b>
+                    </div>
+                    <div class="d-flex align-items-center w-100" style="border-top: 1px solid black; border-bottom: 1px solid black;">
+                      <span class="me-3 w-30">No de Police</span>
+                      <b class="w-70 t-right">{{ policy.policy_number }}</b>
+                    </div>
+                    <div class="d-flex align-items-center w-100">
+                      <span class="me-3 w-30">Marque et Type de véhicule</span>
+                      <b class="w-70 t-right">{{ policy.auto_insurance.marque }} {{ policy.auto_insurance.model }}</b>
+                    </div>
+                    <div class="d-flex align-items-center w-100">
+                      <span class="me-3 w-30">Plaque No</span>
+                      <b class="w-70 t-right">{{ policy.auto_insurance.plaque }}</b>
+                    </div>
+                    <div class="d-flex align-items-center w-100">
+                      <span class="me-3 w-30">Chassis No</span>
+                      <b class="w-70 t-right">{{ policy.auto_insurance.chasis }}</b>
+                    </div>
+                    <div class="d-flex align-items-center w-100">
+                      <span class="me-3 w-30">Usage</span>
+                      <b class="w-70 t-right">{{ policy.auto_insurance.usage }}</b>
+                    </div>
+                    <div class="d-flex align-items-start w-100">
+                      <span class="me-3 w-30">Passagers</span>
+                      <div class="w-70 d-flex t-right">
+                        <div class="d-grid w-50">
+                          <span>en cabine</span>
+                          <b>{{ policy.auto_insurance.places_cabine }}</b>
+                        </div>
+                        <div class="d-grid w-50">
+                          <span>sur plateau</span>
+                          <b>{{ policy.auto_insurance.places_plateau }}</b>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>    
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+          
+      <!-- Print button section -->
+      <div class="d-flex justify-content-end mb-1">
+        <div>
+          <div style="width: 150px;" class="position-relative">
+            <div role="button" class="">
+              <div class="d-flex justify-content-around align-items-center">
+                <button class="bg-main rounded p-2 text-white" ngxPrint printSectionId="print-section" [useExistingCss]="true">
+                  <b class="me-1">Imprimer</b>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>

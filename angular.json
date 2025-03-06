@@ -36,7 +36,9 @@
             ],
             "scripts": [
               "node_modules/@fortawesome/fontawesome-free/js/all.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
+              "node_modules/@popperjs/core/dist/umd/popper.min.js"
+
 
 
             ],
@@ -206,7 +208,8 @@
             ],
             "scripts": [
               "node_modules/@fortawesome/fontawesome-free/js/all.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
+              "node_modules/@popperjs/core/dist/umd/popper.min.js"
 
             ]
           }

@@ -2,7 +2,7 @@
     <div class="my-3">
         <div class="w-100 d-flex justify-content-center">
             <h3>
-                <b>Creation du nouveau client</b>
+                <b>Enregistrement du nouveau client</b>
             </h3>
         </div>
     </div>
@@ -10,9 +10,9 @@
         <div class="row">
           <div class="col-md-6 mb-3 form-floating">
             <input id="username" formControlName="username" type="text" class="form-control" />
-            <label for="username">Nom d'utilisateur</label>
+            <label for="username">Nom du souscripteur</label>
             <small *ngIf="clientForm.get('username')?.invalid && clientForm.get('username')?.touched" class="text-danger">
-              Le nom d'utilisateur doit comporter entre 3 et 20 caractères.
+              Le nom du souscripteur doit comporter entre 3 et 20 caractères.
             </small>
           </div>
       
@@ -104,8 +104,8 @@
       
         <!-- Bouton de soumission -->
         <div class="d-flex justify-content-center">
-          <button type="submit" [disabled]="isLoading || clientForm.invalid" class="btn text-white bg-main">
-            {{ isLoading ? 'Création en cours...' : 'Créer un client' }}
+          <button type="submit" [disabled]="isLoading || clientForm.invalid" class="p-2 rounded text-white bg-main">
+            {{ isLoading ? 'Création en cours...' : 'Enregistrer un client' }}
           </button>
         </div>
       </form>

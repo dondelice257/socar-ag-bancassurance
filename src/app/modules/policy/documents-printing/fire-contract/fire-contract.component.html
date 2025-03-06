@@ -1,0 +1,202 @@
+<div class="contract-wrapper">
+    <!-- Header -->
+    <div class="text-center header-title mt-5 pt-5 border-btm">
+      <h6 class="mb-0 mt-4"><b>CONTRAT D'ASSURANCE DES BIENS MEUBLES ET IMMEUBLES</b></h6>
+      <h6 class="mb-0"><b>CONDITIONS PARTICULIERES INCENDIE & R.CONNEXES</b></h6>
+    </div>
+  
+    <!-- Main Content -->
+    <div class="">
+      <!-- Top Info -->
+      <div class="row ">
+        <div class="col-3">DATE OPERATION :</div>
+        <div class="col-3 fw-bold">{{policy.issue_date | date:'MM/dd/yyyy'}}</div>
+        <div class="col-3">COURTIER/AGENCE :</div>
+        <div class="col-3 fw-bold">{{policy.operator?.agency_name}}</div>
+      </div>
+  
+      <div class="row ">
+        <div class="col-3">REDACTEUR :</div>
+        <div class="col-3 fw-bold">{{policy.operator?.full_name}}</div>
+        <div class="col-3">AVENANT N° :</div>
+        <div class="col-3 fw-bold">00000</div>
+      </div>
+  
+      <div class="row ">
+        <div class="col-3">NUMERO POLICE :</div>
+        <div class="col-9 fw-bold">{{policy.policy_number}}</div>
+      </div>
+  
+      <div class="row border-btm">
+        <div class="col-3">DATE D'EFFET :</div>
+        <div class="col-3 fw-bold">{{policy.issue_date | date:'MM/dd/yyyy'}}</div>
+        <div class="col-3">DATE D'ECHEANCE :</div>
+        <div class="col-2 fw-bold">{{policy.expiration_date | date:'MM/dd/yyyy'}}</div>
+        <div class="col-1 fw-bold">{{policy.custom_days | date:'MM/dd/yyyy'}}</div>
+
+      </div>
+      <!-- Subscriber Info -->
+      <div class="row ">
+        <div class="col-3">SOUSCRIPTEUR :</div>
+        <div class="col-3 fw-bold">000{{policy.client?.id}} - {{policy.client?.user_full_name}}</div>
+        <div class="col-3">B.P :</div>
+        <div class="col-3"> {{policy.client?.user_province}}</div>
+
+
+      </div>
+  
+
+  
+      <div class="row border-btm">
+
+        <div class="col-3">COMMUNE :</div>
+        <div class="col-3 fw-bold">{{policy.client.user_commune}}</div>
+        <div class="col-3">TELEPHONE :</div>
+        <div class="col-3 fw-bold">{{policy.client?.user_phone_number}}</div>
+        <div class="col-3">ZONE :</div>
+        <div class="col-3 fw-bold">{{policy.client?.user_zone}}</div>
+        <div class="col-3">QUARTIER :</div>
+        <div class="col-3 fw-bold">{{policy.client?.user_quartier}}</div>
+      </div>
+  
+      <!-- Risk Description -->
+      <div class="section-header fw-bold ">I* Description du risque assuré et son contenu</div>
+
+      
+  
+      <div class="row ">
+        <div class="col-3">Nature et localisation du risque :</div>
+        <div class="col-5 fw-bold">{{policy.fire_insurance?.nature_risque}}</div>
+      </div>
+  
+      <div class="row ">
+        <div class="col-3">Quartier/AV./Rue/ n° :</div>
+        <div class="col-3 fw-bold">{{policy.fire_insurance.quartier}}</div>
+        <div class="col-3">Ville/Prov :</div>
+        <div class="col-3 fw-bold">{{policy.fire_insurance.province}}</div>
+      </div>
+  
+      <div class="row border-btm">
+
+        <div class="col-3">N° Titre Foncier :</div>
+        <div class="col-3 fw-bold">{{policy.fire_insurance.titre}}</div>
+        <div class="col-3">N° Cadastre :</div>
+        <div class="col-3 fw-bold">{{policy.fire_insurance.cadastre}}</div>
+      </div>
+
+      <div class="section-header fw-bold border-bottom mb-1">II* Valeurs des biens assurés :</div>
+      <div class="my-1 row" *ngFor="let goods of policy.goods">
+        <div class="col-5">{{ goods.name }}</div>
+        <div class="col-5 fw-bold">{{ goods.assured_capital }}</div>
+      </div>
+  
+      <!-- Premium Summary -->
+      <div class="premium-summary">
+        <div class="header-row row">
+          <div class="col-3" style="font-size:10px">BIENS A ASSURER</div>
+          <div class="col-4" style="font-size:10px">DETAILS/GARANTIES</div>
+          <div class="col-2 text-end" style="font-size:10px">CAPITAUX(Fbu)</div>
+          <div class="col-3 text-end" style="font-size:10px">PRIME NETTE(Fbu)</div>
+        </div>
+      
+        <div class="data-row">
+          <div class="col-3">*{{policy.fire_insurance?.nature_risque}}</div>
+          <div class="col-4"></div>
+          <div class="col-2 text-end">{{policy.assured_capital_bif | number}}</div>
+          <div class="col-3 text-end"></div>
+        </div>
+      
+        <div class="border-btm">
+          <div *ngFor="let guarantee of policy.guarantees" class="row ">
+            <div class="col-3"></div>
+            <div class="col-4">{{guarantee.name}}</div>
+            <div class="col-2 text-end">{{guarantee.assured_capital | number}}</div>
+            <div class="col-3 text-end">{{guarantee.prime | number}}</div>
+          </div>
+        </div>
+      
+        <!-- <div class="total-row">
+          <div class="col-8 text-end"><strong>Totaux:</strong></div>
+          <div class="col-2 text-end"><strong>{{policy.fire_insurance?.default_assured_capital | number}}</strong></div>
+          <div class="col-2 text-end"><strong>{{policy.prime_base | number}}</strong></div>
+        </div> -->
+      </div>
+      
+      <!-- Premium Summary -->
+      <div class="d-flex justify-content-end">
+        <table class="table table-sm summary-table">
+          <tr>
+            <td>PRIME NETTE</td>
+            <td>:</td>
+            <td class="text-end">{{policy.prime_base | number}}</td>
+          </tr>
+          <tr>
+            <td>FRAIS</td>
+            <td>:</td>
+            <td class="text-end">{{policy.frais | number}}</td>
+          </tr>
+          <tr>
+            <td>PRIME EMISE</td>
+            <td>:</td>
+            <td class="text-end">{{policy.prime_nette | number}}</td>
+          </tr>
+          <tr>
+            <td>C.DIVERS</td>
+            <td>:</td>
+            <td class="text-end">{{policy.charges_diverses | number}}</td>
+          </tr>
+          <tr>
+            <td>C. ARCA</td>
+            <td>:</td>
+            <td class="text-end">{{policy.charges_arca | number}}</td>
+          </tr>
+          <tr>
+            <td>P.T AVANT TVA</td>
+            <td>:</td>
+            <td class="text-end">{{policy.prime_avant_tva | number}} </td>
+          </tr>
+          <tr>
+            <td>TVA</td>
+            <td>:</td>
+            <td class="text-end">{{policy.tva | number}}</td>
+          </tr>
+          <tr class="border-btm border-dark">
+            <td><strong>PRIME TVAC</strong></td>
+            <td>:</td>
+            <td class="text-end"><strong>{{policy.premium_amount | number}}</strong></td>
+          </tr>
+        </table>
+      </div>
+      
+
+  
+      <!-- Footer Content -->
+      <div class="mt-2">
+        <div class="fw-bold">Exclusions :</div>
+        <p>* Les exclusions dans les conditions générales sont applicables.</p>
+      </div>
+  
+      <!-- <div class="fw-bold">BENEFICIAIRE :</div>
+      <p>En cas de sinistre, les indemnités seront versées à la CRDB BANK BURUNDI s.a.</p>
+   -->
+      <div class="text-center mt-3">
+        <p>Fait à Bujumbura, le <strong>{{policy.issue_date | date:'dd/MM/yyyy'}}</strong></p>
+      </div>
+  
+      <div class="row justify-content-between signatures text-center mt-2">
+        <div class="col-4 fw-bold">SOUSCRIPTEUR <br>{{policy.client?.user_full_name}}</div>
+        @if(policy.beneficiaire){
+          <div class="col-4 fw-bold">BENEFICIAIRE <br>{{policy.beneficiaire}}</div>
+
+        }
+        <div class="col-4 fw-bold">ASSUREUR <br>
+          @if(policy.operator.agency.is_affiliated){
+            {{policy.company?.name}} - {{policy.operator.agency?.name}} 
+
+          }@else{
+            {{policy.operator.agency?.name}} 
+
+          }
+         </div>      </div>
+    </div>
+  </div>

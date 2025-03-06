@@ -1,0 +1,215 @@
+<div class="contract-wrapper">
+    <!-- Header -->
+    <div class="text-center header-title mt-5 pt-5 ">
+      <h4 class="mb-0 mt-4"><b>CONTRAT D'ASSURANCE Transport No{{policy.policy_number}}  </b></h4>
+    </div>
+  
+    <!-- Main Content -->
+    <div class="">
+      <!-- Top Info -->
+        <div class="border border-dark rounded">
+            <div class="row border-btm">
+                <div class="col-3">DATE OPERATION :</div>
+                <div class="col-3 fw-bold">{{policy.issue_date | date:'MM/dd/yyyy'}}</div>
+                <div class="col-3">REDACTEUR :</div>
+                <div class="col-3 fw-bold">{{policy.operator?.full_name}}</div>
+           
+              </div>
+          
+              <div class="row border-btm">
+                <div class="col-3">COURTIER/AGENCE :</div>
+                <div class="col-3 fw-bold">{{policy.operator?.agency_name}}</div>
+        
+              </div>
+              <div class="row margin-x-1">
+                <div class="col-3">NUMERO CONTRAT :</div>
+                <div class="col-3 fw-bold">{{policy.policy_number}}</div>
+                <div class="col-3">TYPE AVENANT N° :</div>
+                <div class="col-3 fw-bold">{{policy.type}}</div>
+                <div class="col-3">NUM AVENANT :</div>
+                <div class="col-3 fw-bold">0000</div>
+              </div>
+          <div class="row border-btm">
+            <div class="col-3">DATE EFFET :</div>
+            <div class="col-3 fw-bold">{{policy.expiration_date}}</div>
+            <div class="col-6">Pour le voyage</div>
+            <div class="col-3 fw-bold">TAUX DE CHANGE</div>
+            <div class="col-3">{{policy.currency}} </div>
+            <div class="col-3 fw-bold">{{policy.daily_rate}} </div>
+          </div>
+        
+        
+              <!-- Subscriber Info -->
+              <div class="row border-btm">
+                <div class="col-3">SOUSCRIPTEUR :</div>
+                <div class="col-3 fw-bold">000{{policy.client?.id}}</div>
+                <div class="col-3">NOM ET PRENOM :</div>
+                <div class="col-3 fw-bold">{{policy.client?.user_full_name}}</div>
+                <div class="col-3">ADRESSE</div>
+                <div class="col-3 fw-bold"> {{policy.client?.user_quartier}}</div>
+                <div class="col-3">BP :</div>
+                <div class="col-3 fw-bold">{{policy.client?.user_province}}</div>
+                <div class="col-3">TELEPHONE :</div>
+                <div class="col-3 fw-bold">{{policy.client?.user_phone_number}}</div>
+                <div class="col-3">PROFESSION :</div>
+                <div class="col-3 fw-bold">{{policy.client?.user_profession}}</div>
+              </div>
+          
+        
+          
+        
+          
+              <!-- Risk Description -->
+              <div class="section-header fw-bold text-center d-flex border-btm justify-content-center">
+                <b>CARACTERISTIQUE DE LA MARCHANDISE & VOYAGE</b>
+              </div>
+        
+              
+          
+              <div class="row margin-x-1">
+                <div class="col-3">VALEUR ASSUREE EN BIF :</div>
+                <div class="col-3 fw-bold">{{policy.assured_capital_bif}}</div>
+                <div class="col-3">VALEUR ASSUREE EN DEVISE :</div>
+                <div class="col-3 fw-bold">{{policy.assured_capital_devise}}</div>
+              </div>
+              <div class="row margin-x-1">
+                <div class="col-3">NAT. MARCHANDISE :</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.nature_marchandise}}</div>
+                <div class="col-3">REFERENCE :</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.reference}}</div>
+              </div>
+              <div class="row margin-x-1">
+                <div class="col-3">DESCRIPTION :</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.description}}</div>
+                <div class="col-3">QUANTITE :</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.quantity}}</div>
+              </div>
+              <div class="row margin-x-1">
+                <div class="col-3">NAT. EMBALLAGE :</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.nature_emballage}}</div>
+                <div class="col-3">NBRE DE COLIS  :</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.colis_number}}</div>
+         
+              </div>
+              <div class="row margin-x-1">
+                <div class="col-3">TYPE DE TRANSPORT :</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.transport_type}}</div>
+        
+         
+              </div>
+              <div class="row margin-x-1">
+                <div class="col-3">DEPART :</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.depart}}</div>
+                <div class="col-3">ARRIVEE  :</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.arrivee}}</div>
+         
+              </div>
+          
+        
+          
+        
+              <table class="table table-bordered">
+                <tr>
+                    <th>CODE</th>
+                    <th>DESIGNATION DE LA GARANTIE</th>
+                    <th>CAPITAUX ASSURES</th>
+                    <th>PRIMES</th>
+        
+        
+        
+                </tr>
+                @for(guarantee of policy.guarantees; track guarantee.id){
+                    <tr>
+                        <td>{{guarantee.code}} </td>
+                        <td>{{guarantee.name}} </td>
+                        <td>{{guarantee.assured_capital}} </td>
+                        <td>{{guarantee.prime}} </td>
+        
+        
+        
+                    </tr>
+                }
+        
+              </table>
+        
+          
+        
+              
+              <!-- Premium Summary -->
+              <div class="d-flex justify-content-end">
+                <table class="table table-sm summary-table">
+                  <tr>
+                    <td>PRIME NETTE</td>
+                    <td>:</td>
+                    <td class="text-end">{{policy.prime_base | number}}</td>
+                  </tr>
+                  <tr>
+                    <td>FRAIS</td>
+                    <td>:</td>
+                    <td class="text-end">{{policy.frais | number}}</td>
+                  </tr>
+                  <tr>
+                    <td>PRIME DE BASE</td>
+                    <td>:</td>
+                    <td class="text-end">{{policy.prime_nette | number}}</td>
+                  </tr>
+                  <tr>
+                    <td>C.DIVERS</td>
+                    <td>:</td>
+                    <td class="text-end">{{policy.charges_diverses | number}}</td>
+                  </tr>
+                  <tr>
+                    <td>C. ARCA</td>
+                    <td>:</td>
+                    <td class="text-end">{{policy.charges_arca | number}}</td>
+                  </tr>
+                  <tr>
+                    <td>P.T AVANT TVA</td>
+                    <td>:</td>
+                    <td class="text-end">{{policy.prime_avant_tva | number}} </td>
+                  </tr>
+                  <tr>
+                    <td>TVA</td>
+                    <td>:</td>
+                    <td class="text-end">{{policy.tva | number}}</td>
+                  </tr>
+                  <tr class="border-btm border-dark">
+                    <td><strong>PRIME TVAC</strong></td>
+                    <td>:</td>
+                    <td class="text-end"><strong>{{policy.premium_amount | number}}</strong></td>
+                  </tr>
+                </table>
+              </div>
+        </div>
+      
+
+  
+      <!-- Footer Content -->
+      <div class="mt-2">
+        <div class="fw-bold">Exclusions :</div>
+        <p>* Les exclusions dans les conditions générales sont applicables.</p>
+      </div>
+  
+      <!-- <div class="fw-bold">BENEFICIAIRE :</div>
+      <p>En cas de sinistre, les indemnités seront versées à la CRDB BANK BURUNDI s.a.</p>
+   -->
+      <div class="text-center mt-3">
+        <p>Fait à Bujumbura, le <strong>{{policy.issue_date | date:'dd/MM/yyyy'}}</strong></p>
+      </div>
+  
+      <div class="row justify-content-between signatures text-center mt-2">
+        <div class="col-4 fw-bold">SOUSCRIPTEUR <br>{{policy.client?.user_full_name}}</div>
+        <div class="col-4 fw-bold">ASSUREUR <br>
+          @if(policy.operator.agency.is_affiliated){
+            {{policy.company?.name}} - {{policy.operator.agency?.name}} 
+
+          }@else{
+            {{policy.operator.agency?.name}} 
+
+          }
+         </div>
+
+
+      </div>
+    </div>
+  </div>

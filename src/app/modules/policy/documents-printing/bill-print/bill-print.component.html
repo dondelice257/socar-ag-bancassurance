@@ -1,0 +1,152 @@
+<div class="contract-wrapper">
+    <!-- Header -->
+    <div class="text-center header-title mt-5 pt-5 ">
+      <h4 class="mb-0 mt-4"><b>FACTURE No {{ policy.bill?.bill_code}}  </b></h4>
+    </div>
+    <hr>
+  
+    <!-- Main Content -->
+    <div class="">
+      <!-- Top Info -->
+        <div class="">
+<div class="d-grid">
+  <div>
+    <div class="d-grid">
+      <b>A. Identification du vendeur</b>
+      <div class="row ms-4">
+        <div class="col-3">Nom et prenom ou raison sociale :</div>
+        <div class="col-3 fw-bold">
+          @if(policy.operator.agency.is_affiliated){
+            {{policy.company?.name}} - {{policy.operator.agency?.name}} 
+
+          }@else{
+            {{policy.operator.agency?.name}} 
+
+          }
+        </div>
+        <div class="col-3">Centre fiscal :</div>
+        <div class="col-3 fw-bold">DPMC</div>
+        <div class="col-3">NIF :</div>
+        <div class="col-3 fw-bold">{{policy.company?.registration_number}}</div>
+        <div class="col-3">Secteur d activite :</div>
+        <div class="col-3 fw-bold">Assurance</div>
+        <div class="col-3">Registre de commerce :</div>
+        <div class="col-3 fw-bold"></div>
+        <div class="col-3">Forme juridique :</div>
+        <div class="col-3 fw-bold">SA</div>
+        <div class="col-3">B.P :</div>
+        <div class="col-3 fw-bold"></div>
+        <div class="col-3">Telephone :</div>
+        <div class="col-3 fw-bold">+257 22 28 11 55</div>
+        <div class="col-3">Commune :</div>
+        <div class="col-3 fw-bold">MUKAZA</div>
+        <div class="col-3">Quartier :</div>
+        <div class="col-3 fw-bold">ROHERO I</div>
+        <div class="col-3">Av :</div>
+        <div class="col-3 fw-bold">Avenue de la JRR</div>
+        <div class="col-3">Rue :</div>
+        <div class="col-3 fw-bold">No 9</div>
+        <div class="col-3">Assujeti a la tva :</div>
+        <div class="col-3 fw-bold">No 9</div>
+      </div>
+    </div>
+  </div>
+    <div>
+    <div class="d-grid">
+      <b>B. Le client</b>
+      <div class="row ms-4">
+        <div class="col-3">Nom et prenom ou raison sociale :</div>
+        <div class="col-3 fw-bold">000{{policy.client?.id}} - {{policy.client?.user_full_name}}</div>
+        <div class="col-3">Nom et prenom ou raison sociale :</div>
+        <div class="col-3 fw-bold">{{policy.client?.user_full_name}} </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+              
+
+        <div class="d-flex justify-content-center">
+            <div class="w-75 d-grid">
+                        
+              <table class="table rounded table-bordered border border-dark">
+                <tr>
+                    <th>Nature de l article ou service</th>
+                    <th>Quantité<th>
+                    <th>PU<th>
+                    <th>PV-HTVA<th>
+                    <th>TVA<th>
+                    <th>PV-HTVA<th>
+
+
+
+    
+        
+                </tr>
+                    <tr>
+                        <td>{{policy}} </td>
+                        <td class="text-end">{{policy.prime}} </td>
+        
+        
+        
+                    </tr>
+        
+              </table>
+        
+          
+        
+              
+
+            </div>
+        </div>
+        
+
+        
+          
+        
+          
+              
+        
+
+          
+        
+          
+
+        </div>
+      
+
+  
+      <!-- Footer Content -->
+      <div class="mt-2">
+        <div class="fw-bold">Garanties complementaires</div>
+        <b>Capital deces : 1 000 000, Capital incapacite : 1 000 000</b>
+      </div>
+
+      <div class="mt-2 d-grid">
+        <h2 class="d-flex w-100 justify-content-center">
+            <b>CLAUSES FACULTATIVES</b>
+        </h2>
+        <p>Le present contrat est conclue pour une duree du {{policy.issue_date | date:'dd/MM/yyyy'}} jusqu au {{policy.expiration_date| date:'dd/MM/yyyy'}}. Une semaine avant la date d echeance, vous etes prie de passer au guichet pour recuperer la lettre d avis d echeance </p>
+      </div>
+  
+      <!-- <div class="fw-bold">BENEFICIAIRE :</div>
+      <p>En cas de sinistre, les indemnités seront versées à la CRDB BANK BURUNDI s.a.</p>
+   -->
+
+  
+      <div class="row justify-content-end signatures text-center mt-2">
+        <div class="col-4 fw-bold">Pour 
+          @if(policy.operator.agency.is_affiliated){
+            {{policy.company?.name}} - {{policy.operator.agency?.name}} 
+
+          }@else{
+            {{policy.operator.agency?.name}} 
+
+          }
+         </div>
+
+      </div>
+    </div>
+  </div>

@@ -251,20 +251,14 @@
 
   .border-btm {
     border-bottom: 1px solid black;
-  }
+    margin-left: 1px;
+    margin-right: 1px;
 
-  .btn-action{
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 8px;
-    background-color: #dae5f0b0;
   }
+    .margin-x-1 {
+    margin-left: 1px;
+    margin-right: 1px;
 
-  .btn-action-danger{
-    padding: 10px;
-    margin-bottom: 8px;
-    border-radius: 10px;
-    background-color: #f0dfdab0;
   }
   
   

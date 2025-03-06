@@ -1,0 +1,63 @@
+<main>
+    <div class="my-3">
+        <div class="w-100 d-flex justify-content-center">
+            <h3>
+                <b>Renouvelement de la police</b>
+            </h3>
+        </div>
+    </div>
+    <div>
+        <!-- Dynamic header based on current step -->
+
+            <h4 class="mb-1"><b>Rechercher la police par numero</b></h4>
+
+        
+        <!-- Client lookup component -->
+        <div class="w-50 mb-2">
+          <app-lookup
+            url='policy/policy/search'
+            [option]="'lookup'"
+            itemsLabel="Polices"
+            (selectedItemEvent)="onPolicySelected($event)">
+          </app-lookup>
+        </div>
+        
+
+
+      </div>
+    <div class="row" [formGroup]="renewForm" >
+        <!-- Start date -->
+        <div class="form-floating mb-3 col-lg-6">
+          <input type="date" class="form-control" formControlName="issue_date" placeholder="Date de début">
+          <label>Date de début</label>
+        </div>
+        
+        <!-- Period selection -->
+        <div class="col-lg-6 mb-3">
+          <div class="form-floating">
+            <select class="form-select" formControlName="period_id">
+              <option [value]="3">Mois</option>
+              <option [value]="1">Trimestre</option>
+              <option [value]="4">Semestre</option>
+              <option [value]="2">Année</option>
+              <option [value]="'Custom'">Custom</option>
+            </select>
+            <label>Période</label>
+          </div>
+        </div>
+                      <!-- Insured capital amount with BIF conversion display -->
+      <div class="col-lg-6 mb-3 d-grid">
+        <div class="form-floating">
+          <input  type="text" class="form-control" formControlName="assured_capital_bif" placeholder="Capital Assuré">
+          <label>Capital assuré</label>
+        </div>
+  
+      </div>
+  </div>
+  <div class="d-flex justify-content-center">
+    <button type="submit" [disabled]="isLoading || renewForm.invalid" class="btn text-white bg-main" (click)="renewPolicy()">
+      {{ isLoading ? 'Renouvelement en cours...' : 'Renouveler' }}
+    </button>
+  </div>
+      
+</main>

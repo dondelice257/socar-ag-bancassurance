@@ -14,6 +14,8 @@ import { PoliciesListComponent } from './modules/policy/policies-list/policies-l
 import { PolicyDetailsComponent } from './modules/policy/policy-details/policy-details.component';
 import { CreateClientComponent } from './modules/client/create-client/create-client.component';
 import { PolicyFormComponent } from './modules/policy/policy-form/policy-form.component';
+import { PoliciesOffersComponent } from './modules/policy/policies-offers/policies-offers.component';
+import { PolicyRenewComponent } from './modules/policy/policy-renew/policy-renew.component';
 
 export const routes: Routes = [
     {
@@ -65,8 +67,16 @@ export const routes: Routes = [
                 component: PolicyFormComponent
             },
             {
+                path: 'production/renew',
+                component: PolicyRenewComponent
+            },
+            {
                 path: 'policy/list',
                 component: PoliciesListComponent
+            },
+            {
+                path: 'policy/offer',
+                component: PoliciesOffersComponent
             },
             {
                 path: 'policy/details/:policyId',

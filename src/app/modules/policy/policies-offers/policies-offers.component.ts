@@ -10,10 +10,10 @@ import { CommonModule } from '@angular/common';
     ListComponent,
     CommonModule
   ],
-  templateUrl: './policies-list.component.html',
-  styleUrl: './policies-list.component.scss'
+  templateUrl: './policies-offers.component.html',
+  styleUrl: './policies-offers.component.scss'
 })
-export class PoliciesListComponent {
+export class PoliciesOffersComponent {
   tableColumns = [
     { 
       columnDef: 'policy_number', 
@@ -31,13 +31,12 @@ export class PoliciesListComponent {
 
 
 
-    { columnDef: 'formatted_avenant', header: 'Type' },
-    { columnDef: 'bill.status', header: 'Status' },
+    { columnDef: 'type_avenant', header: 'Type' },
+    { columnDef: 'status', header: 'Status' },
     { columnDef: 'premium_amount', header: 'Prime totale' },
 
 
     { columnDef: 'tva', header: 'TVA' },
-    { columnDef: 'bill.bill_code', header: 'Facture' },
 
     { columnDef: 'issue_date', header: 'Date effet' },
     { columnDef: 'expiration_date', header: 'Date echeance' },

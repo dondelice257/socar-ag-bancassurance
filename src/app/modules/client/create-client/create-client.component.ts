@@ -22,7 +22,7 @@ export class CreateClientComponent {
 
   clientForm: FormGroup = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-    email: ['', [Validators.required, Validators.email]],
+    email: [''],
     first_name: ['', [Validators.required, Validators.minLength(2)]],
     last_name: ['', [Validators.required, Validators.minLength(2)]],
     phone_number: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],

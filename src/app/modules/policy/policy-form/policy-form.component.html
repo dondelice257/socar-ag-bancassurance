@@ -149,8 +149,12 @@
             </div>
             
             <!-- VAT checkbox -->
-            <div class="col-lg-6 mb-3">
+
+            <div class="col-lg-3 mb-3">
               <mat-checkbox class="example-margin" formControlName="assujeti_tva">Assujetti à la TVA</mat-checkbox>
+            </div>
+            <div class="col-lg-3 mb-3">
+              <mat-checkbox class="example-margin" formControlName="is_demo">Offre</mat-checkbox>
             </div>
           </div>
         </div>
@@ -231,7 +235,7 @@
                     type="text"
                     class="form-control"
                     formControlName="name"
-                    placeholder="Nom du bien"
+                    placeholder="Bien à assurer"
                   />
                 </div>
                 
@@ -249,7 +253,7 @@
                 
                 <!-- Add button -->
                 <div class="col-md-2 d-flex align-items-end">
-                  <button type="button" class="btn text-white bg-primary-2 w-100" (click)="addGoods()">
+                  <button type="button" class="p-2 rounded text-white bg-primary-2 w-100" (click)="addGoods()">
                     Ajouter
                   </button>
                 </div>
@@ -273,7 +277,7 @@
                   <td>{{ goods.name }}</td>
                   <td>{{ goods.assured_capital | number }}</td>
                   <td>
-                    <button class="btn text-white btn-danger btn-sm" (click)="removeGoods(i)">
+                    <button class="p-2 rounded text-white btn-danger btn-sm" (click)="removeGoods(i)">
                       Supprimer
                     </button>
                   </td>
@@ -285,7 +289,7 @@
         
         <!-- Navigation buttons -->
         <button type="button" class="btn text-white btn-secondary me-2" (click)="onBack()">Retour</button>
-        <button type="button" class="btn text-white bg-main" [disabled]="!selectedGoods" (click)="onNext()">Suivant</button>
+        <button type="button" class="p-2 rounded text-white bg-main" [disabled]="!selectedGoods" (click)="onNext()">Suivant</button>
       </div>
       
       <!-- Step 4: Add Guarantees -->
@@ -315,7 +319,7 @@
                     type="text"
                     class="form-control"
                     formControlName="name"
-                    placeholder="Nom du bien"
+                    placeholder="Garantie"
                   />
                 </div>
                 
@@ -326,6 +330,9 @@
                     id="capital"
                     type="number"
                     class="form-control"
+                    [readOnly]="selectedCategory !=='fire' && selectedCategory"
+                    [disabled]="selectedCategory !=='fire' && selectedCategory"
+
                     formControlName="assured_capital"
                     placeholder="Capital assuré"
                   />
@@ -361,7 +368,7 @@
                 
                 <!-- Add button -->
                 <div class="col-lg-2 d-flex align-items-end">
-                  <button type="button" class="btn text-white bg-primary-2 w-100" (click)="addGuarantee()">
+                  <button type="button" class="p-2 rounded text-white bg-primary-2 w-100" (click)="addGuarantee()">
                     Ajouter
                   </button>
                 </div>
@@ -391,7 +398,7 @@
                   <td>{{ guarantee.value | number }}</td>
                   <td>{{ guarantee.rate }}%</td>
                   <td>
-                    <button class="btn text-white btn-danger btn-sm" (click)="removeGuarantee(i)">
+                    <button class="p-2 rounded text-white btn-danger btn-sm" (click)="removeGuarantee(i)">
                       Supprimer
                     </button>
                   </td>
@@ -403,7 +410,7 @@
         
         <!-- Navigation and submission buttons -->
         <button type="button" class="btn text-white btn-secondary me-2" (click)="onBack()">Retour</button>
-        <button type="submit" (click)="onSubmit()" class="btn text-white bg-main" [disabled]="selectedGuarantees.length === 0">
+        <button type="submit" (click)="onSubmit()" class="p-2 rounded text-white bg-main" [disabled]="selectedGuarantees.length === 0">
           @if(!isSubmitting){
             Soumettre
           } 
