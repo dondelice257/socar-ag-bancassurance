@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-client',
@@ -17,6 +18,7 @@ import { Router } from '@angular/router';
 export class CreateClientComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private toastr = inject(ToastrService)
 
   private authService = inject(AuthService);
 
@@ -34,7 +36,7 @@ export class CreateClientComponent {
   });
 
   isLoading = false;
-  errorMessage: string | null = null;
+  errorMessage:any;
 
   onSubmit() {
     if (this.clientForm.invalid) {
@@ -49,16 +51,31 @@ export class CreateClientComponent {
     this.authService.signUp(client).subscribe({
       next: (response:any) => {
         console.log('Client created successfully:', response);
+        this.toastr.success('Client cree avec succes! Redirection vers la liste des clients ');
+
         this.isLoading = false;
         this.router.navigateByUrl('/customer')
         this.clientForm.reset();
       },
-      error: (error:any) => {
+      error: (error: any) => {
         console.error('Signup error:', error);
         this.isLoading = false;
-
-        this.errorMessage = error?.error?.message || 'An error occurred. Please try again.';
+      
+        if (error?.response_message) {
+          if (typeof error.response_message === 'object') {
+            // Extract all error messages dynamically
+            const messages = Object.values(error.response_message).flat();
+      
+            // Show each error message in a separate toast
+            messages.forEach((msg:any) => this.toastr.error(msg));
+          } else {
+            this.toastr.error(error.response_message);
+          }
+        } else {
+          this.toastr.error('An error occurred. Please try again.');
+        }
       },
+      
       complete: () => {
         this.isLoading = false;
       }
