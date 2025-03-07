@@ -43,7 +43,7 @@ export class PolicyRenewComponent {
   renewPolicy(): void {
     this.isLoading = true;
   
-    this.policyService.doPolicyAction(this.policyId, 'renew', this.renewForm.value)
+    this.policyService.doPolicyActionForOnlyRenew(this.policyId, 'renew', this.renewForm.value)
       .subscribe({
         next: (data: any) => {
           this.isLoading = false;
@@ -61,7 +61,7 @@ export class PolicyRenewComponent {
   
 
   onPolicySelected(policy: any) {
-    this.policyId = policy.lookup_title;
+    this.policyId = policy.lookup_field3;
     this.renewForm.patchValue({previous_policy_id: this.policyId});
   }
 

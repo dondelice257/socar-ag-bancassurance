@@ -1,29 +1,68 @@
 <section class="searchMenu w-100 rounded bg-secondary position-relative">
   <div class="d-flex level-2 rounded p-2 w-100" *ngIf="selectedItem">
       <div style="line-height: 18px">
-          <div class="d-flex bg-secondary p-1 rounded">
+          <div class="d-flex bg-secondary p-2 rounded">
               
-              <div class="text-dark d-grid">
-                <div class="d-flex align-items-center">
+<div class="text-dark d-grid">
+
+                @if(selectedItem.lookup_field1 ||  selectedItem.lookup_field2){
+                                  <div class="d-flex align-items-center mb-2">
                     
                   <b  class="me-2">
-                    {{ selectedItem.lookup_subtitle }}
-                  </b>
-                  <b class=""
+                    {{ selectedItem.lookup_field1 }}
+                  </b> -
+                  <b class="ms-2"
                       >
-                      {{ selectedItem.lookup_title }}
+                      {{ selectedItem.lookup_field2 }}
 
                   </b>
                 </div>
-                  
-                  
-                  
-                  <span class="me-2">
-                    {{ selectedItem.lookup_description }}
+                }
+                @if(selectedItem.lookup_field3 || selectedItem.lookup_field4){
+                                  <div class="d-flex align-items-center mb-2">
+                    
+                  <span  class="me-2">
+                    {{ selectedItem.lookup_field3 }}
+                  </span> -
+                  <span class="ms-2"
+                      >
+                      {{ selectedItem.lookup_field4 }}
+
                   </span>
-                  <b class="me-2">
-                    {{ selectedItem.lookup_id }}
-                  </b>
+                </div>
+                }
+
+                                @if(selectedItem.lookup_field5 || selectedItem.lookup_field6){
+                                  <div class="d-flex align-items-center mb-2">
+                    
+                  <span  class="me-2">
+                    {{ selectedItem.lookup_field5 }}
+                  </span> -
+                  <span class="ms-2"
+                      >
+                      {{ selectedItem.lookup_field6 }}
+
+                  </span>
+                </div>
+                }
+                                @if(selectedItem.lookup_field7 || selectedItem.lookup_field8){
+                                  <div class="d-flex align-items-center mb-2">
+                    
+                  <span  class="me-2">
+                    {{ selectedItem.lookup_field7 | date: 'dd/MM/yyyy'}}
+                  </span> -
+                  <span class="ms-2"
+                      >
+                      {{ selectedItem.lookup_field8 | date: 'dd/MM/yyyy'}}
+
+                  </span>
+                </div>
+                }
+
+                  
+                  
+                  
+
               </div>
           </div>
       </div>
@@ -122,26 +161,67 @@
                       <div (click)="selectItem(item)">
                           <div class="d-flex text-dark bg-secondary p-2 rounded">
                               
-                            <div class="text-dark d-grid">
-                                <div class="d-flex align-items-center">
-                                    
-                                  
-                                  <b class="me-2">
-                                    {{ item.lookup_title }}
-                                  </b>
-                                  <b>
-                                    {{ item.lookup_subtitle }}
-                                  </b>
-                                </div>
-                                  
-                                  
-                                  
-                                  
-                                  <span class="subtitle"
-                                      >{{ item.lookup_description }}
-                                  </span>
-                                  
-                              </div>
+              <div class="text-dark d-grid">
+
+                @if(selectedItem.lookup_field1 ||  selectedItem.lookup_field2){
+                                  <div class="d-flex align-items-center mb-2">
+                    
+                  <b  class="me-2">
+                    {{ selectedItem.lookup_field1 }}
+                  </b> -
+                  <b class="ms-2"
+                      >
+                      {{ selectedItem.lookup_field2 }}
+
+                  </b>
+                </div>
+                }
+                @if(selectedItem.lookup_field3 || selectedItem.lookup_field4){
+                                  <div class="d-flex align-items-center mb-2">
+                    
+                  <span  class="me-2">
+                    {{ selectedItem.lookup_field3 }}
+                  </span> -
+                  <span class="ms-2"
+                      >
+                      {{ selectedItem.lookup_field4 }}
+
+                  </span>
+                </div>
+                }
+
+                                @if(selectedItem.lookup_field5 || selectedItem.lookup_field6){
+                                  <div class="d-flex align-items-center mb-2">
+                    
+                  <span  class="me-2">
+                    {{ selectedItem.lookup_field5 }}
+                  </span> -
+                  <span class="ms-2"
+                      >
+                      {{ selectedItem.lookup_field6 }}
+
+                  </span>
+                </div>
+                }
+                                @if(selectedItem.lookup_field7 || selectedItem.lookup_field8){
+                                  <div class="d-flex align-items-center mb-2">
+                    
+                  <span  class="me-2">
+                    {{ selectedItem.lookup_field7 }}
+                  </span> -
+                  <span class="ms-2"
+                      >
+                      {{ selectedItem.lookup_field8 }}
+
+                  </span>
+                </div>
+                }
+
+                  
+                  
+                  
+
+              </div>
                           </div>
                       </div>
                   </div>

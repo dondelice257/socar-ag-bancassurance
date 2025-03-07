@@ -156,4 +156,21 @@ export class PolicyService {
   );
     
   }
+
+  doPolicyActionForOnlyRenew(policyId:string, action:string,body?:any){
+    const url=`${environment.apiUrl}policy/policy/search/${policyId}/${action}/`
+  
+    const header={
+      'content-type': 'application/json',
+      'Authorization' : `Token ${this.token}`
+  
+    }
+  
+    return this.httpClient.post(url, body, {headers:header}).pipe(
+      map((data) => {
+          return data;
+      })
+  );
+    
+  }
 }

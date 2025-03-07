@@ -150,7 +150,7 @@ export class PolicyFormComponent {
    * @param clientId Selected client data
    */
   onClientSelected(clientId: any) {
-    this.selectedClientId = clientId.lookup_description;
+    this.selectedClientId = clientId.lookup_field3;
     this.policyForm.patchValue({client: this.selectedClientId});
   }
   
@@ -187,6 +187,10 @@ export class PolicyFormComponent {
    */
 createPolicy() {
   this.isSubmitting = true;
+
+  if(this.policyForm.get('period')?.value==='Custom'){
+    this.policyForm.patchValue({period:''})
+  }
 
   const data = { 
     operator: this.connectedOperator.id,

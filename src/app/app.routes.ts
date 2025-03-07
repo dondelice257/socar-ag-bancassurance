@@ -16,6 +16,7 @@ import { CreateClientComponent } from './modules/client/create-client/create-cli
 import { PolicyFormComponent } from './modules/policy/policy-form/policy-form.component';
 import { PoliciesOffersComponent } from './modules/policy/policies-offers/policies-offers.component';
 import { PolicyRenewComponent } from './modules/policy/policy-renew/policy-renew.component';
+import { ChangePasswordComponent } from './modules/authentication/change-password/change-password.component';
 
 export const routes: Routes = [
     {
@@ -45,6 +46,10 @@ export const routes: Routes = [
             {
                 path: 'user',
                 component: UsersListComponent
+            },
+            {
+                path: 'settings/change-password',
+                component: ChangePasswordComponent
             },
             {
                 path: 'customer',

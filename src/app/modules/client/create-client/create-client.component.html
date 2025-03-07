@@ -7,23 +7,17 @@
         </div>
     </div>
     <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" class="container">
-        <div class="row">
-          <div class="col-md-6 mb-3 form-floating">
+        <!-- <div class="row">
+           <div class="col-md-6 mb-3 form-floating">
             <input id="username" formControlName="username" type="text" class="form-control" />
             <label for="username">Nom du souscripteur</label>
             <small *ngIf="clientForm.get('username')?.invalid && clientForm.get('username')?.touched" class="text-danger">
               Le nom du souscripteur doit comporter entre 3 et 20 caractères.
             </small>
-          </div>
+          </div> 
       
-          <div class="col-md-6 mb-3 form-floating">
-            <input id="email" formControlName="email" type="email" class="form-control" />
-            <label for="email">Email</label>
-            <small *ngIf="clientForm.get('email')?.invalid && clientForm.get('email')?.touched" class="text-danger">
-              Veuillez entrer un email valide.
-            </small>
-          </div>
-        </div>
+
+        </div> -->
       
         <div class="row">
           <div class="col-md-6 mb-3 form-floating">
@@ -44,6 +38,7 @@
         </div>
       
         <div class="row">
+
           <div class="col-md-6 mb-3 form-floating">
             <input id="phone_number" formControlName="phone_number" type="text" class="form-control" />
             <label for="phone_number">Numéro de téléphone</label>
@@ -51,7 +46,17 @@
               Le numéro de téléphone doit comporter 8 chiffres.
             </small>
           </div>
+          <div class="col-md-6 mb-3 form-floating">
+            <input id="email" formControlName="email" type="email" class="form-control" />
+            <label for="email">Email</label>
+            <small *ngIf="clientForm.get('email')?.invalid && clientForm.get('email')?.touched" class="text-danger">
+              Veuillez entrer un email valide.
+            </small>
+          </div>
       
+
+        </div>
+        <div class="row">
           <div class="col-md-6 mb-3 form-floating">
             <input id="country" formControlName="country" type="text" class="form-control" />
             <label for="country">Pays</label>
@@ -59,9 +64,21 @@
               Le pays est requis.
             </small>
           </div>
-        </div>
+          <div class="col-md-6 mb-3 form-floating">
+            <input id="city" formControlName="city" type="text" class="form-control" />
+            <label for="city">Ville</label>
+            <small *ngIf="clientForm.get('city')?.invalid && clientForm.get('city')?.touched" class="text-danger">
+              La ville est requise.
+            </small>
+          </div>
       
-        <div class="row">
+          <div class="col-md-6 mb-3 form-floating">
+            <input id="commune" formControlName="commune" type="text" class="form-control" />
+            <label for="commune">Commune</label>
+            <small *ngIf="clientForm.get('commune')?.invalid && clientForm.get('commune')?.touched" class="text-danger">
+              La commune est requise.
+            </small>
+          </div>
           <div class="col-md-6 mb-3 form-floating">
             <input id="zone" formControlName="zone" type="text" class="form-control" />
             <label for="zone">Zone</label>
@@ -79,23 +96,9 @@
           </div>
         </div>
       
-        <div class="row">
-          <div class="col-md-6 mb-3 form-floating">
-            <input id="city" formControlName="city" type="text" class="form-control" />
-            <label for="city">Ville</label>
-            <small *ngIf="clientForm.get('city')?.invalid && clientForm.get('city')?.touched" class="text-danger">
-              La ville est requise.
-            </small>
-          </div>
+
       
-          <div class="col-md-6 mb-3 form-floating">
-            <input id="commune" formControlName="commune" type="text" class="form-control" />
-            <label for="commune">Commune</label>
-            <small *ngIf="clientForm.get('commune')?.invalid && clientForm.get('commune')?.touched" class="text-danger">
-              La commune est requise.
-            </small>
-          </div>
-        </div>
+
       
         <!-- Message d'erreur -->
         <div *ngIf="errorMessage" class="alert alert-danger">

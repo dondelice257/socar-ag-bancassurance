@@ -99,4 +99,22 @@ getConnectedOperator(connectedUser:string){
 }
 
 
+changePassword(body?:any){
+  const url=`${environment.apiUrl}user/change-password/`
+
+  const header={
+    'content-type': 'application/json',
+    'Authorization' : `Token ${this.token}`
+
+  }
+
+  return this.httpClient.patch(url, body, {headers:header}).pipe(
+    map((data) => {
+        return data;
+    })
+);
+  
+}
+
+
 }

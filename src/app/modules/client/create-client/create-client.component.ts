@@ -23,7 +23,7 @@ export class CreateClientComponent {
   private authService = inject(AuthService);
 
   clientForm: FormGroup = this.fb.group({
-    username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+    username: ['', [Validators.required, Validators.minLength(3)]],
     email: [''],
     first_name: ['', [Validators.required, Validators.minLength(2)]],
     last_name: ['', [Validators.required, Validators.minLength(2)]],
@@ -37,6 +37,20 @@ export class CreateClientComponent {
 
   isLoading = false;
   errorMessage:any;
+
+
+  ngOnInit(){
+    this.clientForm.valueChanges.subscribe(() => {
+
+      const first_name = this.clientForm.get('first_name')?.value
+
+      const username = first_name.replace(/\s+/g, '').toLowerCase();
+
+      this.clientForm.patchValue({
+        username: username
+      })
+    });
+  }
 
   onSubmit() {
     if (this.clientForm.invalid) {
