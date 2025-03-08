@@ -1,10 +1,10 @@
 @if(data){
-  <div class="mat-elevation-z8">
+  <div class="mat-elevation-z8 overflow-x-auto">
     <div class="d-flex align-items-center justify-content-between w-100 p-3">
       <mat-card-title class="fs-3">{{ title }}</mat-card-title>
-      <button type="button" class="btn text-white btn-outline-primary d-flex align-items-center" (click)="exportToExcel()">
-        <i class="fa fa-file"></i>
-        <b>Exporter</b>
+      <button type="button" class="bg-main p-2 rounded text-white d-flex align-items-center" (click)="exportToExcel()">
+        <i class="fa fa-file-excel me-2"></i>
+        <b>Generer le rapport</b>
       </button>
     </div>
   

@@ -19,10 +19,14 @@
 
   <div class="row">
     <!-- Nature de la marchandise -->
+
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="text" class="form-control" formControlName="nature_marchandise" placeholder="Nature de la marchandise">
-        <label>Nature de la marchandise</label>
+        <select class="form-control" formControlName="nature_marchandise">
+          <option value="" disabled selected>Choisir la nature des marchandises</option>
+          <option *ngFor="let nature of natures" [value]="nature">{{ nature }}</option>
+        </select>
+        <label>Nature des marchandises</label>
       </div>
     </div>
 
@@ -34,13 +38,41 @@
       </div>
     </div>
   </div>
-
   <div class="row">
     <!-- Nature de l'emballage -->
+
+
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="text" class="form-control" formControlName="nature_emballage" placeholder="Nature de l'emballage">
-        <label>Nature de l'emballage</label>
+        <select class="form-control" formControlName="packaging">
+          <option *ngFor="let packaging of packaging" [value]="packaging">{{ packaging }}</option>
+        </select>
+        <label>Packaging status</label>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <select class="form-control" formControlName="transport_mode">
+          <option *ngFor="let mode of transportModes" [value]="mode">{{ mode }}</option>
+        </select>
+        <label>Mode de transport</label>
+      </div>
+    </div>
+    <!-- Quantité -->
+
+  </div>
+  <div class="row">
+    <!-- Nature de l'emballage -->
+
+
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <select class="form-control" formControlName="nature_emballage">
+          <option value="" disabled selected>Choisir la nature emballage</option>
+          <option *ngFor="let emballage of emballages" [value]="emballage">{{ emballage }}</option>
+        </select>
+        <label>Nature d emballage</label>
       </div>
     </div>
 

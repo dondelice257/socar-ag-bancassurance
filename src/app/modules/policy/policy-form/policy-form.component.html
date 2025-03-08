@@ -80,13 +80,14 @@
               <div class="col-lg-2 mb-3">
                 <div class="form-floating">
                   <select class="form-select" formControlName="currency">
-                    <option [value]="'BIF'" selected>BIF</option>
-                    <option [value]="'USD'">USD DOLLAR</option>
-                    <option [value]="'EURO'">EURO</option>
+                    <option *ngFor="let currency of currencies" [value]="currency.code">
+                      {{ currency.name }}
+                    </option>
                   </select>
                   <label>Devise</label>
                 </div>
               </div>
+              
               
               <!-- Daily exchange rate -->
               <div class="col-lg-4 mb-3">
@@ -314,13 +315,24 @@
                 <!-- Guarantee name field -->
                 <div class="col-lg-4">
                   <label for="name" class="form-label">Garantie</label>
-                  <input
-                    id="name"
-                    type="text"
-                    class="form-control"
-                    formControlName="name"
-                    placeholder="Garantie"
-                  />
+  <!-- Display select based on selectedCategory -->
+  <div *ngIf="selectedCategory === 'auto'">
+    <select id="garantie" class="form-select" formControlName="garantie">
+      <option *ngFor="let option of autoOptions" [value]="option">{{ option }}</option>
+    </select>
+  </div>
+
+  <div *ngIf="selectedCategory === 'fire'">
+    <select id="garantie" class="form-select" formControlName="garantie">
+      <option *ngFor="let option of fireOptions" [value]="option">{{ option }}</option>
+    </select>
+  </div>
+
+  <div *ngIf="selectedCategory === 'transport'">
+    <select id="garantie" class="form-select" formControlName="garantie">
+      <option *ngFor="let option of transportOptions" [value]="option">{{ option }}</option>
+    </select>
+  </div>
                 </div>
                 
                 <!-- Insured capital amount -->

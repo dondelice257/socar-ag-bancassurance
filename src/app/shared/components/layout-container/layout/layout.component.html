@@ -1,17 +1,20 @@
-<div class="d-grid">
-    <div>
+<div class="d-grid" style="height: 100vh; overflow: hidden;">
+    <!-- Fixed Header -->
+    <div class="position-fixed top-0 w-100 bg-white shadow-sm" style="z-index: 1000; height: 70px;">
         <app-header></app-header>
     </div>
-    <div class="d-flex ">
-            <div class="me-3 ">
-               <app-aside-menu></app-aside-menu> 
-            </div>
-            <div class="w-100">
-                <div class="container-fluid mt-3 me-2">
-                    <router-outlet></router-outlet>
-                </div>
-            </div>
 
+    <div class="d-flex" style="height: 100vh; padding-top: 70px; overflow: hidden;">
+        <!-- Fixed Sidebar -->
+        <div class="position-fixed h-100 bg-white shadow-sm" style="width: 200px; top: 70px; left: 0; z-index: 900;">
+            <app-aside-menu></app-aside-menu>
+        </div>
+
+        <!-- Scrollable Main Content -->
+        <div class="flex-grow-1 overflow-auto layout-content" style="margin-left: 210px; padding: 20px;">
+            <div class="content-wrapper">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
     </div>
-
 </div>

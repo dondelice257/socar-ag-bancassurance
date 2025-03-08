@@ -86,6 +86,7 @@
           placeholder="{{ lookupLabel }}"
           aria-describedby="validationTooltipUsernamePrepend"
           required
+          (keydown.enter)="DoLookup()"
           style="border: none"
           [formControl]="lookup"
       />
@@ -94,10 +95,11 @@
           class="input-group-prepend"
           role="button"
           (click)="DoLookup()"
+
           *ngIf="!isLoading"
       >
           <span
-              class="input-group-text h-100 bg-dark text-white"
+              class="input-group-text h-100 bg-main text-white"
               id="validationTooltipUsernamePrepend"
               ><i class="fa-solid fa-search"></i>
           </span>

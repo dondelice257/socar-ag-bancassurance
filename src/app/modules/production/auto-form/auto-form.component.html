@@ -29,7 +29,10 @@
     <!-- Usage -->
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="text" class="form-control" formControlName="usage" placeholder="Usage">
+        <select class="form-control" formControlName="usage">
+          <option value="" disabled selected>Choisir l usage</option>
+          <option *ngFor="let usage of usages" [value]="usage">{{ usage }}</option>
+        </select>
         <label>Usage</label>
       </div>
     </div>
@@ -39,10 +42,15 @@
     <!-- Marque -->
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="text" class="form-control" formControlName="marque" placeholder="Marque">
+        <select class="form-control" formControlName="marque">
+          <option value="" disabled selected>Choisir une marque</option>
+          <option *ngFor="let marque of marques" [value]="marque">{{ marque }}</option>
+        </select>
         <label>Marque</label>
       </div>
     </div>
+    
+    
 
     <!-- Model -->
     <div class="col-md-6 mb-3">
@@ -75,8 +83,11 @@
     <!-- Classe -->
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="text" class="form-control" formControlName="classe" placeholder="Classe">
-        <label>Classe</label>
+        <select class="form-control" formControlName="class">
+          <option value="" disabled selected>Choisir la categorie</option>
+          <option *ngFor="let class of classes" [value]="class">{{ class }}</option>
+        </select>
+        <label>Categorie vehicule</label>
       </div>
     </div>
 

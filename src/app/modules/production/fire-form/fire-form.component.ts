@@ -1,10 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-fire-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule
+
+  ],
   templateUrl: './fire-form.component.html',
   styleUrl: './fire-form.component.scss'
 })
@@ -12,6 +17,15 @@ export class FireFormComponent {
   // Form group that holds all form controls
   insuranceForm: FormGroup;
 
+  natures =[
+    'BATIMENT',
+    'STOCKS DE MARCHANDISE',
+    'AUTRES',
+    'EQUIPEMENT',
+    'MOBILIER',
+    'EFFET PERSONNEL',
+
+  ]
   // Outputs events to notify the parent component when the form data changes
   @Output() body = new EventEmitter<{}>();         // Emits form data
   @Output() isFormValid = new EventEmitter<boolean>(); // Emits form validation status

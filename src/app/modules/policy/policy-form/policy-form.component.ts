@@ -67,6 +67,38 @@ export class PolicyFormComponent {
   
   // Currently selected insurance category
   selectedCategory: any;
+
+
+  currencies = [
+    { code: 'BIF', name: '(BIF) Burundian Franc ' },
+    { code: 'USD', name: '(USD) US Dollar ' },
+    { code: 'EUR', name: '(EUR) Euro ' },
+    { code: 'KES', name: '(KES) Kenyan Shilling ' },
+    { code: 'UGX', name: '(UGX) Ugandan Shilling ' },
+    { code: 'RWF', name: '(RWF) Rwandan Franc ' },
+    { code: 'GBP', name: '(GBP) British Pound ' },
+    { code: 'JPY', name: '(JPY) Japanese Yen ' },
+    { code: 'CAD', name: '(CAD) Canadian Dollar ' },
+    { code: 'AUD', name: '(AUD) Australian Dollar ' },
+    { code: 'CHF', name: '(CHF) Swiss Franc ' },
+    { code: 'INR', name: '(INR) Indian Rupee ' },
+    { code: 'CNY', name: '(CNY) Chinese Yuan ' },
+    { code: 'MXN', name: '(MXN) Mexican Peso ' },
+    { code: 'BRL', name: '(BRL) Brazilian Real ' },
+    { code: 'ZAR', name: '(ZAR) South African Rand ' },
+    { code: 'RUB', name: '(RUB) Russian Ruble ' },
+    { code: 'SGD', name: '(SGD) Singapore Dollar ' },
+    { code: 'HKD', name: '(HKD) Hong Kong Dollar ' },
+    { code: 'KRW', name: '(KRW) South Korean Won ' },
+    { code: 'SEK', name: '(SEK) Swedish Krona ' }
+  ];
+
+
+  autoOptions = ['RESPONSABILITE CIVILE', 'DEGATS MATERIELS', 'INCENDIE', 'VOL', 'BRIS DE VITRE', 'INDIVIDUEL OCCUPANT', 'PASSAGERS SUR PLATEAU', 'EXTENSION COMESA'];
+  fireOptions = ['INCENDIE ET RISQUES CONNEXES', 'TORNADE OURAGAN TEMPETE', 'TREMBLEMENT DE TERRE ET ERRUPTION VOLCANIQUE', 'DE ( DEGATS DES EAUX', 'INONDATION', 'RE ( RISQUES ELECTRIQUES)', 'FAP SAUF', 'BG ( BRIS DE GLACE )', 'VOL', 'FRAIS DE POMPIERS', 'FRAIS DE DEBLAIS', 'CHOMAGES IMMOBILIERS', 'PERTES D EXPLOITATION', 'RECOURS DES VOISINS'];
+  transportOptions = ['Tous risques', 'Accident caracterise', 'FAP SAUF', 'FAP SAUF'];
+
+
   
   constructor(
     private fb: FormBuilder,
@@ -129,6 +161,9 @@ export class PolicyFormComponent {
       this.guaranteeForm.patchValue({
         assured_capital: capitalAssured
       })
+
+    this.selectedCategory = this.policyForm.value.category;
+
     });
   }
 
@@ -178,10 +213,6 @@ export class PolicyFormComponent {
    * Tracks selected category changes from the form
    * Angular lifecycle hook for change detection
    */
-  ngDoCheck() {
-    this.selectedCategory = this.policyForm.value.category;
-  }
-  
 /**
    * Crée une police et soumet les données associées.
    */
