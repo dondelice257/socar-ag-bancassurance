@@ -15,16 +15,20 @@
             
             <!-- Actions Simples -->
             <b class="dropdown-header">Impressions</b>
+
+              @if(!policy.is_demo || policy.type_avenant !="ANRI"){
             <li>
               <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='contract'">
                 <i class="fas fa-print me-2"></i> Imprimer le contrat
               </button>
-            </li>
-            <li>
+            </li>              }
+            @if(policy.is_demo){
+                          <li>
               <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='offer'">
                 <i class="fas fa-print me-2"></i> Imprimer l'offre
               </button>
             </li>
+            }
             
             @if(policy.category=="auto"){
               <li>
@@ -34,11 +38,13 @@
               </li>
             }
             
-            <li>
-              <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='invoice'">
-                <i class="fas fa-print me-2"></i> Imprimer la facture
-              </button>
-            </li>
+              @if(policy.bill?.status=="unpaid" || policy.bill?.status=="paid"){
+                <li>
+                  <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='invoice'">
+                    <i class="fas fa-print me-2"></i> Imprimer la facture
+                  </button>
+                </li>
+              }
             <hr>
       
             <!-- Actions Importantes -->
@@ -75,16 +81,17 @@
         <div class="row">
           <p class="col-lg-4"><i class="fas fa-hashtag text-secondary"></i> <strong>Numéro de police:</strong> {{ policy.policy_number }}</p>
           <p class="col-lg-4"><i class="fas fa-hashtag text-secondary"></i> <strong>Catégorie:</strong> Assurance {{ policy.category }}</p>
-          <p class="col-lg-4">
+            @if(!policy.is_demo){
+                        <p class="col-lg-4">
             <i class="fas fa-info-circle text-secondary"></i> <strong>Statut:</strong> 
             <span class="badge" [ngClass]="{
-              'bg-success': policy.status === 'active',
-              'bg-danger': policy.status === 'expired',
-              'bg-warning text-dark': policy.status === 'pending'
+              'bg-success': policy.bill?.status === 'paid',
+              'bg-warning text-dark': policy.bill?.status === 'unpaid'
             }">
-              {{ policy.status }}
+              {{ policy.bill?.status }}
             </span>
           </p>
+            }
           <p class="col-lg-4"><i class="fas fa-calendar-alt text-secondary"></i> <strong>Date d'effet:</strong> {{ policy.issue_date }}</p>
           <p class="col-lg-4"><i class="fas fa-calendar-check text-secondary"></i> <strong>Date d'expiration:</strong> {{ policy.expiration_date }}</p>
         </div>
@@ -220,10 +227,9 @@
         </tr>
       </tbody>
     </table>
-    <div class="d-flex justify-content-end mt-3">
+    <!-- <div class="d-flex justify-content-end mt-3">
       <strong>Total Prime de Base:</strong>
-      <span class="fw-bold text-success">{{ totalPrimeBase | currency:'BIF' }}</span>
-    </div>
+      <span class="fw-bold text-success">{{ totalPrimeBase | number:'1.0-0' }} BIF</span>    </div> -->
   </div>
 
   <!-- Insured Goods Table Card -->
@@ -253,7 +259,7 @@
 </div>
 }@else{
     <div
-  style="transition: all 2s; z-index:5"
+  style="transition: all 2s; z-index:2"
   class="d-flex align-items-center justify-content-center"
   >
   <span class="p-5 bg-white rounded">
@@ -267,7 +273,7 @@
 
 @if(isLoading){
   <div
-style="transition: all 2s; z-index:5"
+style="transition: all 2s; z-index:2"
 class="modal-overlay d-grid align-items-center justify-content-center"
 >
 <span class="p-5 bg-white rounded">
@@ -289,33 +295,43 @@ class="modal-overlay d-grid align-items-center justify-content-center"
           <div class="d-flex">
             <!-- Dynamic Content Container for Printing -->
             <div id="print-contract" class="w-100 row">
-              @switch (policy.category) {
-                @case("fire"){
-                  <!-- Fire Insurance Contract Component -->
-                  <app-fire-contract [policy]="policy">
-                  </app-fire-contract>
-                }
-                @case("transport"){
-                  <!-- Transport Insurance Contract Component -->
-                  <app-transport-contract [policy]="policy">
-                  </app-transport-contract>
-                }
-                @case("auto"){
-                  @switch(documentToPrint){
-                    @case("contract"){
-                      <!-- Auto Insurance Contract Component -->
-                      <app-auto-contract [policy]="policy">
-                      </app-auto-contract>
+                @if(documentToPrint !="invoice"){
+                  @switch (policy.category) {
+                    @case("fire"){
+                      <!-- Fire Insurance Contract Component -->
+                      <app-fire-contract [policy]="policy">
+                      </app-fire-contract>
                     }
-                    @case("card"){
-                      <!-- Auto Insurance Card Component -->
-                      <div id="print-card" class="w-100 row">
-                        <app-auto-card [policy]="policy">
-                        </app-auto-card>
-                      </div>
+                    @case("transport"){
+                      <!-- Transport Insurance Contract Component -->
+                      <app-transport-contract [policy]="policy">
+                      </app-transport-contract>
+                    }
+                    @case("auto"){
+                      @switch(documentToPrint){
+                        @case("contract"){
+                          <!-- Auto Insurance Contract Component -->
+                          <app-auto-contract [policy]="policy">
+                          </app-auto-contract>
+                        }
+                        @case("card"){
+                          <!-- Auto Insurance Card Component -->
+                          <div id="print-card" class="w-100 row">
+                            <app-auto-card [policy]="policy">
+                            </app-auto-card>
+                          </div>
+                        }
+    
+                      }
                     }
                   }
                 }
+              @if(documentToPrint=="invoice"){
+                <!-- Invoice Component -->
+                <div id="print-invoice" class="w-100 row">
+                  <app-bill-print [policy]="policy">
+                  </app-bill-print>
+                </div>
               }
             </div>
           </div>

@@ -9,6 +9,7 @@ import { AutoContractComponent } from '../documents-printing/auto-contract/auto-
 import { AutoCardComponent } from '../documents-printing/auto-card/auto-card.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { BillPrintComponent } from '../documents-printing/bill-print/bill-print.component';
 
 @Component({
   selector: 'app-policy-details',
@@ -21,7 +22,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     AutoContractComponent,
     AutoCardComponent,
     ReactiveFormsModule,
-    
+    BillPrintComponent,
     MatProgressSpinnerModule
   ],
   templateUrl: './policy-details.component.html',

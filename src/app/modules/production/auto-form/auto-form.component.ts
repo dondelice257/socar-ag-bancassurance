@@ -42,7 +42,7 @@ export class AutoFormComponent {
   this.insuranceForm = this.fb.group({
     chasis: ['', Validators.required],
     plaque: ['', Validators.required],
-    limites_territoriales: ['', Validators.required],
+    limites_territoriales: ['Burundi', Validators.required],
     usage: ['', Validators.required],
     marque: ['', Validators.required],
     model: ['', Validators.required],

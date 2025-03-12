@@ -6,7 +6,7 @@ input.autocomplete{
 }
 .autoCompleteItems{
     position: absolute;
-    z-index: 10;
+    z-index: 2;
     max-height: 250px;
     overflow: auto;
     transition: .3s ease-in;

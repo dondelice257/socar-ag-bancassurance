@@ -50,8 +50,10 @@ export class TransportFormComponent {
 
   ]
 
-  packaging=['CONT01-Hors container', 'CONT02-En container']
-  emballages =['PCK01-Caisse', 'PCK02-Balles','PCK05-Sacs','PCK06-Vracs','PCK07-Cartons','PCK08-Futs metalliques','PCK09-Futs plastiques',]
+  packaging=['Hors container', 'En container']
+  descriptifs=['FOB', 'CIF', 'C & F']
+
+  emballages =['Caisse', 'Balles','Sacs','Vracs','Cartons','Futs metalliques','Futs plastiques',]
   transportModes=['BATEAU/CAMION', 'AVION','CAMION','CAMION:ACCIDENTS CARACTERISES']
   @Output() body = new EventEmitter<{}>();
   @Output() isFormValid = new EventEmitter<boolean>();
@@ -61,8 +63,8 @@ export class TransportFormComponent {
     nature_marchandise: ['', Validators.required],
     description: ['', Validators.required],
     nature_emballage: ['', Validators.required],
-    transport_mode: ['', Validators.required],
-
+    transport_type: ['', Validators.required],
+    descriptif_marchandise: ['', Validators.required],
     packaging: ['', Validators.required],
 
     depart: ['', Validators.required],

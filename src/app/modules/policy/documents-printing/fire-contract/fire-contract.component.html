@@ -10,7 +10,7 @@
       <!-- Top Info -->
       <div class="row ">
         <div class="col-3">DATE OPERATION :</div>
-        <div class="col-3 fw-bold">{{policy.issue_date | date:'MM/dd/yyyy'}}</div>
+        <div class="col-3 fw-bold">{{policy.issue_date | date:'dd/MM/yyyy'}}</div>
         <div class="col-3">COURTIER/AGENCE :</div>
         <div class="col-3 fw-bold">{{policy.operator?.agency_name}}</div>
       </div>
@@ -29,10 +29,10 @@
   
       <div class="row border-btm">
         <div class="col-3">DATE D'EFFET :</div>
-        <div class="col-3 fw-bold">{{policy.issue_date | date:'MM/dd/yyyy'}}</div>
+        <div class="col-3 fw-bold">{{policy.issue_date | date:'dd/MM/yyyy'}}</div>
         <div class="col-3">DATE D'ECHEANCE :</div>
-        <div class="col-2 fw-bold">{{policy.expiration_date | date:'MM/dd/yyyy'}}</div>
-        <div class="col-1 fw-bold">{{policy.custom_days | date:'MM/dd/yyyy'}}</div>
+        <div class="col-3 fw-bold">{{policy.expiration_date | date:'dd/MM/yyyy'}}</div>
+        <!-- <div class="col-1 fw-bold">{{policy.custom_days | date:'dd/MM/yyyy'}}</div> -->
 
       </div>
       <!-- Subscriber Info -->
@@ -65,8 +65,8 @@
       
   
       <div class="row ">
-        <div class="col-3">Nature et localisation du risque :</div>
-        <div class="col-5 fw-bold">{{policy.fire_insurance?.nature_risque}}</div>
+        <div class="col-5">Nature et localisation du risque :</div>
+        <div class="col-6 fw-bold">{{policy.assured_goods[0]?.name}}</div>
       </div>
   
       <div class="row ">
@@ -84,11 +84,11 @@
         <div class="col-3 fw-bold">{{policy.fire_insurance.cadastre}}</div>
       </div>
 
-      <div class="section-header fw-bold border-bottom mb-1">II* Valeurs des biens assurés :</div>
-      <div class="my-1 row" *ngFor="let goods of policy.goods">
+      <!-- <div class="section-header fw-bold border-bottom mb-1">II* Valeurs des biens assurés :</div>
+      <div class="my-1 row" *ngFor="let goods of policy.assured_goods">
         <div class="col-5">{{ goods.name }}</div>
         <div class="col-5 fw-bold">{{ goods.assured_capital }}</div>
-      </div>
+      </div> -->
   
       <!-- Premium Summary -->
       <div class="premium-summary">
@@ -99,10 +99,10 @@
           <div class="col-3 text-end" style="font-size:10px">PRIME NETTE(Fbu)</div>
         </div>
       
-        <div class="data-row">
-          <div class="col-3">*{{policy.fire_insurance?.nature_risque}}</div>
+        <div class="data-row" *ngFor="let goods of policy.assured_goods">
+          <div class="col-3">*{{ goods.name }}</div>
           <div class="col-4"></div>
-          <div class="col-2 text-end">{{policy.assured_capital_bif | number}}</div>
+          <div class="col-2 text-end">{{goods.assured_capital | number}}</div>
           <div class="col-3 text-end"></div>
         </div>
       
@@ -169,12 +169,28 @@
       </div>
       
 
-  
-      <!-- Footer Content -->
-      <div class="mt-2">
-        <div class="fw-bold">Exclusions :</div>
-        <p>* Les exclusions dans les conditions générales sont applicables.</p>
-      </div>
+<!-- Footer Content -->
+<div class="my-2 d-grid">
+  <div class="fw-bold">Définitions :</div>
+  <strong>Inondation :</strong>
+  <span>- Tout débordement ou déviation des voies normales des cours d’eau naturels ou artificiels, à l’exclusion du lac Tanganyika.</span>
+  <span>- Tout débit ou accumulation d’eau sur le terrain, sauf lorsque ce débit ou cette accumulation d’eau provient des points d’eau principaux, robinets, tuyaux, soupapes ou assimilés.</span>
+</div>
+
+<!-- Footer Content -->
+<div class="my-2 d-grid">
+  <div class="fw-bold">Exclusions :</div>
+  <span>* Les exclusions dans les conditions générales sont applicables.</span>
+  @if(policy.beneficiaire){
+  <span>BÉNÉFICIAIRE : En cas de sinistre, les indemnités seront versées à {{policy.beneficiaire}}, qui est bénéficiaire de cette police d’assurance.</span>
+  }
+</div>
+
+<div class="d-grid">
+  <strong>Le preneur d’assurance déclare avoir pris connaissance des conditions générales et particulières.</strong>
+  <strong>La présente fait partie intégrante de la police et sont nulles toutes adjonctions ou modifications matérielles non revêtues du visa de la direction ou du représentant autorisé de la compagnie.</strong>
+</div>
+
   
       <!-- <div class="fw-bold">BENEFICIAIRE :</div>
       <p>En cas de sinistre, les indemnités seront versées à la CRDB BANK BURUNDI s.a.</p>
@@ -189,7 +205,7 @@
           <div class="col-4 fw-bold">BENEFICIAIRE <br>{{policy.beneficiaire}}</div>
 
         }
-        <div class="col-4 fw-bold">ASSUREUR <br>
+        <div class="col-4 fw-bold">BANCASSURANCE <br>
           @if(policy.operator.agency.is_affiliated){
             {{policy.company?.name}} - {{policy.operator.agency?.name}} 
 

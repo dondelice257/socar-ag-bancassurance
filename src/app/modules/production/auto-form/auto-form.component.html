@@ -21,7 +21,7 @@
     <!-- Limites Territoriales -->
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="text" class="form-control" formControlName="limites_territoriales" placeholder="Limites Territoriales">
+        <input type="text" class="form-control" readonly formControlName="limites_territoriales" placeholder="Limites Territoriales">
         <label>Limites Territoriales</label>
       </div>
     </div>
@@ -83,7 +83,7 @@
     <!-- Classe -->
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <select class="form-control" formControlName="class">
+        <select class="form-control" formControlName="classe">
           <option value="" disabled selected>Choisir la categorie</option>
           <option *ngFor="let class of classes" [value]="class">{{ class }}</option>
         </select>

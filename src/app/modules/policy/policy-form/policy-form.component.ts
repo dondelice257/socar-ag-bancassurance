@@ -95,8 +95,8 @@ export class PolicyFormComponent {
 
 
   autoOptions = ['RESPONSABILITE CIVILE', 'DEGATS MATERIELS', 'INCENDIE', 'VOL', 'BRIS DE VITRE', 'INDIVIDUEL OCCUPANT', 'PASSAGERS SUR PLATEAU', 'EXTENSION COMESA'];
-  fireOptions = ['INCENDIE ET RISQUES CONNEXES', 'TORNADE OURAGAN TEMPETE', 'TREMBLEMENT DE TERRE ET ERRUPTION VOLCANIQUE', 'DE ( DEGATS DES EAUX', 'INONDATION', 'RE ( RISQUES ELECTRIQUES)', 'FAP SAUF', 'BG ( BRIS DE GLACE )', 'VOL', 'FRAIS DE POMPIERS', 'FRAIS DE DEBLAIS', 'CHOMAGES IMMOBILIERS', 'PERTES D EXPLOITATION', 'RECOURS DES VOISINS'];
-  transportOptions = ['Tous risques', 'Accident caracterise', 'FAP SAUF', 'FAP SAUF'];
+  fireOptions = ['INCENDIE ET RISQUES CONNEXES', 'TEMPETE OURAGAN ET TROMBE', 'TREMBLEMENT DE TERRE ET ERRUPTION VOLCANIQUE', 'DE ( DEGATS DES EAUX )', 'INONDATION', 'RE ( RISQUES ELECTRIQUES)', 'FAP SAUF', 'BG ( BRIS DE GLACE )', 'VOL', 'FRAIS DE POMPIERS', 'FRAIS DE DEBLAIS', 'CHOMAGES IMMOBILIERS', 'PERTES D EXPLOITATION', 'RECOURS DES VOISINS'];
+  transportOptions = ['Tous risques', 'Accident caracterise', 'FAP SAUF'];
 
 
   
@@ -297,6 +297,8 @@ createPolicy() {
         guarantee_type: '',
         value: 0,
       });
+    }else{
+      console.log(this.guaranteeForm.value, this.guaranteeForm.status)
     }
   }
   
@@ -379,12 +381,12 @@ createPolicy() {
 submitGoods() {
   this.isSubmitting = true;
 
-  const goodsWithInsurance = this.selectedGoods.map(goods => ({
+  const goodsWithInsurance = this.selectedGoods.map((goods:any) => ({
     ...goods,
     policy: this.policyId
   }));
 
-  const promises = goodsWithInsurance.map(goods =>
+  const promises = goodsWithInsurance.map((goods:any) =>
     this.policyService.createGoods(goods).toPromise()
   );
 

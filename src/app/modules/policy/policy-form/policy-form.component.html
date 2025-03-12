@@ -290,7 +290,7 @@
         
         <!-- Navigation buttons -->
         <button type="button" class="btn text-white btn-secondary me-2" (click)="onBack()">Retour</button>
-        <button type="button" class="p-2 rounded text-white bg-main" [disabled]="!selectedGoods" (click)="onNext()">Suivant</button>
+        <button type="button" class="p-2 rounded text-white bg-main" [disabled]="!selectedGoods && selectedCategory=='fire'" (click)="onNext()">Suivant</button>
       </div>
       
       <!-- Step 4: Add Guarantees -->
@@ -314,22 +314,22 @@
                 
                 <!-- Guarantee name field -->
                 <div class="col-lg-4">
-                  <label for="name" class="form-label">Garantie</label>
+                  <label for="garantie" class="form-label">Garantie</label>
   <!-- Display select based on selectedCategory -->
   <div *ngIf="selectedCategory === 'auto'">
-    <select id="garantie" class="form-select" formControlName="garantie">
+    <select id="garantie" class="form-select" formControlName="name">
       <option *ngFor="let option of autoOptions" [value]="option">{{ option }}</option>
     </select>
   </div>
 
   <div *ngIf="selectedCategory === 'fire'">
-    <select id="garantie" class="form-select" formControlName="garantie">
+    <select id="garantie" class="form-select" formControlName="name">
       <option *ngFor="let option of fireOptions" [value]="option">{{ option }}</option>
     </select>
   </div>
 
   <div *ngIf="selectedCategory === 'transport'">
-    <select id="garantie" class="form-select" formControlName="garantie">
+    <select id="garantie" class="form-select" formControlName="name">
       <option *ngFor="let option of transportOptions" [value]="option">{{ option }}</option>
     </select>
   </div>

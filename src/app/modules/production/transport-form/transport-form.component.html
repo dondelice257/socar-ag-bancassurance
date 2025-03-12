@@ -22,19 +22,19 @@
 
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <select class="form-control" formControlName="nature_marchandise">
-          <option value="" disabled selected>Choisir la nature des marchandises</option>
+        <select class="form-control" formControlName="description">
+          <option value="" disabled selected>Choisir la description des marchandises</option>
           <option *ngFor="let nature of natures" [value]="nature">{{ nature }}</option>
         </select>
-        <label>Nature des marchandises</label>
+        <label></label>
       </div>
     </div>
 
     <!-- Description -->
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="text" class="form-control" formControlName="description" placeholder="Description">
-        <label>Description</label>
+        <input type="text" class="form-control" formControlName="nature_marchandise" placeholder="Nature marchandise">
+        <label>Nature des marchandises</label>
       </div>
     </div>
   </div>
@@ -53,10 +53,19 @@
 
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <select class="form-control" formControlName="transport_mode">
+        <select class="form-control" formControlName="transport_type">
           <option *ngFor="let mode of transportModes" [value]="mode">{{ mode }}</option>
         </select>
         <label>Mode de transport</label>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <select class="form-control" formControlName="descriptif_marchandise">
+          <option *ngFor="let descriptif of descriptifs" [value]="descriptif">{{ descriptif }}</option>
+        </select>
+        <label>Descriptif Marchandise</label>
       </div>
     </div>
     <!-- Quantité -->
@@ -90,7 +99,7 @@
     <div class="col-md-6 mb-3">
       <div class="form-floating">
         <input type="text" class="form-control" formControlName="colis_number" placeholder="Numéro de colis">
-        <label>Numéro de colis</label>
+        <label>Nombre de colis</label>
       </div>
     </div>
 

@@ -1,7 +1,7 @@
 <div class="contract-wrapper">
     <!-- Header -->
     <div class="text-center header-title mt-5 pt-5 ">
-      <h4 class="mb-0 mt-4"><b>CONTRAT D'ASSURANCE Transport No{{policy.policy_number}}  </b></h4>
+      <h4 class="mb-0 mt-4"><b>CONTRAT D'ASSURANCE Transport No{{policy.policy_number}}/ {{policy.formatted_avenant}}  </b></h4>
     </div>
   
     <!-- Main Content -->
@@ -10,49 +10,60 @@
         <div class="border border-dark rounded">
             <div class="row border-btm">
                 <div class="col-3">DATE OPERATION :</div>
-                <div class="col-3 fw-bold">{{policy.issue_date | date:'MM/dd/yyyy'}}</div>
+                <div class="col-3 fw-bold">{{policy.issue_date | date:'dd/MM/yyyy'}}</div>
                 <div class="col-3">REDACTEUR :</div>
-                <div class="col-3 fw-bold">{{policy.operator?.full_name}}</div>
+                <div class="col-3 fw-bold">{{policy.operator?.full_name | uppercase}}</div>
            
               </div>
           
-              <div class="row border-btm">
+              <div class="row margin-x-1">
                 <div class="col-3">COURTIER/AGENCE :</div>
-                <div class="col-3 fw-bold">{{policy.operator?.agency_name}}</div>
+                <div class="col-3 fw-bold">{{policy.operator?.agency_name | uppercase}}</div>
+                <div class="col-3">Numero Contrat :</div>
+                <div class="col-3 fw-bold">{{policy.policy_number | uppercase}}</div>
         
               </div>
-              <div class="row margin-x-1">
-                <div class="col-3">NUMERO CONTRAT :</div>
-                <div class="col-3 fw-bold">{{policy.policy_number}}</div>
-                <div class="col-3">TYPE AVENANT N° :</div>
-                <div class="col-3 fw-bold">{{policy.type}}</div>
+              <div class="row margin-x-1 border-btm">
+               
+                <div class="col-3">TYPE AVENANT:</div>
+                <div class="col-3 fw-bold">{{policy.type_avenant | uppercase}}</div>
                 <div class="col-3">NUM AVENANT :</div>
-                <div class="col-3 fw-bold">0000</div>
+                <div class="col-3 fw-bold">000{{policy.numero_avenant | uppercase}} </div>
               </div>
           <div class="row border-btm">
             <div class="col-3">DATE EFFET :</div>
-            <div class="col-3 fw-bold">{{policy.expiration_date}}</div>
+            <div class="col-3 fw-bold">{{policy.expiration_date | uppercase}}</div>
             <div class="col-6">Pour le voyage</div>
+            <div class="col-3 fw-bold">MONNAIE</div>
+            <div class="col-3">{{policy.currency | uppercase}} </div>
             <div class="col-3 fw-bold">TAUX DE CHANGE</div>
-            <div class="col-3">{{policy.currency}} </div>
-            <div class="col-3 fw-bold">{{policy.daily_rate}} </div>
+
+            <div class="col-3 fw-bold">{{policy.daily_rate | uppercase}} </div>
           </div>
         
         
               <!-- Subscriber Info -->
               <div class="row border-btm">
                 <div class="col-3">SOUSCRIPTEUR :</div>
-                <div class="col-3 fw-bold">000{{policy.client?.id}}</div>
+                <div class="col-3 fw-bold">000{{policy.client?.id }}</div>
                 <div class="col-3">NOM ET PRENOM :</div>
-                <div class="col-3 fw-bold">{{policy.client?.user_full_name}}</div>
+                <div class="col-3 fw-bold">{{policy.client?.user_full_name | uppercase}}</div>
+                <div class="col-6"></div>
+
                 <div class="col-3">ADRESSE</div>
-                <div class="col-3 fw-bold"> {{policy.client?.user_quartier}}</div>
+                <div class="col-3 fw-bold"> {{policy.client?.user_quartier | uppercase}}</div>
+                <div class="col-6"></div>
+
                 <div class="col-3">BP :</div>
-                <div class="col-3 fw-bold">{{policy.client?.user_province}}</div>
+                <div class="col-3 fw-bold">{{policy.client?.user_province | uppercase}}</div>
+                <div class="col-6"></div>
+
                 <div class="col-3">TELEPHONE :</div>
                 <div class="col-3 fw-bold">{{policy.client?.user_phone_number}}</div>
+                <div class="col-6"></div>
+
                 <div class="col-3">PROFESSION :</div>
-                <div class="col-3 fw-bold">{{policy.client?.user_profession}}</div>
+                <div class="col-3 fw-bold">{{policy.client?.user_profession | uppercase}}</div>
               </div>
           
         
@@ -68,40 +79,41 @@
           
               <div class="row margin-x-1">
                 <div class="col-3">VALEUR ASSUREE EN BIF :</div>
-                <div class="col-3 fw-bold">{{policy.assured_capital_bif}}</div>
+                <div class="col-3 fw-bold">{{policy.assured_capital_bif | uppercase}}</div>
                 <div class="col-3">VALEUR ASSUREE EN DEVISE :</div>
-                <div class="col-3 fw-bold">{{policy.assured_capital_devise}}</div>
+                <div class="col-3 fw-bold">{{policy.assured_capital_devise | uppercase}}</div>
               </div>
               <div class="row margin-x-1">
                 <div class="col-3">NAT. MARCHANDISE :</div>
-                <div class="col-3 fw-bold">{{policy.transport_insurance?.nature_marchandise}}</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.nature_marchandise | uppercase}}</div>
                 <div class="col-3">REFERENCE :</div>
-                <div class="col-3 fw-bold">{{policy.transport_insurance?.reference}}</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.reference | uppercase}}</div>
               </div>
               <div class="row margin-x-1">
                 <div class="col-3">DESCRIPTION :</div>
-                <div class="col-3 fw-bold">{{policy.transport_insurance?.description}}</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.description | uppercase}}</div>
                 <div class="col-3">QUANTITE :</div>
-                <div class="col-3 fw-bold">{{policy.transport_insurance?.quantity}}</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.quantity }}</div>
               </div>
               <div class="row margin-x-1">
                 <div class="col-3">NAT. EMBALLAGE :</div>
-                <div class="col-3 fw-bold">{{policy.transport_insurance?.nature_emballage}}</div>
-                <div class="col-3">NBRE DE COLIS  :</div>
-                <div class="col-3 fw-bold">{{policy.transport_insurance?.colis_number}}</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.nature_emballage | uppercase}}</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.packaging | uppercase}}</div>
+                <div class="col-2">NBRE DE COLIS  :</div>
+                <div class="col-1 fw-bold">{{policy.transport_insurance?.colis_number }}</div>
          
               </div>
               <div class="row margin-x-1">
                 <div class="col-3">TYPE DE TRANSPORT :</div>
-                <div class="col-3 fw-bold">{{policy.transport_insurance?.transport_type}}</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.transport_type | uppercase}}</div>
         
          
               </div>
               <div class="row margin-x-1">
                 <div class="col-3">DEPART :</div>
-                <div class="col-3 fw-bold">{{policy.transport_insurance?.depart}}</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.depart | uppercase}}</div>
                 <div class="col-3">ARRIVEE  :</div>
-                <div class="col-3 fw-bold">{{policy.transport_insurance?.arrivee}}</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.arrivee | uppercase}}</div>
          
               </div>
           
@@ -137,45 +149,47 @@
               
               <!-- Premium Summary -->
               <div class="d-flex justify-content-end">
+                 <div class="col-3">DESCRIPTIF MARCHANDISE :</div>
+                <div class="col-3 fw-bold">{{policy.transport_insurance?.descriptif_marchandise | uppercase}}</div>
                 <table class="table table-sm summary-table">
                   <tr>
                     <td>PRIME NETTE</td>
-                    <td>:</td>
+                    <td>=</td>
                     <td class="text-end">{{policy.prime_base | number}}</td>
                   </tr>
                   <tr>
                     <td>FRAIS</td>
-                    <td>:</td>
+                    <td>=</td>
                     <td class="text-end">{{policy.frais | number}}</td>
                   </tr>
                   <tr>
                     <td>PRIME DE BASE</td>
-                    <td>:</td>
+                    <td>=</td>
                     <td class="text-end">{{policy.prime_nette | number}}</td>
                   </tr>
                   <tr>
                     <td>C.DIVERS</td>
-                    <td>:</td>
+                    <td>=</td>
                     <td class="text-end">{{policy.charges_diverses | number}}</td>
                   </tr>
                   <tr>
                     <td>C. ARCA</td>
-                    <td>:</td>
+                    <td>=</td>
                     <td class="text-end">{{policy.charges_arca | number}}</td>
                   </tr>
                   <tr>
                     <td>P.T AVANT TVA</td>
-                    <td>:</td>
+                    <td>=</td>
                     <td class="text-end">{{policy.prime_avant_tva | number}} </td>
                   </tr>
                   <tr>
                     <td>TVA</td>
-                    <td>:</td>
+                    <td>=</td>
                     <td class="text-end">{{policy.tva | number}}</td>
                   </tr>
                   <tr class="border-btm border-dark">
                     <td><strong>PRIME TVAC</strong></td>
-                    <td>:</td>
+                    <td>=</td>
                     <td class="text-end"><strong>{{policy.premium_amount | number}}</strong></td>
                   </tr>
                 </table>
@@ -186,8 +200,10 @@
   
       <!-- Footer Content -->
       <div class="mt-2">
-        <div class="fw-bold">Exclusions :</div>
-        <p>* Les exclusions dans les conditions générales sont applicables.</p>
+        <p >LE PRENEUR D ASSURANCE DECLARE AVOIR PRIS CONNAISSANCE DES CONDITIONS GENERALES ET PARTICULIEURES</p>
+        <p >LA PRESENTE FAIT PARTIE INTEGRANTE DE LA POLICE</p>
+        <P>SONT NULLES TOUTES ADJONCTIONS OU MODIFICATIONS MATERIELLES NON REVETUES DU VISA DE LA DIRECTION DE SON REPRESENTANT AUTORISE</P>
+
       </div>
   
       <!-- <div class="fw-bold">BENEFICIAIRE :</div>
@@ -199,7 +215,7 @@
   
       <div class="row justify-content-between signatures text-center mt-2">
         <div class="col-4 fw-bold">SOUSCRIPTEUR <br>{{policy.client?.user_full_name}}</div>
-        <div class="col-4 fw-bold">ASSUREUR <br>
+        <div class="col-4 fw-bold">BANCASSURANCE <br>
           @if(policy.operator.agency.is_affiliated){
             {{policy.company?.name}} - {{policy.operator.agency?.name}} 
 
