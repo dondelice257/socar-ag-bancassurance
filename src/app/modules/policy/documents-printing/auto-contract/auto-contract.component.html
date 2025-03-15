@@ -176,7 +176,13 @@
         <div class="col-4 ">L'assuré <br>
         <span class="fw-bold">{{policy.client?.user_full_name}}</span>
         </div>
-        <div class="col-4 ">BANCASSURANCE <br>
+        <div class="col-4 ">
+          @if(policy.operator?.agency.is_bancassurance){
+            BANCASSURANCE
+          }@else {
+            ASSUREUR
+          }
+          <br>
           <span class="fw-bold">
             @if(policy.operator.agency.is_affiliated){
               {{policy.company?.name}} - {{policy.operator.agency?.name}} 

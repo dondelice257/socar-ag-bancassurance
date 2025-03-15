@@ -205,7 +205,13 @@
           <div class="col-4 fw-bold">BENEFICIAIRE <br>{{policy.beneficiaire}}</div>
 
         }
-        <div class="col-4 fw-bold">BANCASSURANCE <br>
+        <div class="col-4 fw-bold">
+          @if(policy.operator?.agency?.is_bancassurance){
+            BANCASSURANCE
+          }@else {
+            ASSUREUR
+          }
+          <br>
           @if(policy.operator.agency.is_affiliated){
             {{policy.company?.name}} - {{policy.operator.agency?.name}} 
 

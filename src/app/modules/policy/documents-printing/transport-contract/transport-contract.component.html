@@ -215,7 +215,14 @@
   
       <div class="row justify-content-between signatures text-center mt-2">
         <div class="col-4 fw-bold">SOUSCRIPTEUR <br>{{policy.client?.user_full_name}}</div>
-        <div class="col-4 fw-bold">BANCASSURANCE <br>
+        <div class="col-4 fw-bold">
+          @if(policy.operator?.agency?.is_bancassurance){
+            BANCASSURANCE
+          }@else {
+            ASSUREUR
+          }
+          
+          <br>
           @if(policy.operator.agency.is_affiliated){
             {{policy.company?.name}} - {{policy.operator.agency?.name}} 
 

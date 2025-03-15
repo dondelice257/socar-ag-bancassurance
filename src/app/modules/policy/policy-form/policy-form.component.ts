@@ -359,11 +359,16 @@ createPolicy() {
       .then(responses => {
         this.isSubmitting = false;
         this.toastr.success('Toutes les garanties ont été soumises avec succès !', 'Succès');
+
+
         
         if (this.policyForm.value.is_demo) {
           this.router.navigateByUrl('/policy/offer');
         } else {
           this.router.navigateByUrl('/policy/list');
+          this.policyService.sendHqNotification({policy_id:this.policyId}).subscribe(()=>{
+            this.toastr.success('Notification envoyée au siege avec succès', 'Succès');
+          })
         }
         
         console.log('Garanties soumises:', responses);
