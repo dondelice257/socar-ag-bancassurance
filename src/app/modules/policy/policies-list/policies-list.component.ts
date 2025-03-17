@@ -27,7 +27,7 @@ export class PoliciesListComponent {
 
     { columnDef: 'client.user_full_name', header: 'Client' },
     { columnDef: 'operator.full_name', header: 'Operateur' },
-    { columnDef: 'operator.company_name', header: 'Compagnie' },
+    { columnDef: 'agency.name', header: 'Agence' },
 
 
 

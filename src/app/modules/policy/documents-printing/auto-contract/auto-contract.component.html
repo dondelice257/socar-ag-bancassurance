@@ -16,7 +16,7 @@
         
             <div class="row ">
                 <div class="col-3">INTERMEDIAIRE :</div>
-                <div class="col-3 fw-bold">{{policy.operator?.agency_name}}</div>
+                <div class="col-3 fw-bold">{{policy?.agency.name}}</div>
                 <div class="col-3">OPERATEUR :</div>
                 <div class="col-3 fw-bold">{{policy.operator?.full_name}}</div>
            
@@ -177,18 +177,18 @@
         <span class="fw-bold">{{policy.client?.user_full_name}}</span>
         </div>
         <div class="col-4 ">
-          @if(policy.operator?.agency.is_bancassurance){
+          @if(policy?.agency?.is_bancassurance){
             BANCASSURANCE
           }@else {
             ASSUREUR
           }
           <br>
           <span class="fw-bold">
-            @if(policy.operator.agency.is_affiliated){
-              {{policy.company?.name}} - {{policy.operator.agency?.name}} 
+            @if(policy.agency.is_affiliated){
+              {{policy.company?.name}} 
   
             }@else{
-              {{policy.operator.agency?.name}} 
+              {{policy.agency?.name}} 
   
             }
           </span>

@@ -225,6 +225,8 @@ createPolicy() {
 
   const data = { 
     operator: this.connectedOperator.id,
+    agency: this.connectedOperator.agency.id,
+
     company: this.connectedOperator.company.id,
     type: 'AAAA',
     ...this.policyForm.value
@@ -360,8 +362,7 @@ createPolicy() {
         this.isSubmitting = false;
         this.toastr.success('Toutes les garanties ont été soumises avec succès !', 'Succès');
 
-
-        
+      
         if (this.policyForm.value.is_demo) {
           this.router.navigateByUrl('/policy/offer');
         } else {

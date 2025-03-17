@@ -169,7 +169,7 @@ export class PolicyService {
     return this.httpClient.post(url, body, {headers:header}).pipe(
       map((data) => {
           return data;
-      })
+        })
   );
     
   }

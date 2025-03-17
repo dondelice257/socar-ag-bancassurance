@@ -18,7 +18,7 @@
           
               <div class="row margin-x-1">
                 <div class="col-3">COURTIER/AGENCE :</div>
-                <div class="col-3 fw-bold">{{policy.operator?.agency_name | uppercase}}</div>
+                <div class="col-3 fw-bold">{{policy?.agency.name | uppercase}}</div>
                 <div class="col-3">Numero Contrat :</div>
                 <div class="col-3 fw-bold">{{policy.policy_number | uppercase}}</div>
         
@@ -216,18 +216,18 @@
       <div class="row justify-content-between signatures text-center mt-2">
         <div class="col-4 fw-bold">SOUSCRIPTEUR <br>{{policy.client?.user_full_name}}</div>
         <div class="col-4 fw-bold">
-          @if(policy.operator?.agency?.is_bancassurance){
+          @if(policy?.agency?.is_bancassurance){
             BANCASSURANCE
           }@else {
             ASSUREUR
           }
           
           <br>
-          @if(policy.operator.agency.is_affiliated){
-            {{policy.company?.name}} - {{policy.operator.agency?.name}} 
+          @if(policy.agency.is_affiliated){
+            {{policy.company?.name}} 
 
           }@else{
-            {{policy.operator.agency?.name}} 
+            {{policy.agency?.name}} 
 
           }
          </div>
