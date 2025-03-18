@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -29,6 +29,11 @@ export class FireFormComponent {
   // Outputs events to notify the parent component when the form data changes
   @Output() body = new EventEmitter<{}>();         // Emits form data
   @Output() isFormValid = new EventEmitter<boolean>(); // Emits form validation status
+  @Input() initialValue = {};
+  @Input() selectedCategory = '';
+
+
+
 
   constructor(private fb: FormBuilder) {
     // Initializing the reactive form with required fields
@@ -46,6 +51,11 @@ export class FireFormComponent {
     this.insuranceForm.valueChanges.subscribe(() => {
       this.emitFormData();
     });
+
+    if(this.selectedCategory=='fire'){
+      this.insuranceForm.patchValue(this.initialValue)
+    }
+  
   }
 
   /**

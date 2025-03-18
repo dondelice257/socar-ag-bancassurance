@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -57,6 +57,9 @@ export class TransportFormComponent {
   transportModes=['BATEAU/CAMION', 'AVION','CAMION','CAMION:ACCIDENTS CARACTERISES']
   @Output() body = new EventEmitter<{}>();
   @Output() isFormValid = new EventEmitter<boolean>();
+  @Input() initialValue = {};
+  @Input() selectedCategory = '';
+
 
   constructor(private fb: FormBuilder) {
   this.insuranceForm = this.fb.group({
@@ -86,6 +89,10 @@ ngOnInit(): void {
   this.insuranceForm.valueChanges.subscribe(() => {
     this.emitFormData();
   });
+
+  if(this.selectedCategory=='transport'){
+    this.insuranceForm.patchValue(this.initialValue)
+  }
 }
 
 private emitFormData(): void {

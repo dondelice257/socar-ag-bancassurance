@@ -69,7 +69,7 @@
                     <option [value]="'transport'">Transport</option>
                     <option [value]="'fire'">Incendie</option>
                   </select>
-                  <label>Catégorie d'assurance</label>
+                  <label>Branche d'assurance</label>
                 </div>
               </div>
             </div>
@@ -77,7 +77,7 @@
             <!-- Currency and capital section -->
             <div class="row">
               <!-- Currency selection -->
-              <div class="col-lg-2 mb-3">
+              <div *ngIf="selectedCategory === 'transport'" class="col-lg-2 mb-3">
                 <div class="form-floating">
                   <select class="form-select" formControlName="currency">
                     <option *ngFor="let currency of currencies" [value]="currency.code">
@@ -90,7 +90,7 @@
               
               
               <!-- Daily exchange rate -->
-              <div class="col-lg-4 mb-3">
+              <div *ngIf="selectedCategory === 'transport'" class="col-lg-4 mb-3">
                 <div class="form-floating">
                   <input (input)="updateCapitalInBif()" type="text" class="form-control" formControlName="daily_rate" placeholder="Capital Assuré">
                   <label>Taux du jour</label>
@@ -101,9 +101,9 @@
               <div class="col-lg-6 mb-3 d-grid">
                 <div class="form-floating">
                   <input (input)="updateCapitalInBif()" type="text" class="form-control" formControlName="assured_capital_devise" placeholder="Capital Assuré">
-                  <label>Capital assuré</label>
+                  <label>Capital assuré @if(selectedCategory === 'transport'){en {{policyForm.value.currency}}} </label>
                 </div>
-                <div class="d-flex align-items-center">
+                <div *ngIf="selectedCategory === 'transport'" class="d-flex align-items-center">
                   <span class="me-2">Valeur en BIF : </span>
                   <b>{{capitalInBif | number}}</b>
                 </div>
@@ -115,8 +115,8 @@
           <div class="row align-items-center">
             <!-- Start date -->
             <div class="form-floating mb-3 col-lg-6">
-              <input (input)="checkItNow()" type="date" class="form-control" formControlName="issue_date" placeholder="Date de début">
-              <label>Date de début</label>
+              <input (input)="checkItNow()" type="date" class="form-control" formControlName="issue_date" placeholder="Date d'effet">
+              <label>Date d'effet</label>
             </div>
             
             <!-- Period selection -->
@@ -142,12 +142,14 @@
             </div>
             
             <!-- Beneficiary field -->
-            <div class="col-lg-6 mb-3">
-              <div class="form-floating">
-                <input type="text" class="form-control" formControlName="beneficiaire" placeholder="Bénéficiaire">
-                <label>Bénéficiaire</label>
+            @if(selectedCategory=="fire"){
+              <div class="col-lg-6 mb-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" formControlName="beneficiaire" placeholder="Bénéficiaire">
+                  <label>Bénéficiaire</label>
+                </div>
               </div>
-            </div>
+            }
             
             <!-- VAT checkbox -->
 
@@ -189,6 +191,8 @@
     <!-- Case for "auto" insurance: Renders the auto insurance form component -->
     @case("auto"){
       <app-auto-form
+        [initialValue]="specificInsurance"
+        [selectedCategory]="selectedCategory"
         (body)="onFormChange($event)"   
         (isFormValid)="onFormValidityChange($event)"> <!-- Event binding: Captures form validation state -->
       </app-auto-form>
@@ -197,6 +201,8 @@
     <!-- Case for "fire" insurance: Renders the fire insurance form component -->
     @case("fire"){
       <app-fire-form
+      [initialValue]="specificInsurance"
+        [selectedCategory]="selectedCategory"
         (body)="onFormChange($event)"  
         (isFormValid)="onFormValidityChange($event)">
       </app-fire-form>
@@ -205,6 +211,8 @@
     <!-- Case for "transport" insurance: Renders the transport insurance form component -->
     @case("transport"){
       <app-transport-form
+      [initialValue]="specificInsurance"
+        [selectedCategory]="selectedCategory"
         (body)="onFormChange($event)"  
         (isFormValid)="onFormValidityChange($event)">
       </app-transport-form>
@@ -354,13 +362,13 @@
                 @switch(guaranteeForm.value.guarantee_type){
                   @case("fixed"){
                     <div class="col-md-2">
-                      <label for="capital" class="form-label">Valeur</label>
+                      <label for="capital" class="form-label">Prime</label>
                       <input
                         id="capital"
                         type="number"
                         class="form-control"
                         formControlName="value"
-                        placeholder="Valeur"
+                        placeholder="Prime"
                       />
                     </div>
                   }
@@ -397,7 +405,7 @@
                   <th>Garantie</th>
                   <th>Capital Assuré</th>
                   <th>Type</th>
-                  <th>Valeur</th>
+                  <th>Prime</th>
                   <th>Pourcentage</th>
                   <th>Action</th>
                 </tr>
@@ -435,4 +443,14 @@
       </div>
     </form>
   </div>
+
+  @if(isSubmitting){
+    <div
+  style="transition: all 2s; z-index:2"
+  class="modal-overlay d-grid align-items-center justify-content-center"
+  >
+  <span class="p-5 bg-white rounded">
+  <mat-spinner></mat-spinner></span>
+  </div>
+  }
 </main>

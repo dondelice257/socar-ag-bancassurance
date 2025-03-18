@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'; // Import form-related modules
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -11,12 +11,18 @@ import { UserService } from '../../../core/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { OperatorService } from '../../../core/services/operator.service';
 import { Observable } from 'rxjs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   standalone:true,
-  imports:[ReactiveFormsModule, CommonModule, RouterModule],
+  imports:[
+    ReactiveFormsModule, 
+    CommonModule, 
+    RouterModule, 
+    MatProgressSpinnerModule
+    ],
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
@@ -24,6 +30,7 @@ export class LoginComponent implements OnInit {
   isLoading: boolean=false
   isAuthenticated = false
   isAuthenticated$:Observable<boolean> 
+  showPassword = signal(false);
   
   constructor(
     private formBuilder: FormBuilder, // Inject FormBuilder service
@@ -162,5 +169,9 @@ this.isAuthenticated$ = store.select(AuthState.isAuthenticated)
         //
       }
     });
+  }
+
+  toggleShowPassword() {
+    this.showPassword.set(!this.showPassword());
   }
 }

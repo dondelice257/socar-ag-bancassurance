@@ -13,6 +13,7 @@ import { TransportFormComponent } from '../../production/transport-form/transpor
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ToastrService } from 'ngx-toastr';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-policy-form',
@@ -28,6 +29,7 @@ import { ToastrService } from 'ngx-toastr';
     MatCardModule, 
     MatCheckboxModule, 
     FormsModule, 
+    MatProgressSpinnerModule
 
   ],
   templateUrl: './policy-form.component.html',
@@ -196,7 +198,13 @@ export class PolicyFormComponent {
     if (this.step === 1 && this.selectedClientId && this.policyForm.valid) {
       this.step++;
     } else if (this.step === 2 && this.isSpecificInsuranceValid) {
-      this.step++;
+      if(this.selectedCategory=="fire"){
+        this.step++;
+
+      }else{
+        this.step=4;
+
+      }
     } else if (this.step === 3 && this.selectedGoods) {
       this.step++;
     }
@@ -206,7 +214,21 @@ export class PolicyFormComponent {
    * Goes back to the previous step
    */
   onBack() {
-    if (this.step > 1) this.step--;
+    if (this.step > 1){
+      if(this.step == 4){
+        if(this.selectedCategory=="fire"){
+          this.step--;
+  
+        }else{
+          this.step=2;
+  
+        }
+      }else{
+        this.step--;
+
+      }
+
+    } 
   }
 
   /**

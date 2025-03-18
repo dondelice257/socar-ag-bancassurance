@@ -28,23 +28,29 @@
                   id="username" 
                   formControlName="username"
                   placeholder="Nom d'utilisateur">
-                <label for="username" class="text-mut">Email</label>
+                <label for="username" class="text-mut">Username ou email</label>
                 <!-- Display validation error message if username is invalid -->
                 <div *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)" class="text-danger">
                   <div *ngIf="loginForm.controls['username'].errors">
 
-                    L'email est obligatoire
+                    Ce champ est obligatoire
                   </div>
                 </div>
               </div>
-              <div class="form-floating mb-4">
+              <div class="form-floating mb-4 position-relative">
                 <input 
-                  type="password" 
+                  [type]="showPassword() ? 'text' : 'password'" 
                   class="form-control input" 
                   id="password" 
                   formControlName="password" 
                   placeholder="Mot de passe">
                 <label for="password" class="text-mut">Mot de passe</label>
+              
+                <!-- Eye Icon to Toggle Password Visibility -->
+                <button type="button" class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2" (click)="toggleShowPassword()">
+                  <i [class]="showPassword() ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </button>
+              
                 <!-- Display validation error message if password is invalid -->
                 <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" class="text-danger">
                   <div *ngIf="loginForm.controls['password'].errors">
@@ -52,6 +58,7 @@
                   </div>
                 </div>
               </div>
+              
               <div class="d-grid bg-main">
                 <button 
                   type="submit" 
@@ -78,3 +85,14 @@
     </div>
   </div>
 </div>
+
+
+@if(isLoading){
+  <div
+style="transition: all 2s; z-index:2"
+class="modal-overlay d-grid align-items-center justify-content-center"
+>
+<span class="p-5 bg-white rounded">
+<mat-spinner></mat-spinner></span>
+</div>
+}

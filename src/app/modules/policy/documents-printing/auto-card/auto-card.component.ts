@@ -14,4 +14,13 @@ import { NgxPrintModule } from 'ngx-print';
 })
 export class AutoCardComponent {
 @Input() policy :any
+passengers = 0
+
+ngOnInit(){
+  if(this.policy){
+    this.passengers = parseInt(this.policy.auto_insurance?.places_cabine) - 1
+    console.log('count: %d', this.passengers)
+  }
+
+}
 }
