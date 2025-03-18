@@ -81,6 +81,8 @@
         <div class="row">
           <p class="col-lg-4"><i class="fas fa-hashtag text-secondary"></i> <strong>Numéro de police:</strong> {{ policy.policy_number }}</p>
           <p class="col-lg-4"><i class="fas fa-hashtag text-secondary"></i> <strong>Catégorie:</strong> Assurance {{ policy.category }}</p>
+          <p class="col-lg-4"><i class="fas fa-hashtag text-secondary"></i> <strong>Avenant:</strong> {{ policy.formatted_avenant }}</p>
+
             @if(!policy.is_demo){
                         <p class="col-lg-4">
             <i class="fas fa-info-circle text-secondary"></i> <strong>Statut:</strong> 

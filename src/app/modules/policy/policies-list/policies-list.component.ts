@@ -31,7 +31,7 @@ export class PoliciesListComponent {
 
 
 
-    { columnDef: 'formatted_avenant', header: 'Type' },
+    { columnDef: 'formatted_avenant', header: 'Avenant' },
     { columnDef: 'bill.status', header: 'Status' },
     { columnDef: 'premium_amount', header: 'Prime totale' },
 
