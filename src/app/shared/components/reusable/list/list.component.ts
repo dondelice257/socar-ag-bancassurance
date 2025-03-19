@@ -108,21 +108,26 @@ export class ListComponent implements AfterViewInit {
     return this.columns.some(col => col.detail && row[col.detail.field]);
   }
 
+  getNestedValue(obj: any, path: string) {
+    return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : ''), obj);
+  }
+
   exportToExcel() {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Data');
-
+  
     const headers = this.columns.map(col => col.header);
     worksheet.addRow(headers);
-
-    this.data.forEach((row:any) => {
-      const rowData = this.columns.map(col => row[col.columnDef] || '');
+  
+    this.data.forEach((row: any) => {
+      const rowData = this.columns.map(col => this.getNestedValue(row, col.columnDef));
       worksheet.addRow(rowData);
     });
-
+  
     workbook.xlsx.writeBuffer().then(buffer => {
       const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       saveAs(blob, this.title);
     });
   }
+  
 }
