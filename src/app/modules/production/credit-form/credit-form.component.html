@@ -1,0 +1,85 @@
+<form [formGroup]="insuranceForm">
+    <div class="row">
+      <!-- Chasis Number -->
+
+
+      <div class="col-md-6 mb-3">
+        <div class="form-floating">
+          <select class="form-control" formControlName="coverage">
+            <option value="deces" >Deces ( seulement )</option>
+            <option value="job_loss" >Deces et perte d emploi</option>
+
+          </select>
+          <label>Couverture</label>
+        </div>
+      </div>
+  
+
+  
+    <div class="row">
+      <!-- Limites Territoriales -->
+      <div class="col-md-6 mb-3">
+        <mat-checkbox class="example-margin" formControlName="is_refinancing">Refinancement</mat-checkbox>
+      </div> 
+      <div class="col-md-6 mb-3">
+        <mat-checkbox class="example-margin" formControlName="is_group">Groupe</mat-checkbox>
+      </div> 
+      <!-- Usage -->
+      <div class="row">
+        @if(insuranceForm.get('is_group')?.value){
+          <div class="col-md-6 mb-3">
+            <div class="form-floating">
+              <input type="text" class="form-control" formControlName="raison_sociale" placeholder="Raison sociale">
+              <label>Raison sociale</label>
+            </div>
+          </div>
+         }
+      </div>
+    </div>
+    @if(insuranceForm.get('is_refinancing')?.value){
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="d-grid">
+                    <!-- Dynamic header based on current step -->
+            
+                        <b class="mb-1"><b>Rechercher la police par numero</b></b>
+            
+                    
+                    <!-- Client lookup component -->
+                    <div class="w-50 mb-2">
+                      <app-lookup
+                        url='policy/policy/search'
+                        [option]="'lookup'"
+                        itemsLabel="Polices"
+                        (selectedItemEvent)="onPolicySelected($event)">
+                      </app-lookup>
+                    </div>
+                    
+            
+            
+                  </div>
+                </div>
+        <div class="col-md-6 mb-3">
+            <div class="form-floating">
+              <input type="text" class="form-control" formControlName="ongoing_amount" placeholder="Montant en cours">
+              <label>Montant en cours</label>
+            </div>
+          </div>
+    </div>
+    }
+
+  
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="form-floating">
+              <input type="text" class="form-control" formControlName="credit_amount" placeholder="Montant total du credit">
+              <label>Montant total du credit</label>
+            </div>
+          </div>
+    </div>
+  
+
+  
+    </div>
+  </form>
+  

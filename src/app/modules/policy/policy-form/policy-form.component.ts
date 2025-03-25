@@ -14,6 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ToastrService } from 'ngx-toastr';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CreditFormComponent } from '../../production/credit-form/credit-form.component';
 
 @Component({
   selector: 'app-policy-form',
@@ -26,6 +27,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AutoFormComponent,
     FireFormComponent,
     TransportFormComponent,
+    CreditFormComponent,
     MatCardModule, 
     MatCheckboxModule, 
     FormsModule, 
@@ -43,7 +45,7 @@ export class PolicyFormComponent {
   guaranteeForm: FormGroup;
   goodsForm: FormGroup;
   policyForm: FormGroup;
-  
+  memberForm: FormGroup;
   // Converted capital amount in BIF currency
   capitalInBif = 0;
   
@@ -54,6 +56,8 @@ export class PolicyFormComponent {
   // Selected data storage
   selectedClientId: string | null = null;
   selectedGuarantees: any[] = [];
+  selectedMembers: any[] = [];
+
   selectedGoods: any[] = [];
   
   // IDs for created entities
@@ -117,6 +121,20 @@ export class PolicyFormComponent {
       guarantee_type: ['percentage', [Validators.required]],
       value: [0],
     });
+
+      this.memberForm = this.fb.group({
+      full_name: ['', Validators.required],
+      age: ['', Validators.required],
+
+      credit_amount: [0, [Validators.required, Validators.min(0)]],
+      ongoing_amount: [0],
+
+      credit_rate: [0, Validators.max(100)],
+      ongoing_rate: [0, Validators.max(100)],
+
+      number_of_installments: [0, Validators.required],
+
+    });
   
     // Initialize goods form with validations
     this.goodsForm = this.fb.group({
@@ -126,7 +144,7 @@ export class PolicyFormComponent {
 
     // Initialize main policy form with validations
     this.policyForm = this.fb.group({
-      client: ['', Validators.required],
+      client: [''],
       issue_date: ['', Validators.required],
       period: ['', Validators.required],
       beneficiaire: [''],
@@ -156,9 +174,17 @@ export class PolicyFormComponent {
       }
     });
 
+
+
     this.policyForm.valueChanges.subscribe(() => {
 
       const capitalAssured = this.policyForm.get('assured_capital_bif')?.value
+
+      // console.log(this.policyForm.value)
+
+      if(this.selectedCategory =='credit'){
+        this.policyForm.get('client')?.clearValidators()
+      }
 
       this.guaranteeForm.patchValue({
         assured_capital: capitalAssured
@@ -195,7 +221,7 @@ export class PolicyFormComponent {
    * Advances to the next step if current step validation passes
    */
   onNext() {
-    if (this.step === 1 && this.selectedClientId && this.policyForm.valid) {
+    if (this.step === 1 && this.policyForm.valid) {
       this.step++;
     } else if (this.step === 2 && this.isSpecificInsuranceValid) {
       if(this.selectedCategory=="fire"){
@@ -261,9 +287,11 @@ createPolicy() {
       this.toastr.success('La police a été créée avec succès !', 'Succès');
       
       // Soumettre les données associées
-      this.submitGuarantees();
-      this.submitGoods();
+
       this.createSpecificInsurance();
+
+
+      this.submitGoods();
 
       console.log('Police créée:', response);
     },
@@ -287,6 +315,12 @@ createPolicy() {
     this.policyService.createSpecificInsurance(body, this.selectedCategory).subscribe(
       (response: any) => {
         this.specificInsuranceId = response.id;
+        if(this.connectedOperator.company?.is_non_vie){
+          this.submitGuarantees();
+  
+        }else{
+          this.submitMembers()
+        }
         this.isSubmitting = false;
         this.toastr.success('L’assurance' +response.category + ' a été créée avec succès !', 'Succès');
         console.log('Assurance spécifique créée:', response);
@@ -326,6 +360,42 @@ createPolicy() {
     }
   }
   
+
+
+
+
+  addMember() {
+    if (this.memberForm.valid) {
+      const member = {
+        full_name: this.memberForm.value.full_name,
+        age: this.memberForm.value.age,
+        credit_amount: this.memberForm.value.credit_amount,
+        credit_rate: this.memberForm.value.credit_rate,
+        ongoing_amount: this.memberForm.value.ongoing_amount,
+        ongoing_rate: this.memberForm.value.ongoing_rate,
+        number_of_installments: this.memberForm.value.number_of_installments,
+
+      };
+      
+      this.selectedMembers.push(member);
+      
+      // Reset form fields after adding
+      this.memberForm.patchValue({
+        full_name: '',
+        age: '',
+
+        credit_amount: 0,
+        credit_rate: 0,
+        ongoing_amount: 0,
+        ongoing_rate: 0,
+        number_of_installments: 0,
+
+      });
+    }else{
+      console.log(this.memberForm.value, this.memberForm.status)
+    }
+  }
+  
   /**
    * Adds an insured asset to the selected goods list
    * from the goods form data
@@ -353,6 +423,11 @@ createPolicy() {
    */
   removeGuarantee(index: number) {
     this.selectedGuarantees.splice(index, 1);
+  }
+
+
+    removeMember(index: number) {
+    this.selectedMembers.splice(index, 1);
   }
   
   /**
@@ -383,6 +458,44 @@ createPolicy() {
       .then(responses => {
         this.isSubmitting = false;
         this.toastr.success('Toutes les garanties ont été soumises avec succès !', 'Succès');
+
+      
+        if (this.policyForm.value.is_demo) {
+          this.router.navigateByUrl('/policy/offer');
+        } else {
+          this.router.navigateByUrl('/policy/list');
+          this.policyService.sendHqNotification({policy_id:this.policyId}).subscribe(()=>{
+            this.toastr.success('Notification envoyée au siege avec succès', 'Succès');
+          })
+        }
+        
+        console.log('Garanties soumises:', responses);
+      })
+      .catch(error => {
+        this.isSubmitting = false;
+        this.handleError(error);
+      });
+  }
+  
+
+
+
+  submitMembers() {
+    this.isSubmitting = true;
+
+    const membersWithInsurance = this.selectedMembers.map(member => ({
+      ...member,
+      credit_protection_insurance: this.specificInsuranceId
+    }));
+
+    const promises = membersWithInsurance.map(member =>
+      this.policyService.createMember(member).toPromise()
+    );
+
+    Promise.all(promises)
+      .then(responses => {
+        this.isSubmitting = false;
+        this.toastr.success('Toutes les membres ont été soumises avec succès !', 'Succès');
 
       
         if (this.policyForm.value.is_demo) {
@@ -441,7 +554,13 @@ submitGoods() {
     } else if (!this.specificInsuranceId) {
       this.createSpecificInsurance();
     } else {
-      this.submitGuarantees();
+
+      if(this.connectedOperator.company?.is_non_vie){
+        this.submitGuarantees();
+
+      }else{
+        this.submitMembers()
+      }
     }
   }
 
@@ -457,7 +576,7 @@ submitGoods() {
    * @param formData Form data from specific insurance type components
    */
   onFormChange(formData: any) {
-    console.log('Form Data:', formData);
+    // console.log('Form Data:', formData);
     this.specificInsurance = formData;
   }
   
@@ -466,7 +585,7 @@ submitGoods() {
    * @param isValid Boolean indicating if the specific form is valid
    */
   onFormValidityChange(isValid: boolean) {
-    console.log('Form Valid:', isValid);
+    // console.log('Form Valid:', isValid);
     this.isSpecificInsuranceValid = isValid;
   }
 

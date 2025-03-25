@@ -14,6 +14,9 @@
           @case("transport"){
             <b> - Transport</b>
           }
+          @case("credit"){
+            <b> - Protection credit</b>
+          }
         }
       </div>
     </h3>
@@ -21,7 +24,9 @@
   
   <div class="container mt-2">
     <form [formGroup]="policyForm">
-      <div>
+
+      @if(connectedOperator.company?.is_non_vie){
+             <div >
         <!-- Dynamic header based on current step -->
         @switch(step){
           @case(1){
@@ -52,7 +57,9 @@
         @else {
           <!-- Space for selected client information -->
         }
-      </div>
+      </div> 
+      }
+
       
       <!-- Step 1: Client Lookup and Contract Information -->
       <div *ngIf="step === 1">
@@ -65,9 +72,16 @@
               <div class="col-lg-6 mb-3">
                 <div class="form-floating">
                   <select class="form-select" formControlName="category">
-                    <option [value]="'auto'">Automobile</option>
-                    <option [value]="'transport'">Transport</option>
-                    <option [value]="'fire'">Incendie</option>
+                    @if(connectedOperator.company?.is_non_vie){
+                      <option [value]="'auto'">Automobile</option>
+                      <option [value]="'transport'">Transport</option>
+                      <option [value]="'fire'">Incendie</option>
+                    }
+                    @if(!connectedOperator.company?.is_non_vie){
+                    <option [value]="'credit'">Protection credit</option>
+
+                    }
+
                   </select>
                   <label>Branche d'assurance</label>
                 </div>
@@ -98,6 +112,7 @@
               </div>
               
               <!-- Insured capital amount with BIF conversion display -->
+               @if(connectedOperator.company?.is_non_vie) {
               <div class="col-lg-6 mb-3 d-grid">
                 <div class="form-floating">
                   <input (input)="updateCapitalInBif()" type="text" class="form-control" formControlName="assured_capital_devise" placeholder="Capital Assuré">
@@ -108,6 +123,8 @@
                   <b>{{capitalInBif | number}}</b>
                 </div>
               </div>
+               }
+
             </div>
           </div>
           
@@ -122,14 +139,10 @@
             <!-- Period selection -->
             <div class="col-lg-6 mb-3">
               <div class="form-floating">
-                <select class="form-select" formControlName="period">
-                  <!-- <option [value]="3">Mois</option> -->
-                  <option [value]="1">Trimestre</option>
-                  <option [value]="4">Semestre</option>
-                  <option [value]="2">Année</option>
-                  <option [value]="">Custom</option>
-                </select>
-                <label>Période</label>
+
+                <input type="number" class="form-control" formControlName="period" placeholder="Periode en mensualites">
+
+                <label>Periode en mensualites</label>
               </div>
             </div>
             
@@ -142,7 +155,7 @@
             </div>
             
             <!-- Beneficiary field -->
-            @if(selectedCategory=="fire"){
+            @if(selectedCategory=="fire" ){
               <div class="col-lg-6 mb-3">
                 <div class="form-floating">
                   <input type="text" class="form-control" formControlName="beneficiaire" placeholder="Bénéficiaire">
@@ -152,10 +165,12 @@
             }
             
             <!-- VAT checkbox -->
-
+            @if(connectedOperator.company?.is_non_vie){
             <div class="col-lg-3 mb-3">
               <mat-checkbox class="example-margin" formControlName="assujeti_tva">Exoneré à la TVA</mat-checkbox>
-            </div>
+            </div> 
+            }
+
             <div class="col-lg-3 mb-3" title="En cochant cette option, votre police sera enregistrée comme une proposition. Aucune facture ne sera générée, il s'agira seulement d'un test. Vous pourrez la valider plus tard depuis la liste des offres.">
               <mat-checkbox class="example-margin" formControlName="is_demo">Offre</mat-checkbox>
 
@@ -216,6 +231,15 @@
         (body)="onFormChange($event)"  
         (isFormValid)="onFormValidityChange($event)">
       </app-transport-form>
+    }
+
+    @case("credit"){
+      <app-credit-form
+      [initialValue]="specificInsurance"
+        [selectedCategory]="selectedCategory"
+        (body)="onFormChange($event)"  
+        (isFormValid)="onFormValidityChange($event)">
+      </app-credit-form>
     }
   }
 </section>
@@ -303,134 +327,240 @@
       
       <!-- Step 4: Add Guarantees -->
       <div *ngIf="step === 4">
-        <h4 class="mb-3"><b>Ajout des garanties</b></h4>
+
+        @if (connectedOperator.company?.is_non_vie===true) {
+          <h4 class="mb-3"><b>Ajout des garanties</b></h4>
         
-        <div class="container my-4">
-          <!-- Form to add guarantees -->
-          <div class="card p-4 shadow-sm">
-            <h4 class="text-center mb-4">Ajouter une Garantie</h4>
-            <form [formGroup]="guaranteeForm">
-              <div class="row">
-                <!-- Guarantee type selection -->
-                <div class="col-lg-2">
-                  <label for="name" class="form-label">Type de garantie</label>
-                  <select class="form-select" formControlName="guarantee_type">
-                    <option [value]="'percentage'">Taux</option>
-                    <option [value]="'fixed'">Montant</option>
-                  </select>
-                </div>
-                
-                <!-- Guarantee name field -->
-                <div class="col-lg-4">
-                  <label for="garantie" class="form-label">Garantie</label>
-  <!-- Display select based on selectedCategory -->
-  <div *ngIf="selectedCategory === 'auto'">
-    <select id="garantie" class="form-select" formControlName="name">
-      <option *ngFor="let option of autoOptions" [value]="option">{{ option }}</option>
-    </select>
-  </div>
-
-  <div *ngIf="selectedCategory === 'fire'">
-    <select id="garantie" class="form-select" formControlName="name">
-      <option *ngFor="let option of fireOptions" [value]="option">{{ option }}</option>
-    </select>
-  </div>
-
-  <div *ngIf="selectedCategory === 'transport'">
-    <select id="garantie" class="form-select" formControlName="name">
-      <option *ngFor="let option of transportOptions" [value]="option">{{ option }}</option>
-    </select>
-  </div>
-                </div>
-                
-                <!-- Insured capital amount -->
-                <div class="col-lg-2">
-                  <label for="capital" class="form-label">Capital Assuré</label>
-                  <input
-                    id="capital"
-                    type="number"
-                    class="form-control"
-                    [readOnly]="selectedCategory !=='fire' && selectedCategory"
-                    [disabled]="selectedCategory !=='fire' && selectedCategory"
-
-                    formControlName="assured_capital"
-                    placeholder="Capital assuré"
-                  />
-                </div>
-                
-                <!-- Conditional fields based on guarantee type -->
-                @switch(guaranteeForm.value.guarantee_type){
-                  @case("fixed"){
-                    <div class="col-md-2">
-                      <label for="capital" class="form-label">Prime</label>
-                      <input
-                        id="capital"
-                        type="number"
-                        class="form-control"
-                        formControlName="value"
-                        placeholder="Prime"
-                      />
-                    </div>
+          <div class="container my-4">
+            <!-- Form to add guarantees -->
+            <div class="card p-4 shadow-sm">
+              <h4 class="text-center mb-4">Ajouter une Garantie</h4>
+              <form [formGroup]="guaranteeForm">
+                <div class="row">
+                  <!-- Guarantee type selection -->
+                  <div class="col-lg-2">
+                    <label for="name" class="form-label">Type de garantie</label>
+                    <selec
+                    t class="form-select" formControlName="guarantee_type">
+                      <option [value]="'percentage'">Taux</option>
+                      <option [value]="'fixed'">Montant</option>
+                    </selec>
+                  </div>
+                  
+                  <!-- Guarantee name field -->
+                  <div class="col-lg-4">
+                    <label for="garantie" class="form-label">Garantie</label>
+    <!-- Display select based on selectedCategory -->
+    <div *ngIf="selectedCategory === 'auto'">
+      <select id="garantie" class="form-select" formControlName="name">
+        <option *ngFor="let option of autoOptions" [value]="option">{{ option }}</option>
+      </select>
+    </div>
+  
+    <div *ngIf="selectedCategory === 'fire'">
+      <select id="garantie" class="form-select" formControlName="name">
+        <option *ngFor="let option of fireOptions" [value]="option">{{ option }}</option>
+      </select>
+    </div>
+  
+    <div *ngIf="selectedCategory === 'transport'">
+      <select id="garantie" class="form-select" formControlName="name">
+        <option *ngFor="let option of transportOptions" [value]="option">{{ option }}</option>
+      </select>
+    </div>
+                  </div>
+                  
+                  <!-- Insured capital amount -->
+                  <div class="col-lg-2">
+                    <label for="capital" class="form-label">Capital Assuré</label>
+                    <input
+                      id="capital"
+                      type="number"
+                      class="form-control"
+                      [readOnly]="selectedCategory !=='fire' && selectedCategory"
+                      [disabled]="selectedCategory !=='fire' && selectedCategory"
+  
+                      formControlName="assured_capital"
+                      placeholder="Capital assuré"
+                    />
+                  </div>
+                  
+                  <!-- Conditional fields based on guarantee type -->
+                  @switch(guaranteeForm.value.guarantee_type){
+                    @case("fixed"){
+                      <div class="col-md-2">
+                        <label for="capital" class="form-label">Prime</label>
+                        <input
+                          id="capital"
+                          type="number"
+                          class="form-control"
+                          formControlName="value"
+                          placeholder="Prime"
+                        />
+                      </div>
+                    }
+                    @case("percentage"){
+                      <div class="col-lg-2">
+                        <label for="capital" class="form-label">Taux</label>
+                        <input
+                          id="capital"
+                          type="number"
+                          class="form-control"
+                          formControlName="rate"
+                          placeholder="Taux"
+                        />
+                      </div>
+                    }
                   }
-                  @case("percentage"){
-                    <div class="col-lg-2">
-                      <label for="capital" class="form-label">Taux</label>
-                      <input
-                        id="capital"
-                        type="number"
-                        class="form-control"
-                        formControlName="rate"
-                        placeholder="Taux"
-                      />
-                    </div>
-                  }
-                }
-                
-                <!-- Add button -->
-                <div class="col-lg-2 d-flex align-items-end">
-                  <button type="button" class="p-2 rounded text-white bg-primary-2 w-100" (click)="addGuarantee()">
-                    Ajouter
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-          
-          <!-- Table of selected guarantees (conditional display) -->
-          <div class="card p-4 mt-4 shadow-sm" *ngIf="selectedGuarantees.length > 0">
-            <h4 class="text-center mb-3">Garanties Sélectionnées</h4>
-            <table class="table table-bordered table-striped text-center">
-              <thead class="table-dark">
-                <tr>
-                  <th>Garantie</th>
-                  <th>Capital Assuré</th>
-                  <th>Type</th>
-                  <th>Prime</th>
-                  <th>Pourcentage</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let guarantee of selectedGuarantees; let i = index">
-                  <td>{{ guarantee.name }}</td>
-                  <td>{{ guarantee.assured_capital | number }}</td>
-                  <td>{{ guarantee.guarantee_type }}</td>
-                  <td>{{ guarantee.value | number }}</td>
-                  <td>{{ guarantee.rate }}%</td>
-                  <td>
-                    <button class="text-white bg-danger p-2 rounded" (click)="removeGuarantee(i)">
-                      Supprimer
+                  
+                  <!-- Add button -->
+                  <div class="col-lg-2 d-flex align-items-end">
+                    <button type="button" class="p-2 rounded text-white bg-primary-2 w-100" (click)="addGuarantee()">
+                      Ajouter
                     </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  </div>
+                </div>
+              </form>
+            </div>
+            
+            <!-- Table of selected guarantees (conditional display) -->
+            <div class="card p-4 mt-4 shadow-sm" *ngIf="selectedGuarantees.length > 0">
+              <h4 class="text-center mb-3">Garanties Sélectionnées</h4>
+              <table class="table table-bordered table-striped text-center">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Garantie</th>
+                    <th>Capital Assuré</th>
+                    <th>Type</th>
+                    <th>Prime</th>
+                    <th>Pourcentage</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let guarantee of selectedGuarantees; let i = index">
+                    <td>{{ guarantee.name }}</td>
+                    <td>{{ guarantee.assured_capital | number }}</td>
+                    <td>{{ guarantee.guarantee_type }}</td>
+                    <td>{{ guarantee.value | number }}</td>
+                    <td>{{ guarantee.rate }}%</td>
+                    <td>
+                      <button class="text-white bg-danger p-2 rounded" (click)="removeGuarantee(i)">
+                        Supprimer
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        }@else {
+          <h4 class="mb-3"><b>Ajout des crediteurs</b></h4>
+        
+          <div class="container my-4">
+            <!-- Form to add guarantees -->
+                          <div class="card p-4 shadow-sm">
+              <!-- <h4 class="text-center mb-4">Ajouter les membres du groupe </h4> -->
+              <form [formGroup]="memberForm">
+                <div class="row">
+                  <!-- Guarantee type selection -->
+                  <div class="col-lg-6 mb-3" >
+                    <div class="form-floating">
+                      <input type="text" class="form-control" formControlName="full_name" placeholder="Nom complet">
+                      <label>Nom complet</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3" >
+                    <div class="form-floating">
+                      <input type="number" class="form-control" formControlName="age" placeholder="Age du membre">
+                      <label>Age</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3" >
+
+                                      <div class="form-floating">
+                      <input type="number" class="form-control" formControlName="credit_amount" placeholder="Montant">
+                      <label>Montant du credit</label>
+                    </div>
+                    </div>
+                  <div class="col-lg-6 mb-3" >
+                    <div class="form-floating">
+                      <input type="number" class="form-control" formControlName="number_of_installments" placeholder="Periode">
+                      <label>Periode en mois</label>
+                    </div>
+                  </div>
+                                    <div class="col-lg-6 mb-3" >
+                    <div class="form-floating">
+                      <input type="number" class="form-control" formControlName="credit_rate" placeholder="Taux">
+                      <label>Taux</label>
+                    </div>
+                  </div>
+
+                  @if(specificInsurance?.is_refinancing){
+                    <div class="form-floating">
+                      <input type="number" class="form-control" formControlName="ongoing_amount" placeholder="Montant en cours">
+                      <label>Montant en cours</label>
+                    </div>
+                    <div class="col-lg-6 mb-3" >
+                      <div class="form-floating">
+                        <input type="number" class="form-control" formControlName="ongoing_rate" placeholder="Taux en cours">
+                        <label>Taux en cours</label>
+                      </div>
+                      </div>
+                  }
+                  
+
+                  
+
+                  
+            
+                  
+                  <!-- Add button -->
+                  <div class="col-lg-12 d-flex align-items-center justify-content-center">
+                    <button type="button" class="p-2 rounded text-white bg-primary-2 w-100" (click)="addMember()">
+                      Ajouter
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            
+            <!-- Table of selected guarantees (conditional display) -->
+            <div class="card p-4 mt-4 shadow-sm" *ngIf="selectedMembers.length > 0">
+              <h4 class="text-center mb-3">Membres ajoutés</h4>
+              <table class="table table-bordered table-striped text-center">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Nom</th>
+                    <th>Montant du credit</th>
+                    <th>Periode ( mois )</th>
+                    <th>Taux</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let member of selectedMembers; let i = index">
+                    <td>{{ member.full_name }}</td>
+                    <td>{{ member.credit_amount | number }}</td>
+                    <td>{{ member.number_of_installments }}</td>
+                    <td>{{ member.credit_rate | number }}</td>
+                    <td>
+                      <button class="text-white bg-danger p-2 rounded" (click)="removeMember(i)">
+                        Supprimer
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        }
+
         
         <!-- Navigation and submission buttons -->
         <button type="button" class="btn text-white btn-secondary me-2" (click)="onBack()">Retour</button>
-        <button type="submit" (click)="onSubmit()" class="p-2 rounded text-white bg-main" [disabled]="selectedGuarantees.length === 0">
+        <button type="submit" (click)="onSubmit()" class="p-2 rounded text-white bg-main" [disabled]="selectedMembers.length === 0">
           @if(!isSubmitting){
             Soumettre
           } 

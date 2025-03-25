@@ -10,6 +10,9 @@ import { AutoCardComponent } from '../documents-printing/auto-card/auto-card.com
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { BillPrintComponent } from '../documents-printing/bill-print/bill-print.component';
+import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { AuthState } from '../../../shared/states/auth/auth.state';
 
 @Component({
   selector: 'app-policy-details',
@@ -33,6 +36,10 @@ export class PolicyDetailsComponent {
 policyId:string ='';
 selectedAction:string ='';
 
+
+// Observable for the currently logged-in operator
+connectedOperator$!: Observable<any>;
+connectedOperator: any;
 policy:any
 isModalShown:boolean=false
 isLoading:boolean=false
@@ -51,6 +58,7 @@ renewForm:FormGroup
     private policyService : PolicyService,
     private router : Router,
     private fb: FormBuilder,
+    private store : Store,
   ){
     // Initialize main policy form with validations
     this.renewForm = this.fb.group({
@@ -58,6 +66,9 @@ renewForm:FormGroup
       period_id: ['', Validators.required],
       assured_capital_bif: [0, Validators.required],
     });
+
+    this.connectedOperator$ = this.store.select(AuthState.connectedOperator);
+
   }
 
 
@@ -73,6 +84,18 @@ renewForm:FormGroup
       }
   
     })
+
+    this.connectedOperator$.subscribe((connectedOperator: any) => {
+      this.connectedOperator = connectedOperator;
+      console.log('from operatorrr conneccttteedd', this.connectedOperator);
+
+
+      
+      // Redirect logic (currently commented out)
+      if (!connectedOperator) {
+        this.router.navigateByUrl('/login')
+      }
+    });
   }
 
 

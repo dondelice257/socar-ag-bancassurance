@@ -8,7 +8,7 @@
               <div 
                 class="sidebar-item d-flex align-items-center p-2 text-white justify-content-between"
                 (click)="menu.menus.length ? toggleMenu(menu.name) : null"
-                [class.active]="activeMenu === menu.name"
+                [class.bg-main]="activeMenu === menu.name"
               >
                 <div class="d-flex align-items-center">
                   <!-- <b class="me-2">
@@ -26,7 +26,7 @@
                   class=" p-2"
                   [routerLink]="subMenu.url" 
                   role="button"
-                  routerLinkActive="active-menu"
+                  routerLinkActive="text-main"
                 >
                   {{ subMenu.name }}
                 </div>

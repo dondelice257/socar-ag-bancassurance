@@ -1,5 +1,11 @@
 @import 'bootstrap/scss/bootstrap';
-$main:#1F458E;
+// $main:#1F458E;
+$main:#F06717;
+
+// $primary-2:#A4CA39;
+$primary-2:#2c2828;
+
+
 $green:#A4CA39;
 $focus:#0f5be7;
 $main-less-light:#3e5681;
@@ -22,6 +28,8 @@ $level-2:#f3f3f3;
   font-style: normal;
   font-weight: 700;
 }
+
+
 
 
 *{
@@ -257,7 +265,7 @@ $level-2:#f3f3f3;
 
 
   .bg-primary-2{
-    background-color: #A4CA39;
+    background-color: $primary-2;
   }
 
   .bg-white-1{

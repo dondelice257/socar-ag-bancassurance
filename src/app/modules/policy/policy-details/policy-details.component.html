@@ -81,8 +81,16 @@
         <div class="row">
           <p class="col-lg-4"><i class="fas fa-hashtag text-secondary"></i> <strong>Numéro de police:</strong> {{ policy.policy_number }}</p>
           <p class="col-lg-4"><i class="fas fa-hashtag text-secondary"></i> <strong>Catégorie:</strong> Assurance {{ policy.category }}</p>
+          @if(policy.category !="credit"){
           <p class="col-lg-4"><i class="fas fa-hashtag text-secondary"></i> <strong>Avenant:</strong> {{ policy.formatted_avenant }}</p>
 
+          }
+          @if(policy.category =="credit"){
+          <p class="col-lg-4"><i class="fas fa-hashtag text-secondary"></i> <strong>Crediteur:</strong> {{ policy.credit_insurance?.raison_sociale }}</p>
+          <p class="col-lg-4"><i class="fas fa-hashtag text-secondary"></i> <strong>Type:</strong> {{ policy.credit_insurance?.is_refinancing? "Refinancement":"Nouveau"}}</p>
+
+
+          }
             @if(!policy.is_demo){
                         <p class="col-lg-4">
             <i class="fas fa-info-circle text-secondary"></i> <strong>Statut:</strong> 
@@ -106,12 +114,15 @@
           <div class="card p-3 shadow-sm bg-light">
             <h5 class="fw-bold text-primary"><i class="fas fa-coins"></i> Informations Financières</h5>
             <p><strong>Prime totale:</strong> <span class="text-success">{{ policy.premium_amount | currency:'BIF' }}</span></p>
-            <p><strong>Prime de base:</strong> {{ policy.prime_base | currency:'BIF' }}</p>
+            @if(policy.category !="credit"){
+              <p><strong>Prime de base:</strong> {{ policy.prime_base | currency:'BIF' }}</p>
             <p><strong>Prime nette:</strong> {{ policy.prime_nette | currency:'BIF' }}</p>
             <p><strong>TVA:</strong> {{ policy.tva | currency:'BIF' }}</p>
             <p><strong>Frais:</strong> {{ policy.frais | currency:'BIF' }}</p>
             <p><strong>Charges diverses:</strong> {{ policy.charges_diverses | currency:'BIF' }}</p>
             <p><strong>Charges ARCA:</strong> {{ policy.charges_arca | currency:'BIF' }}</p>
+            }
+            
           </div>
         </div>
         
@@ -151,6 +162,22 @@
                   <p><strong>Quantité:</strong> {{ policy.transport_insurance?.quantity }}</p>
                   <p><strong>Nombre de colis:</strong> {{ policy.transport_insurance?.colis_number }}</p>
                 }
+                @case("credit"){
+                  <!-- Transport Insurance Risk Info -->
+                  <p><strong>Montant de credit:</strong> <span class="text-success">{{ policy.credit_insurance?.credit_amount }}</span></p>
+                  <p><strong>Periode:</strong> <span class="">{{ policy.period }} mois</span></p>
+                  <p><strong>Taux de prime:</strong> <span class="">{{ policy.credit_insurance?.credit_rate }} %</span></p>
+                  <p><strong>Categorie du credit:</strong> <span class="">{{ policy.credit_insurance?.is_group?"En Groupe":"Individuel" }} %</span></p>
+                  @if(policy.credit_insurance?.is_refinancing){
+                  <p><strong>Montant en cours:</strong> <span class="text-success">{{ policy.credit_insurance?.ongoing_amount }}</span></p>
+                  <p><strong>Taux du prime en cours:</strong> <span class="text-success">{{ policy.credit_insurance?.ongoing_rate }}</span></p>
+                  <p><strong>Date d expiration du credit en cours:</strong> <span class="text-danger">{{ policy.credit_insurance?.base_policy?.expiration_date }}</span></p>
+
+
+
+                  }
+                 
+                }
               }
             </div>
           </div>
@@ -162,7 +189,9 @@
   <!-- Client and Operator Information Cards -->
   <div class="row mt-4">
     <!-- Client Details Card -->
-    <div class="col-md-4">
+
+    @if(policy.category !="credit"){
+         <div class="col-md-4">
       <div class="d-flex justify-content-center w-100">
         <b class="text-primary">Info du client</b>
       </div>
@@ -177,7 +206,9 @@
         <p><strong>Adresse:</strong> {{ policy.client?.user_address }}</p>
         <p><strong>Numéro de téléphone:</strong> {{ policy.client?.user_phone_number }}</p>
       </div>
-    </div>
+    </div> 
+    }
+
   
     <!-- Operator Details Card -->
     <div class="col-md-4">
@@ -211,53 +242,95 @@
   </div>
   
   <!-- Guarantees Table Card -->
-  <div class="card mt-4 p-4">
-    <h4 class="fw-bold">Garanties</h4>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Garantie</th>
-          <th>Capital Assuré</th>
-          <th>Prime</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let guarantee of policy.guarantees">
-          <td>{{ guarantee.name }}</td>
-          <td>{{ guarantee.assured_capital | currency:'BIF' }}</td>
-          <td>{{ guarantee.prime | currency:'BIF' }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- <div class="d-flex justify-content-end mt-3">
-      <strong>Total Prime de Base:</strong>
-      <span class="fw-bold text-success">{{ totalPrimeBase | number:'1.0-0' }} BIF</span>    </div> -->
-  </div>
-
-  <!-- Insured Goods Table Card -->
-  <div class="card mt-4 p-4">
-    <h4 class="fw-bold">Biens Assurés</h4>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Bien</th>
-          <th>Capital Assuré</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let goods of policy.goods">
-          <td>{{ goods.name }}</td>
-          <td>{{ goods.assured_capital | currency:'BIF' }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- Total section commented out - can be enabled if needed
-    <div class="d-flex justify-content-end mt-3">
-      <strong>Total Prime de Base:</strong>
-      <span class="fw-bold text-success">{{ totalPrimeBase | currency:'BIF' }}</span>
+   @if(policy.category !="credit"){
+    <div class="card mt-4 p-4">
+      <h4 class="fw-bold">Garanties</h4>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Garantie</th>
+            <th>Capital Assuré</th>
+            <th>Prime</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let guarantee of policy.guarantees">
+            <td>{{ guarantee.name }}</td>
+            <td>{{ guarantee.assured_capital | currency:'BIF' }}</td>
+            <td>{{ guarantee.prime | currency:'BIF' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <div class="d-flex justify-content-end mt-3">
+        <strong>Total Prime de Base:</strong>
+        <span class="fw-bold text-success">{{ totalPrimeBase | number:'1.0-0' }} BIF</span>    </div> -->
     </div>
-    -->
-  </div>
+  
+    <!-- Insured Goods Table Card -->
+    <div class="card mt-4 p-4">
+      <h4 class="fw-bold">Biens Assurés</h4>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Bien</th>
+            <th>Capital Assuré</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let goods of policy.goods">
+            <td>{{ goods.name }}</td>
+            <td>{{ goods.assured_capital | currency:'BIF' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Total section commented out - can be enabled if needed
+      <div class="d-flex justify-content-end mt-3">
+        <strong>Total Prime de Base:</strong>
+        <span class="fw-bold text-success">{{ totalPrimeBase | currency:'BIF' }}</span>
+      </div>
+      -->
+    </div>
+   }@else{
+    <div class="card mt-4 p-4">
+      <h4 class="fw-bold">Les crediteurs</h4>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Montant de credit</th>
+            <th>Taux du prime</th>
+            <th>Periodes ( mois )</th>
+            @if(policy.credit_insurance?.is_refinancing){
+              <th>Montant en cours</th>
+              <th>Taux du prime en cours</th>
+              <th>Date d expiration du credit en cours</th>
+            }
+            <th>Prime totale</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let member of policy.credit_insurance?.members">
+            <td>{{ member.full_name }}</td>
+            <td>{{ member.credit_amount | currency:'BIF' }}</td>
+            <td>{{ member.credit_rate }} %</td>
+            <td>{{ member.number_of_installments }}</td>
+            @if(policy.credit_insurance?.is_refinancing){
+              <td>{{ member.ongoing_amount | currency:'BIF' }}</td>
+              <td>{{ member.ongoing_rate }} %</td>
+              <td>{{ policy.credit_insurance?.base_policy?.expiration_date }}</td>
+            }
+            <td>{{ member.member_prime | currency:'BIF' }}</td>
+
+          </tr>
+        </tbody>
+      </table>
+      <!-- <div class="d-flex justify-content-end mt-3">
+        <strong>Total Prime de Base:</strong>
+        <span class="fw-bold text-success">{{ totalPrimeBase | number:'1.0-0' }} BIF</span>    </div> -->
+    </div>
+   }
+
 </div>
 }@else{
     <div

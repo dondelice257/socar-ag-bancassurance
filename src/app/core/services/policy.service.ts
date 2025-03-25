@@ -117,6 +117,23 @@ export class PolicyService {
     
   }
 
+  createMember(body:any){
+    const url=`${environment.apiUrl}policy/member/`
+  
+    const header={
+      'content-type': 'application/json',
+      'Authorization' : `Token ${this.token}`
+  
+    }
+  
+    return this.httpClient.post(url, body, {headers:header}).pipe(
+      map((data) => {
+          return data;
+      })
+  );
+    
+  }
+
   createGoods(body:any){
     const url=`${environment.apiUrl}policy/goods/`
   
