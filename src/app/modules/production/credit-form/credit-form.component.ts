@@ -38,8 +38,8 @@ export class CreditFormComponent {
     coverage: ['', Validators.required],
     is_refinancing: [false, Validators.required],
     is_group: [false, Validators.required],
-    credit_amount: ['', Validators.required],
-    ongoing_amount: [''],
+    // credit_amount: ['', Validators.required],
+    // ongoing_amount: [''],
     base_policy: [''],
 
 

@@ -1,0 +1,70 @@
+<div class="contract-wrapper">
+    <!-- Header -->
+    <div class="text-center header-title mt-5 pt-5 ">
+      <h3 class="mb-0 mt-4">
+        <b>ASSURANCE PROTECTION CREDIT/SOLDE RESTANT DU</b>
+    </h3>
+    <h2>CONDITIONS PARTICULIERES</h2>
+    <div class="border border-dark p-2 mb-3 d-grid align-items-center justify-content-center">
+        <div class="d-flex align-items-center mb-2">
+            <span class="me-3">Nom du Groupe : </span>
+            <b>{{policy.credit_insurance?.raison_sociale}} </b>
+        </div>
+        <div class="d-flex align-items-center mb-2">
+            <span class="me-3">Numero de la police : </span>
+            <b>{{policy.policy_number}} </b>
+        </div>
+
+        <div>
+            <div class="d-grid">
+                <div class="d-grid">
+                    <b class="mb-2">DESCRIPTION DU RISQUE</b>
+                    <span>Assurance temporaire de solde restant du d un emprunt de <b>{{policy.credit_insurance?.credit_amount}}</b> doont les delais de remboursements sont specifies dans le document que la banque tient a sa disposition.   </span>
+                </div>
+                <div class="d-grid">
+                    <b class="mb-2">1. GARANTIES COUVERTES ET PRIX</b>
+                    <span>Combinaison d assurance: temporaire du solde restant du ( deces ).</span>
+                    <span>La degressivite du capital avec le temps est definie dans un tableau d amortissement que la <b>{{policy.beneficiaire}}</b>  tient a la disposition du souscripteur.</span>
+                </div>
+                <div class="d-grid">
+                    <b class="mb-2">2. GARANTIE COMPLEMENTAIRE D INVALIDITE PERMENANTE ET TOTALE</b>
+                    <span>L invalidite totale permanente est assimilee au deces et donne droit au paiement du solde restant du sur reference du tableau d ammortissement et ce, dans un delai n excedant pas trente jours qui suivent la date de fixation du montant par accord des parties; <b> conformement a l article 36, alinea 4 du code des Assurances du Burundi</b> </span>
+                    <span>En cas de deces ou d invalidite permanente et totale, l assureur paie le solde restant du du capital assure indique au present contrat. Signalons que les contrats de deces n ont ni valeur de rachat ni valeur de reduction. </span>
+                    <span>Le contrat s eteint de plein droit par le fait de ce paiement</span>
+                </div>
+                @if (policy.credit_insurance.coverage=="job_loss") {
+                <div class="d-grid">
+                    <b class="mb-2">3. GARANTIE COMPLEMENTAIRE DE PERTE D EMPLOI INVOLONTAIRE</b>
+                    <span>La compagnie garantit le paiement a l organisme preteur du solde restant du de l emprunteur si l emprunteur perd son emploi, pour autant qu elle soit en possession, a la souscription du present contrat et pour chaque emprunteur, d un acte de subrogation et de cession de salaire valable sur tout employeur actuel ou futur de l emprunteur</span>
+                    <span>L assure qui perd son emploi sera couvert au titre de la presente garantie pendant une periode de chomage uniquement. De ce fait, il s engage a poursuivre le remboursement de son credit a la banque des qu il retrouve un emploi.</span>
+                    <span class="mb-2">Le licenciement collectif pour des raisons structurelles, economiques et/ou politiques n est pas couert par le present contrat</span>
+                    <span>Les cas de <b>fautes lourdes, demissions, mise en disponibilite, participation directe a un delit ou crimes, desertion, fin de mandat / decret et la retraite </b>  ne sont pas couverts par le present contrat. En cas de perte d emploi, l assureur paie le solde restant du du capital assure comme indique dans le tableau en annexe du present contrat </span>
+                    <span class="mb-2"> <b>N.B: </b> La garantie perte d emploi involontaire concerne uniquement les personnes ayant le montant superieur ou egal a <b>20.000.000 FBU</b> </span>
+                </div>
+            }
+            <div class="d-grid">
+                <b class="mb-2">DONNEES ADMINISTRATIVES</b>
+                <div class="d-grid">
+                    <div class="row align-items-center">
+                        <span class="col-5">Effet de la garantie</span>
+                        <b>Date d octroi du credit</b>
+                    </div>
+                    <div class="row align-items-center">
+                        <span class="col-5">Montant en cours</span>
+                        <b>549 025 455 Fbu</b>
+                    </div>
+                    <div class="row align-items-center">
+                        <span class="col-5">Effet de la garantie</span>
+                        <b>Date d octroi du credit</b>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+  
+    <!-- Main Content -->
+
+  </div>
