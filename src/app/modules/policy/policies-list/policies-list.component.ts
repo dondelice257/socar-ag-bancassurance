@@ -54,19 +54,23 @@ export class PoliciesListComponent {
             }, 
           },
           { columnDef: 'id', header: 'ID unique' },
+          { columnDef: 'is_saved', header: 'Systeme' },
+
 
           { columnDef: 'category', header: 'Categorie' },
       
           { columnDef: 'client.user_full_name', header: 'Client' },
           { columnDef: 'operator.full_name', header: 'Operateur' },
           { columnDef: 'agency.name', header: 'Agence' },
-      
+          { columnDef: 'agency.sub_agency', header: 'Sous agence' },
+          
       
       
           { columnDef: 'formatted_avenant', header: 'Avenant' },
           { columnDef: 'bill.status', header: 'Status' },
           { columnDef: 'premium_amount', header: 'Prime totale' },
-      
+          { columnDef: 'commission', header: 'Commission' },
+          
       
           { columnDef: 'tva', header: 'TVA' },
           { columnDef: 'bill.bill_code', header: 'Facture' },
@@ -91,6 +95,7 @@ export class PoliciesListComponent {
       
           { columnDef: 'operator.full_name', header: 'Operateur' },
           { columnDef: 'agency.name', header: 'Agence' },
+
           { columnDef: 'credit_insurance.is_group', header: 'Groupe' },
           { columnDef: 'credit_insurance.is_refinancing', header: 'Refinancement' },
           { columnDef: 'credit_insurance.credit_amount', header: 'Montant du credit' },
@@ -101,9 +106,11 @@ export class PoliciesListComponent {
       
       
           { columnDef: 'premium_amount', header: 'Prime totale' },
+          { columnDef: 'commission', header: 'Commission' },
+
       
       
-          { columnDef: 'bill.bill_code', header: 'Facture' },
+          // { columnDef: 'bill.bill_code', header: 'Facture' },
       
           { columnDef: 'issue_date', header: 'Date effet' },
           { columnDef: 'period', header: 'Mensualites' },

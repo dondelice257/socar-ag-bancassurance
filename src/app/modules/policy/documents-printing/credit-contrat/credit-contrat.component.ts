@@ -1,9 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-credit-contrat',
   standalone: true,
-  imports: [],
+  imports: [
+    CommonModule
+  ],
   templateUrl: './credit-contrat.component.html',
   styleUrl: './credit-contrat.component.scss'
 })

@@ -6,6 +6,8 @@ import { NgxPrintModule } from 'ngx-print';
 import { FireContractComponent } from '../documents-printing/fire-contract/fire-contract.component';
 import { TransportContractComponent } from '../documents-printing/transport-contract/transport-contract.component';
 import { AutoContractComponent } from '../documents-printing/auto-contract/auto-contract.component';
+import { CreditContratComponent } from '../documents-printing/credit-contrat/credit-contrat.component';
+
 import { AutoCardComponent } from '../documents-printing/auto-card/auto-card.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -13,6 +15,7 @@ import { BillPrintComponent } from '../documents-printing/bill-print/bill-print.
 import { Observable } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { AuthState } from '../../../shared/states/auth/auth.state';
+import { CreditConditionComponent } from '../documents-printing/credit-condition/credit-condition.component';
 
 @Component({
   selector: 'app-policy-details',
@@ -26,7 +29,9 @@ import { AuthState } from '../../../shared/states/auth/auth.state';
     AutoCardComponent,
     ReactiveFormsModule,
     BillPrintComponent,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    CreditContratComponent,
+    CreditConditionComponent
   ],
   templateUrl: './policy-details.component.html',
   styleUrl: './policy-details.component.scss'

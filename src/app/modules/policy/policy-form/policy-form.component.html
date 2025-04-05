@@ -73,9 +73,14 @@
                 <div class="form-floating">
                   <select class="form-select" formControlName="category">
                     @if(connectedOperator.company?.is_non_vie){
-                      <option [value]="'auto'">Automobile</option>
+                      @if(connectedOperator.agency.group=="kazoza"){
+                        <option [value]="'fire'">Incendie</option>
+                      }@else {
+                        <option [value]="'auto'">Automobile</option>
                       <option [value]="'transport'">Transport</option>
                       <option [value]="'fire'">Incendie</option>
+                      }
+                      
                     }
                     @if(!connectedOperator.company?.is_non_vie){
                     <option [value]="'credit'">Protection credit</option>
@@ -178,9 +183,16 @@
         </div>
         
         <!-- Next button for step 1 -->
-        <button type="button" class="p-2 rounded text-white bg-main mt-3" [disabled]="!policyForm.valid" (click)="onNext()">
-          <b>Suivant</b>
-        </button>
+         @if(selectedCategory != "credit"){
+          <button type="button" class="p-2 rounded text-white bg-main mt-3" [disabled]="!policyForm.valid || !selectedClientId" (click)="onNext()">
+            <b>Suivant</b>
+          </button>
+         }@else {
+          <button type="button" class="p-2 rounded text-white bg-main mt-3" [disabled]="!policyForm.valid" (click)="onNext()">
+            <b>Suivant</b>
+          </button>
+         }
+
       </div>
       </div>
       <!-- Step 2: Risk Information -->
@@ -292,6 +304,12 @@
                 </div>
               </div>
             </form>
+            <!-- <div class="bg-warning">
+              <div class="d-grid">
+                <b>Les examens medicaux requis :</b>
+                <span>. Examen medical ( plus un rapport medical prive ) </span>
+              </div>
+            </div> -->
           </div>
           
           <!-- Table of selected assets (conditional display) -->
@@ -340,11 +358,10 @@
                   <!-- Guarantee type selection -->
                   <div class="col-lg-2">
                     <label for="name" class="form-label">Type de garantie</label>
-                    <selec
-                    t class="form-select" formControlName="guarantee_type">
+                    <select class="form-select" formControlName="guarantee_type">
                       <option [value]="'percentage'">Taux</option>
                       <option [value]="'fixed'">Montant</option>
-                    </selec>
+                    </select>
                   </div>
                   
                   <!-- Guarantee name field -->
@@ -497,7 +514,7 @@
                   </div>
 
                   @if(specificInsurance?.is_refinancing){
-                    <div class="form-floating">
+                    <div class="form-floating col-lg-6 mb-3">
                       <input type="number" class="form-control" formControlName="ongoing_amount" placeholder="Montant en cours">
                       <label>Montant en cours</label>
                     </div>
@@ -508,6 +525,42 @@
                       </div>
                       </div>
                   }
+                  <div class="col-lg-6 mb-3" >
+                    <div class="form-floating">
+                      <input type="text" class="form-control" formControlName="addresse" placeholder="Addresse du membre">
+                      <label>Addresse</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3" >
+                    <div class="form-floating">
+                      <input type="text" class="form-control" formControlName="phone_number" placeholder="Addresse du membre">
+                      <label>Numero de Telephone</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3" >
+                    <div class="form-floating">
+                      <input type="text" class="form-control" formControlName="id_number" placeholder="Addresse du membre">
+                      <label>Numero CNI ou passport</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3" >
+                    <div class="form-floating">
+                      <input type="text" class="form-control" formControlName="employer" placeholder="Addresse du membre">
+                      <label>Employeur</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3" >
+                    <div class="form-floating">
+                      <input type="text" class="form-control" formControlName="email" placeholder="Addresse du membre">
+                      <label>Email</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3" >
+                    <div class="form-floating">
+                      <input type="text" class="form-control" formControlName="account_number" placeholder="Addresse du membre">
+                      <label>Numero de compte</label>
+                    </div>
+                  </div>
                   
 
                   
@@ -560,16 +613,31 @@
         
         <!-- Navigation and submission buttons -->
         <button type="button" class="btn text-white btn-secondary me-2" (click)="onBack()">Retour</button>
-        <button type="submit" (click)="onSubmit()" class="p-2 rounded text-white bg-main" [disabled]="selectedMembers.length === 0">
-          @if(!isSubmitting){
-            Soumettre
-          } 
-          @else{
-            <span>
-              <i class="fas fa-spinner fa-spin"></i> 
-            </span>
-          }
-        </button>
+
+        @if(connectedOperator.company.is_non_vie){
+          <button type="submit" (click)="onSubmit()" class="p-2 rounded text-white bg-main" [disabled]="selectedGuarantees.length === 0">
+            @if(!isSubmitting){ 
+              Soumettre
+            } 
+            @else{
+              <span>
+                <i class="fas fa-spinner fa-spin"></i> 
+              </span>
+            }
+          </button>
+        }@else {
+          <button type="submit" (click)="onSubmit()" class="p-2 rounded text-white bg-main" [disabled]="selectedMembers.length === 0">
+            @if(!isSubmitting){
+              Soumettre
+            } 
+            @else{
+              <span>
+                <i class="fas fa-spinner fa-spin"></i> 
+              </span>
+            }
+          </button>
+        }
+
       </div>
     </form>
   </div>

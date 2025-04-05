@@ -46,6 +46,10 @@ export class ListComponent implements AfterViewInit {
   @Input() columns: ColumnConfig[] = [];
   @Input() enablePagination: boolean = true;
   @Input() showFilters: boolean = false;
+  
+  
+  isLoading: boolean = false;
+
 
   @Input() title: string = '';
   @Input() url: string = '';
@@ -82,12 +86,14 @@ export class ListComponent implements AfterViewInit {
 
   getData() {
     this.data = []
+    this.isLoading = true
     const { searchQuery, fromDate, toDate } = this.filterForm.value;
     const formattedFromDate = fromDate ? format(new Date(fromDate), 'dd/MM/yyyy') : '';
     const formattedToDate = toDate ? format(new Date(toDate), 'dd/MM/yyyy') : '';
 
     this.generalService.GetList(this.url, searchQuery, formattedFromDate, formattedToDate)
       .subscribe((data: any) => {
+        this.isLoading = false  
         this.data = data;
         this.dataSource = new MatTableDataSource(this.data);
         if (this.enablePagination && this.paginator) {

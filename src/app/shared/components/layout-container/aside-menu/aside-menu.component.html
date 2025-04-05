@@ -3,6 +3,7 @@
         <!-- Section 1 -->
         @if(menus){
           <div class="section-1">
+            
             <div *ngFor="let menu of menus" class="menu-container">
               <!-- Main Menu Item -->
               <div 
@@ -38,6 +39,7 @@
 
         <!-- Section 2 -->
         <div class="section-2 px-2">
+
             <div
              class="border mb-2 border-danger rounded p-2 text-danger d-flex justify-content-between"
              (click)="logout()"              

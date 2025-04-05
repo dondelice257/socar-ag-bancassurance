@@ -17,12 +17,31 @@
             <b class="dropdown-header">Impressions</b>
 
               @if(!policy.is_demo || policy.type_avenant !="ANRI"){
-            <li>
-              <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='contract'">
-                <i class="fas fa-print me-2"></i> Imprimer le contrat
-              </button>
-            </li>              }
-            @if(policy.is_demo){
+                @if(policy.category=="credit"){
+                @if(policy.status =="approved" || policy.operator.is_operator_super_admin){
+                  <li>
+                    <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='contract'">
+                      <i class="fas fa-print me-2"></i> Imprimer le contrat
+                    </button>
+                  </li>
+                  <li>
+                    <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='condition'">
+                      <i class="fas fa-print me-2"></i> Imprimer les conditions particulieres
+                    </button>
+                  </li>  
+                }@else {
+
+                }
+
+                }@else{
+<li>
+                    <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='contract'">
+                      <i class="fas fa-print me-2"></i> Imprimer le contrat
+                    </button>
+                  </li>  
+                }
+            }
+            @if(policy.is_demo && policy.category !="credit"){
                           <li>
               <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='offer'">
                 <i class="fas fa-print me-2"></i> Imprimer l'offre
@@ -39,11 +58,14 @@
             }
             
               @if(policy.bill?.status=="unpaid" || policy.bill?.status=="paid"){
-                <li>
-                  <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='invoice'">
-                    <i class="fas fa-print me-2"></i> Imprimer la facture
-                  </button>
-                </li>
+                @if(policy.category !="credit"){
+                  <li>
+                    <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='invoice'">
+                      <i class="fas fa-print me-2"></i> Imprimer la facture
+                    </button>
+                  </li>
+                }
+
               }
             <hr>
       
@@ -94,12 +116,22 @@
             @if(!policy.is_demo){
                         <p class="col-lg-4">
             <i class="fas fa-info-circle text-secondary"></i> <strong>Statut:</strong> 
-            <span class="badge" [ngClass]="{
-              'bg-success': policy.bill?.status === 'paid',
-              'bg-warning text-dark': policy.bill?.status === 'unpaid'
-            }">
-              {{ policy.bill?.status }}
-            </span>
+            @if(policy.category =="credit"){
+              <span class="badge" [ngClass]="{
+                'bg-success': policy.status === 'approved',
+                'bg-warning text-dark': policy.status === 'pending'
+              }">
+                {{ policy.status }}
+              </span>
+            }@else{
+              <span class="badge" [ngClass]="{
+                'bg-success': policy.bill?.status === 'paid',
+                'bg-warning text-dark': policy.bill?.status === 'unpaid'
+              }">
+                {{ policy.bill?.status }}
+              </span>
+            }
+
           </p>
             }
           <p class="col-lg-4"><i class="fas fa-calendar-alt text-secondary"></i> <strong>Date d'effet:</strong> {{ policy.issue_date | date:'dd/MM/yyyy' }}</p>
@@ -114,9 +146,12 @@
           <div class="card p-3 shadow-sm bg-light">
             <h5 class="fw-bold text-primary"><i class="fas fa-coins"></i> Informations Financières</h5>
             <p><strong>Prime totale:</strong> <span class="text-success">{{ policy.premium_amount | currency:'BIF' }}</span></p>
+            <p><strong>Prime nette:</strong> {{ policy.prime_nette | currency:'BIF' }}</p>
+
+            <p><strong>Commission:</strong> {{ policy.commission | currency:'BIF' }}</p>
+
             @if(policy.category !="credit"){
               <p><strong>Prime de base:</strong> {{ policy.prime_base | currency:'BIF' }}</p>
-            <p><strong>Prime nette:</strong> {{ policy.prime_nette | currency:'BIF' }}</p>
             <p><strong>TVA:</strong> {{ policy.tva | currency:'BIF' }}</p>
             <p><strong>Frais:</strong> {{ policy.frais | currency:'BIF' }}</p>
             <p><strong>Charges diverses:</strong> {{ policy.charges_diverses | currency:'BIF' }}</p>
@@ -145,7 +180,7 @@
                   <p><strong>Plaque:</strong> <span class="text-success">{{ policy.auto_insurance?.plaque }}</span></p>
                   <p><strong>Châssis:</strong> {{ policy.auto_insurance?.chasis }}</p>
                   <p><strong>Marque:</strong> {{ policy.auto_insurance?.marque }}</p>
-                  <p><strong>Modèle:</strong> {{ policy.auto_insurance.modele }}</p>
+                  <p><strong>Modèle:</strong> {{ policy.auto_insurance.model }}</p>
                   <p><strong>Puissance moteur:</strong> {{ policy.auto_insurance?.puissance_moteur }}</p>
                   <p><strong>Usage:</strong> {{ policy.auto_insurance?.usage }}</p>
                   <p><strong>Places cabine:</strong> {{ policy.auto_insurance?.places_cabine }}</p>
@@ -168,10 +203,10 @@
                   <p><strong>Periode:</strong> <span class="">{{ policy.period }} mois</span></p>
                   <p><strong>Taux de prime:</strong> <span class="">{{ policy.credit_insurance?.credit_rate }} %</span></p>
                   <p><strong>Categorie du credit:</strong> <span class="">{{ policy.credit_insurance?.is_group?"En Groupe":"Individuel" }} %</span></p>
+
                   @if(policy.credit_insurance?.is_refinancing){
                   <p><strong>Montant en cours:</strong> <span class="text-success">{{ policy.credit_insurance?.ongoing_amount }}</span></p>
                   <p><strong>Taux du prime en cours:</strong> <span class="text-success">{{ policy.credit_insurance?.ongoing_rate }}</span></p>
-                  <p><strong>Date d expiration du credit en cours:</strong> <span class="text-danger">{{ policy.credit_insurance?.base_policy?.expiration_date }}</span></p>
 
 
 
@@ -293,38 +328,51 @@
    }@else{
     <div class="card mt-4 p-4">
       <h4 class="fw-bold">Les crediteurs</h4>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Montant de credit</th>
-            <th>Taux du prime</th>
-            <th>Periodes ( mois )</th>
-            @if(policy.credit_insurance?.is_refinancing){
-              <th>Montant en cours</th>
-              <th>Taux du prime en cours</th>
-              <th>Date d expiration du credit en cours</th>
-            }
-            <th>Prime totale</th>
-
-          </tr>
+      <table class="table my-2 table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nom & prénom</th>
+                <th scope="col">Âge</th>
+                @if(policy.credit_insurance?.is_refinancing){
+                <th scope="col">Montant en cours</th>
+                <th scope="col">Montant de refinancement</th>
+                }
+                <th scope="col">Montant de crédit</th>
+                <th scope="col">Durée de remboursement</th>
+                <th scope="col">Prime totale</th>
+            </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let member of policy.credit_insurance?.members">
-            <td>{{ member.full_name }}</td>
-            <td>{{ member.credit_amount | currency:'BIF' }}</td>
-            <td>{{ member.credit_rate }} %</td>
-            <td>{{ member.number_of_installments }}</td>
-            @if(policy.credit_insurance?.is_refinancing){
-              <td>{{ member.ongoing_amount | currency:'BIF' }}</td>
-              <td>{{ member.ongoing_rate }} %</td>
-              <td>{{ policy.credit_insurance?.base_policy?.expiration_date }}</td>
+            @for(member of policy.credit_insurance?.members; track member; let i=$index){
+            <tr>
+                <th scope="row">{{i+1}}</th>
+                <td>{{member.full_name}}</td>
+                <td>{{member.age}}</td>
+                @if(policy.credit_insurance?.is_refinancing){
+                <td scope="col">{{member.ongoing_amount | number}} FBU</td>
+                <td scope="col">{{member.credit_amount | number}} FBU</td>
+                }
+                <td scope="col">{{member.total_credit | number}} FBU</td>
+                <td scope="col">{{member.number_of_installments}}</td>
+                <td scope="col">{{member.member_prime | number}} FBU</td>
+            </tr>
             }
-            <td>{{ member.member_prime | currency:'BIF' }}</td>
 
-          </tr>
+            <tr>
+                <th scope="row"></th>
+                <th scope="row">TOTAL</th>
+                <th scope="row">-</th>
+                @if(policy.credit_insurance?.is_refinancing){
+                <th scope="row">{{policy.credit_insurance?.ongoing_amount | number}} FBU</th>
+                <th scope="row">{{policy.credit_insurance?.credit_amount - policy.credit_insurance?.ongoing_amount | number}} FBU</th>
+                }
+                <th scope="row">{{policy.credit_insurance?.credit_amount | number}} FBU</th>
+                <th scope="row">-</th>
+                <th scope="row">{{policy.credit_insurance?.total_premium | number}} FBU</th>
+            </tr>
         </tbody>
-      </table>
+    </table>
       <!-- <div class="d-flex justify-content-end mt-3">
         <strong>Total Prime de Base:</strong>
         <span class="fw-bold text-success">{{ totalPrimeBase | number:'1.0-0' }} BIF</span>    </div> -->
@@ -381,6 +429,26 @@ class="modal-overlay d-grid align-items-center justify-content-center"
                       <!-- Transport Insurance Contract Component -->
                       <app-transport-contract [policy]="policy">
                       </app-transport-contract>
+                    }
+                    @case("credit"){
+                      @switch(documentToPrint){
+                        @case("contract"){
+                          <!-- Transport Insurance Contract Component -->
+                      <app-credit-contrat [policy]="policy">
+                      </app-credit-contrat>
+                        }
+                        @case("condition"){
+                          <!-- Transport Insurance Contract Component -->
+                           <div id="print-condition" class="row w-100">
+                            <app-credit-condition [policy]="policy">
+                            </app-credit-condition>
+                           </div>
+
+                      
+                        }
+                      }
+
+                      
                     }
                     @case("auto"){
                       @switch(documentToPrint){

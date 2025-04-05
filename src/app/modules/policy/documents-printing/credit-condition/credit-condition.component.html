@@ -1,0 +1,109 @@
+<div class="contract-wrapper p-3">
+    <div class="d-flex mb-4">
+        <img style="width:100px" src="../../../../../assets/images/ucar-vie.png">
+        <div class="d-grid ms-3">
+            <b>UCAR VIE ET CAPITALISATION S.A</b>
+            <b>CAPITAL SOCIAL : 2.000.000.000 BIF</b>
+            <b>ENTREPRISE RÉGIE PAR LE CODE DES ASSURANCES DU BURUNDI</b>
+            <b>SIÈGE SOCIAL : ROHERO I, AV DE LA JRR No 16</b>
+            <b>TÉL : +257 22280069</b>
+        </div>
+    </div>
+    <!-- Header -->
+    <div class="my-2 grey-bg">
+        <div class="d-grid">
+            <div class="d-flex mb-2">
+                <span>Couvertures :</span>
+                <div class="d-grid">
+                    <span>1. Décès</span>
+                    <span>2. Invalidité totale permanente</span>
+                    @if(policy.credit_insurance?.coverage=="job_loss"){
+                        <span>3. Perte d'emploi involontaire</span>
+                    }
+                </div>
+            </div>
+            <div class="d-flex mb-2">
+                <span class="me-3">Date d'effet :</span>
+                <span>Date d'octroi du crédit</span>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h3 class="text-center header-title">
+            <b>ASSURANCE PROTECTION CRÉDIT/SOLDE RESTANT DÛ</b>
+        </h3>
+        <h2 class="text-center">CONDITIONS PARTICULIÈRES</h2>
+        <h2 class="text-center border-bottom border-dark">Nom du groupe : @if(policy.credit_insurance?.is_group){ {{policy.credit_insurance?.raison_sociale}} }@else{ {{policy.credit_insurance?.members[0].full_name}} }</h2>
+        <div class="d-grid">
+            <table class="table my-2 table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nom & prénom</th>
+                        <th scope="col">Âge</th>
+                        @if(policy.credit_insurance?.is_refinancing){
+                        <th scope="col">Montant en cours</th>
+                        <th scope="col">Montant de refinancement</th>
+                        }
+                        <th scope="col">Montant de crédit</th>
+                        <th scope="col">Durée de remboursement</th>
+                        <th scope="col">Prime totale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(member of policy.credit_insurance?.members; track member; let i=$index){
+                    <tr>
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{member.full_name}}</td>
+                        <td>{{member.age}}</td>
+                        @if(policy.credit_insurance?.is_refinancing){
+                        <td scope="col">{{member.ongoing_amount | number}} FBU</td>
+                        <td scope="col">{{member.credit_amount | number}} FBU</td>
+                        }
+                        <td scope="col">{{member.total_credit | number}} FBU</td>
+                        <td scope="col">{{member.number_of_installments}}</td>
+                        <td scope="col">{{member.member_prime | number}} FBU</td>
+                    </tr>
+                    }
+    
+                    <tr>
+                        <th scope="row"></th>
+                        <th scope="row">TOTAL</th>
+                        <th scope="row">-</th>
+                        @if(policy.credit_insurance?.is_refinancing){
+                        <th scope="row">{{policy.credit_insurance?.ongoing_amount | number}} FBU</th>
+                        <th scope="row">{{policy.credit_insurance?.credit_amount - policy.credit_insurance?.ongoing_amount | number}} FBU</th>
+                        }
+                        <th scope="row">{{policy.credit_insurance?.credit_amount | number}} FBU</th>
+                        <th scope="row">-</th>
+                        <th scope="row">{{policy.credit_insurance?.total_premium | number}} FBU</th>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="my-2 d-flex">
+                <b class="me-2">N.B: </b>
+                <b>Bénéficiaire en cas de survenance du risque assuré : {{policy.beneficiaire}}</b>
+            </div>
+            <div class="my-2 d-flex">
+                <span class="me-2">Date de signature : </span>
+                <b>{{policy.issue_date | date:'dd/MM/yyyy'}}</b>
+            </div>
+            <div class="d-flex align-items-start justify-content-between">
+                <div class="d-grid align-items-center justify-content-center">
+                    <span>Chef de département Technico-commercial</span>
+                    <b>Larissa IRAMBONA</b>
+                    <img style="width: 70px; height:25px" src="../../../../../assets/images/signature-dc.png" alt="">
+                </div>
+                <div class="d-grid align-items-center justify-content-center">
+                    <span>Administrateur Directeur Général</span>
+                    <b>Renovat GAHUNGU</b>
+                    <img style="width: 70px; height:25px" src="../../../../../assets/images/signature-dg.png" alt="">
+                </div>
+                <div class="d-grid align-items-center justify-content-center">
+                    <span>REPRÉSENTANT DU GROUPE</span>
+                    <b>{{policy.credit_insurance?.members[0].full_name}}</b>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content -->

@@ -125,6 +125,13 @@ export class PolicyFormComponent {
       this.memberForm = this.fb.group({
       full_name: ['', Validators.required],
       age: ['', Validators.required],
+      addresse: [''],
+      id_number: [''],
+      phone_number: [''],
+      employer: [''],
+      email: [''],
+      account_number: [''],
+
 
       credit_amount: [0, [Validators.required, Validators.min(0)]],
       ongoing_amount: [0],
@@ -369,6 +376,14 @@ createPolicy() {
       const member = {
         full_name: this.memberForm.value.full_name,
         age: this.memberForm.value.age,
+        addresse: this.memberForm.value.addresse,
+        phone_number: this.memberForm.value.phone_number,
+        id_number: this.memberForm.value.id_number,
+        employer: this.memberForm.value.employer,
+        email: this.memberForm.value.email,
+        account_number: this.memberForm.value.account_number,
+
+
         credit_amount: this.memberForm.value.credit_amount,
         credit_rate: this.memberForm.value.credit_rate,
         ongoing_amount: this.memberForm.value.ongoing_amount,
