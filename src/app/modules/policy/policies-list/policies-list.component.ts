@@ -108,6 +108,7 @@ export class PoliciesListComponent {
           { columnDef: 'premium_amount', header: 'Prime totale' },
           { columnDef: 'commission', header: 'Commission' },
 
+
       
       
           // { columnDef: 'bill.bill_code', header: 'Facture' },
