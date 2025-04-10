@@ -20,7 +20,10 @@
 .contract-wrapper {
   padding: 20px;
   font-size: 12px;
-  background: white;
+  background: url(../../../../../assets/images/pigeon.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   min-height: 100vh;
 }
 

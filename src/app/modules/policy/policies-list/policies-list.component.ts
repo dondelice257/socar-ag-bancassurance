@@ -97,6 +97,8 @@ export class PoliciesListComponent {
           { columnDef: 'agency.name', header: 'Agence' },
 
           { columnDef: 'credit_insurance.is_group', header: 'Groupe' },
+          { columnDef: 'period', header: 'Mensualites' },
+
           { columnDef: 'credit_insurance.is_refinancing', header: 'Refinancement' },
           { columnDef: 'credit_insurance.credit_amount', header: 'Montant du credit' },
 
