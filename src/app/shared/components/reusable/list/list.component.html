@@ -10,6 +10,16 @@
   
     @if(showFilters){
       <form [formGroup]="filterForm" (ngSubmit)="getData()" class="filters d-flex p-3 gap-3">
+        <mat-form-field>
+          <mat-label>Filtrer par agence</mat-label>
+          <mat-select  formControlName="agency" name="agency">
+            <mat-option value="">Toutes les agences</mat-option>
+
+            @for (agency of agencies; track agency) {
+              <mat-option [value]="agency.id">{{agency.name}} - {{agency.sub_agency}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>From Date</mat-label>
           <input matInput [matDatepicker]="picker1" formControlName="fromDate">
@@ -23,13 +33,15 @@
           <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
+
+
     
         <mat-form-field appearance="outline" class="search-input">
-          <mat-label>Search</mat-label>
+          <mat-label>Rechercher le client, plaque ou chasis</mat-label>
           <input matInput formControlName="searchQuery">
         </mat-form-field>
     
-        <button mat-raised-button color="primary" type="submit">Apply</button>
+        <button mat-raised-button color="primary" type="submit">Rechercher</button>
       </form>
     
     }

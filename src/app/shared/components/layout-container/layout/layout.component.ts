@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { AsideMenuComponent } from '../aside-menu/aside-menu.component';
 import { HeaderComponent } from '../header/header.component';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-layout',
@@ -9,7 +10,8 @@ import { RouterModule } from '@angular/router';
   imports: [
     AsideMenuComponent,
     HeaderComponent,
-    RouterModule
+    RouterModule,
+    CommonModule
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
@@ -17,5 +19,14 @@ import { RouterModule } from '@angular/router';
   
 })
 export class LayoutComponent {
+  sidebarVisible: boolean = false;
+
+
+  toggleSidebar() {
+    this.sidebarVisible = !this.sidebarVisible;
+  }
+
+
+
 
 }

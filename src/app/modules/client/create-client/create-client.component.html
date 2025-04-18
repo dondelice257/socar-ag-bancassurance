@@ -22,19 +22,19 @@
         <div class="row">
           <div class="col-md-6 mb-3 form-floating">
             <input id="first_name" formControlName="first_name" type="text" class="form-control" />
-            <label for="first_name">Prénom</label>
+            <label for="first_name">Nom du client</label>
             <small *ngIf="clientForm.get('first_name')?.invalid && clientForm.get('first_name')?.touched" class="text-danger">
-              Le prénom est requis.
+              Le nom du client est requis.
             </small>
           </div>
       
-          <div class="col-md-6 mb-3 form-floating">
+          <!-- <div class="col-md-6 mb-3 form-floating">
             <input id="last_name" formControlName="last_name" type="text" class="form-control" />
             <label for="last_name">Nom de famille</label>
             <small *ngIf="clientForm.get('last_name')?.invalid && clientForm.get('last_name')?.touched" class="text-danger">
               Le nom de famille est requis.
             </small>
-          </div>
+          </div> -->
         </div>
       
         <div class="row">
@@ -48,10 +48,10 @@
           </div>
           <div class="col-md-6 mb-3 form-floating">
             <input id="email" formControlName="email" type="email" class="form-control" />
-            <label for="email">Email</label>
-            <small *ngIf="clientForm.get('email')?.invalid && clientForm.get('email')?.touched" class="text-danger">
+            <label for="email">Email ( pas obligatoire )</label>
+            <!-- <small *ngIf="clientForm.get('email')?.invalid && clientForm.get('email')?.touched" class="text-danger">
               Veuillez entrer un email valide.
-            </small>
+            </small> -->
           </div>
       
 

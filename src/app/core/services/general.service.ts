@@ -48,9 +48,15 @@ DoAutocomplete(url: string, search: any): Observable<any> {
 
 // Lookup method (returns a single object based on the search term)
 DoLookup(url: string, search: string = ''): Observable<any> {
-  const lookupUrl = `${url}/lookup/?query=${encodeURIComponent(search)}`;
+  const lookupUrl = `${environment.apiUrl}${url}/lookup/?query=${encodeURIComponent(search)}`;
 
-  return this.apiService.get(lookupUrl).pipe(
+  const header={
+    'content-type': 'application/json',
+    'Authorization' : `Token ${this.token}`
+
+  }
+
+  return this.httpClient.get(lookupUrl, {headers:header}).pipe(
     map((data) => {
       // Optionally process data if necessary
       return data;
@@ -58,14 +64,28 @@ DoLookup(url: string, search: string = ''): Observable<any> {
   );
 }
 
-GetList(url: string, query: string, date_from: string, date_to: string): Observable<any> {
-  const lookupUrl = `${environment.apiUrl}${url}&query=${encodeURIComponent(query)}&date_from=${encodeURIComponent(date_from)}&date_to=${encodeURIComponent(date_to)}`;
+GetList(url: string, query: string, date_from: string, date_to: string, agency_id: string): Observable<any> {
+  const lookupUrl = `${environment.apiUrl}${url}&query=${encodeURIComponent(query)}&date_from=${encodeURIComponent(date_from)}&date_to=${encodeURIComponent(date_to)}&agency=${encodeURIComponent(agency_id)}`;
   const header={
     'content-type': 'application/json',
     'Authorization' : `Token ${this.token}`
 
   }
   return this.httpClient.get(lookupUrl, {headers:header}).pipe(
+    map((data) => {
+        return data;
+    })
+);
+}
+
+GetAgencies(): Observable<any> {
+  const url = `${environment.apiUrl}agency`;
+  const header={
+    'content-type': 'application/json',
+    'Authorization' : `Token ${this.token}`
+
+  }
+  return this.httpClient.get(url, {headers:header}).pipe(
     map((data) => {
         return data;
     })

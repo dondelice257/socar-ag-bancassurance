@@ -98,6 +98,8 @@ export class PoliciesListComponent {
 
           { columnDef: 'credit_insurance.is_group', header: 'Groupe' },
           { columnDef: 'period', header: 'Mensualites' },
+          { columnDef: 'status', header: 'Statut' },
+
 
           { columnDef: 'credit_insurance.is_refinancing', header: 'Refinancement' },
           { columnDef: 'credit_insurance.credit_amount', header: 'Montant du credit' },
@@ -111,12 +113,12 @@ export class PoliciesListComponent {
           { columnDef: 'commission', header: 'Commission' },
 
 
+
       
       
           // { columnDef: 'bill.bill_code', header: 'Facture' },
       
           { columnDef: 'issue_date', header: 'Date effet' },
-          { columnDef: 'period', header: 'Mensualites' },
 
           { columnDef: 'expiration_date', header: 'Date echeance' },
       

@@ -8,7 +8,7 @@
           <div class="d-flex">
             <div class="d-grid w-30 me-3 pe-3 pb-2" style="border-right: 2px dotted black; padding-top: 110px;">
               <div class="mb-2">
-                <b>No {{ policy.policy_number }}</b>
+                <b>No {{ policy.policy_number }} |  {{ policy.formatted_avenant }}</b>
               </div>
               <div class="d-flex mb-2 align-items-center w-100">
                 <span class="me-3">ASSUREUR :</span>
@@ -26,7 +26,7 @@
               </div>
               <div class="d-flex mb-2 align-items-center w-100">
                 <span class="me-3">Police No :</span>
-                <b>{{ policy.policy_number }}</b>
+                <b>{{ policy.policy_number }}  |  {{ policy.formatted_avenant }}</b>
               </div>
               <div class="d-flex mb-2 align-items-center w-100">
                 <span class="me-3">Marque :</span>
@@ -72,7 +72,7 @@
                 <div class="d-grid mt-5">
                   <div class="d-flex mb-5 align-items-center">
                     <div class="d-grid mb-4 w-30 no-print">
-                      <b>No {{ policy.policy_number }}</b>
+                      <b>No {{ policy.policy_number }}  |  {{ policy.formatted_avenant }}</b>
                       <span class="">La société d'Assurances</span>
                     </div>
                     <div class="p-1 ps-5 no-border-print w-70">
@@ -102,7 +102,7 @@
                       </div>
                       <div class="d-flex align-items-center w-100 mt-3 mb-1">
                         <span class="me-3 w-30 no-print">No de Police</span>
-                        <small class="w-70 t-right ms-5">{{ policy.policy_number }}</small>
+                        <small class="w-70 t-right ms-5">{{ policy.policy_number }}  |  {{ policy.formatted_avenant }}</small>
                       </div>
                       <div class="d-flex align-items-center w-100">
                         <span class="me-3 w-30 no-print">Marque et Type de véhicule</span>
@@ -164,7 +164,7 @@
               </div>
               <div class="d-flex mb-2 align-items-center w-100">
                 <span class="me-3">Police No :</span>
-                <b>{{ policy.policy_number }}</b>
+                <b>{{ policy.policy_number }} |  {{ policy.formatted_avenant }}</b>
               </div>
               <div class="d-flex mb-2 align-items-center w-100">
                 <span class="me-3">Marque :</span>
@@ -209,7 +209,7 @@
               <div class="d-grid">
                 <div class="d-flex align-items-center">
                   <div class="d-grid w-30">
-                    <b>No {{ policy.policy_number }}</b>
+                    <b>No {{ policy.policy_number }}  |  {{ policy.formatted_avenant }}</b>
                     <span class="">La société d'Assurances</span>
                   </div>
                   <div class="p-1 border border-dark w-70">
@@ -237,7 +237,7 @@
                     </div>
                     <div class="d-flex align-items-center w-100" style="border-top: 1px solid black; border-bottom: 1px solid black;">
                       <span class="me-3 w-30">No de Police</span>
-                      <b class="w-70 t-right">{{ policy.policy_number }}</b>
+                      <b class="w-70 t-right">{{ policy.policy_number }}  |  {{ policy.formatted_avenant }}</b>
                     </div>
                     <div class="d-flex align-items-center w-100">
                       <span class="me-3 w-30">Marque et Type de véhicule</span>

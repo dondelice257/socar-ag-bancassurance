@@ -6,12 +6,32 @@
 
     <div class="d-flex" style="height: 100vh; padding-top: 70px; overflow: hidden;">
         <!-- Fixed Sidebar -->
-        <div class="position-fixed h-100 bg-white shadow-sm" style="width: 200px; top: 70px; left: 0; z-index: 3;">
+        <div class="position-fixed d-none d-lg-block h-100 bg-white shadow-sm" style="width: 200px; top: 70px; left: 0; z-index: 3;">
             <app-aside-menu></app-aside-menu>
         </div>
+        <div class="d-flex bg-main text-white rounded-circle d-lg-none shadow border p-2" style="z-index: 4; height: 40px;" (click)="toggleSidebar()">
+            @if(sidebarVisible){
+                <span>
+                    <i class="fa fa-xmark fs-3"></i>
+                </span>
+            }@else {
+                <span>
+                    <i class="fa fa-bars fs-3"></i>
+                </span>
+            }
+        </div>
+        @if(sidebarVisible){
+            <div class="position-fixed d-lg-none d-grid h-100 bg-white shadow-sm" style="width: 200px; top: 70px; left: 0; z-index: 3;">
+
+                <app-aside-menu></app-aside-menu>
+    
+            </div>
+        }
+
+
 
         <!-- Scrollable Main Content -->
-        <div class="flex-grow-1 overflow-auto layout-content" style="margin-left: 210px; padding: 20px;">
+        <div class="flex-grow-1 overflow-auto layout-content router" >
             <div class="content-wrapper">
                 <router-outlet></router-outlet>
             </div>

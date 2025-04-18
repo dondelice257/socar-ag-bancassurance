@@ -4,6 +4,9 @@ import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { AuthState } from '../../../shared/states/auth/auth.state';
 
 @Component({
   selector: 'app-create-client',
@@ -20,13 +23,15 @@ export class CreateClientComponent {
   private router = inject(Router);
   private toastr = inject(ToastrService)
 
+      connectedOperator$!: Observable<any>;
+      connectedOperator: any;
   private authService = inject(AuthService);
 
   clientForm: FormGroup = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
     email: [''],
     first_name: ['', [Validators.required, Validators.minLength(2)]],
-    last_name: ['', [Validators.required, Validators.minLength(2)]],
+    last_name: [''],
     phone_number: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
     country: ['BURUNDI', Validators.required],
     zone: ['', Validators.required],
@@ -37,6 +42,13 @@ export class CreateClientComponent {
 
   isLoading = false;
   errorMessage:any;
+
+  constructor(
+    private store : Store
+  ){
+    this.connectedOperator$ = this.store.select(AuthState.connectedOperator);
+
+  }
 
 
   ngOnInit(){
@@ -50,6 +62,11 @@ export class CreateClientComponent {
         username: username
       })
     });
+
+    this.connectedOperator$.subscribe((connectedOperator: any) => {
+      this.connectedOperator = connectedOperator;
+
+      })
   }
 
   onSubmit() {
@@ -61,7 +78,7 @@ export class CreateClientComponent {
     this.isLoading = true;
     this.errorMessage = null;
 
-    const client = {'password':this.clientForm.value.username + '1234', ...this.clientForm.value}
+    const client = {'agency':this.connectedOperator.agency.id, 'password':this.clientForm.value.username + '1234', ...this.clientForm.value}
     this.authService.signUp(client).subscribe({
       next: (response:any) => {
         console.log('Client created successfully:', response);

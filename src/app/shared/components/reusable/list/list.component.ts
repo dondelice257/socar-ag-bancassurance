@@ -19,6 +19,7 @@ import * as ExcelJS from 'exceljs';
 import { GeneralService } from '../../../../core/services/general.service';
 import { format } from 'date-fns';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 
 interface ColumnConfig {
   header: string;
@@ -38,7 +39,7 @@ interface ColumnConfig {
     MatTableModule, MatPaginatorModule, CommonModule, MatButtonModule,
     MatDividerModule, MatIconModule, MatCardModule, GetNestedValuePipe,
     MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule, MatSelectModule
 
   ],
 })
@@ -55,6 +56,8 @@ export class ListComponent implements AfterViewInit {
   @Input() url: string = '';
 
   data: any[]= [];
+  agencies: any[]= [];
+
   displayedColumns: string[] = [];
   dataSource!: MatTableDataSource<any>;
 
@@ -69,12 +72,15 @@ export class ListComponent implements AfterViewInit {
     this.filterForm = this.fb.group({
       searchQuery: [''],
       fromDate: [''],
-      toDate: ['']
+      toDate: [''],
+      agency: [''],
+
     });
   }
 
   ngOnInit() {
     this.getData();
+    this.getAgencies()
     this.displayedColumns = this.columns.map(c => c.columnDef);
   }
 
@@ -91,7 +97,7 @@ export class ListComponent implements AfterViewInit {
     const formattedFromDate = fromDate ? format(new Date(fromDate), 'dd/MM/yyyy') : '';
     const formattedToDate = toDate ? format(new Date(toDate), 'dd/MM/yyyy') : '';
 
-    this.generalService.GetList(this.url, searchQuery, formattedFromDate, formattedToDate)
+    this.generalService.GetList(this.url, searchQuery, formattedFromDate, formattedToDate, this.filterForm.value.agency)
       .subscribe((data: any) => {
         this.isLoading = false  
         this.data = data;
@@ -100,6 +106,12 @@ export class ListComponent implements AfterViewInit {
           this.dataSource.paginator = this.paginator;
         }
       });
+  }
+
+  getAgencies(){
+    this.generalService.GetAgencies().subscribe((agencies:any)=>{
+      this.agencies = agencies
+    })
   }
 
   onRowClick(row: any) {
