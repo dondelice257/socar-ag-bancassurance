@@ -79,9 +79,9 @@
           
               <div class="row margin-x-1">
                 <div class="col-3">VALEUR ASSUREE EN BIF :</div>
-                <div class="col-3 fw-bold">{{policy.assured_capital_bif | uppercase}}</div>
+                <div class="col-3 fw-bold">{{policy.assured_capital_bif | number}}</div>
                 <div class="col-3">VALEUR ASSUREE EN DEVISE :</div>
-                <div class="col-3 fw-bold">{{policy.assured_capital_devise | uppercase}}</div>
+                <div class="col-3 fw-bold">{{policy.assured_capital_devise | number:'1.2-2'}} {{policy.currency | uppercase}}</div>
               </div>
               <div class="row margin-x-1">
                 <div class="col-3">NAT. MARCHANDISE :</div>
@@ -134,8 +134,8 @@
                     <tr>
                         <td>{{guarantee.code}} </td>
                         <td>{{guarantee.name}} </td>
-                        <td>{{guarantee.assured_capital}} </td>
-                        <td>{{guarantee.prime}} </td>
+                        <td>{{guarantee.assured_capital | number}} </td>
+                        <td>{{guarantee.prime | number}} </td>
         
         
         
