@@ -173,16 +173,15 @@
                                                             <i class="fa-regular fa-square-check"></i>
                                                         </span>
                                                     </div>
+                                                    @if(policy.credit_insurance?.coverage=="job_loss"){
                                                     <div class="d-flex w-100 justify-content-between">
                                                         <span>Perte d'emploi involontaire :</span>
                                                         <span>
-                                                            @if(policy.credit_insurance?.coverage=="job_loss"){
+                                                           
                                                                 <i class="fa-regular fa-square-check"></i>
-                                                            }@else {
-                                                                <i class="fa-regular fa-square"></i>
-                                                            }
                                                         </span>
                                                     </div>
+                                                }
                                                 </div>
                                             </td>
                                             <td class="w-50">
@@ -303,9 +302,10 @@
                             <span>Bénéficiaire en cas de réalisation du risque couvert par la présente police : <b>{{policy.agency?.name}}</b></span>
                         </div>
                         
-                        <div class="my-2 d-flex justify-content-end">
-                            <span>Fait à Bujumbura, <b>{{policy.created_at | date:'dd/MM/yyyy'}}</b></span>
-                        </div>
+                        
+                        <div class="text-center my-2">
+                            <p>Fait à Bujumbura, le <strong>{{policy.created_at | date:'dd/MM/yyyy, h:mm a'}}</strong> par <strong> {{policy.operator?.full_name}} </strong></p>
+                          </div>
                         
                         <div class="d-flex mt-4 justify-content-between">
                             <div class="d-grid align-items-center text-center">
@@ -317,7 +317,7 @@
                                 <b>{{policy.credit_insurance?.members[0].full_name}}</b>
                             </div>
                             <div class="d-grid align-items-center text-center">
-                                <span>Créancier</span>
+                                <span>Banqe-Beneficiaire</span>
                                 <b>{{policy.agency?.name}}</b>
                             </div>
                             <div class="d-grid align-items-center text-center">

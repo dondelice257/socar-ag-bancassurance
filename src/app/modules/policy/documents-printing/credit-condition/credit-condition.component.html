@@ -95,24 +95,26 @@
                 <b class="me-2">N.B: </b>
                 <b>Bénéficiaire en cas de survenance du risque assuré : {{policy.beneficiaire}}</b>
             </div>
-            <div class="my-2 d-flex">
-                <span class="me-2">Date de signature : </span>
-                <b>{{policy.issue_date | date:'dd/MM/yyyy'}}</b>
-            </div>
-            <div class="d-flex align-items-start justify-content-between">
-                <div class="d-grid align-items-center justify-content-center">
-                    <span>Chef de département Technico-commercial</span>
-                    <b>Larissa IRAMBONA</b>
-                    <img style="width: 70px; height:25px" src="../../../../../assets/images/signature-dc.png" alt="">
-                </div>
-                <div class="d-grid align-items-center justify-content-center">
-                    <span>Administrateur Directeur Général</span>
-                    <b>Renovat GAHUNGU</b>
-                    <img style="width: 160px; height:80px" src="../../../../../assets/images/signature-dg.webp" alt="">
-                </div>
-                <div class="d-grid align-items-center justify-content-center">
-                    <span>REPRÉSENTANT DU GROUPE</span>
+            <div class="text-center my-2">
+                <p>Fait à Bujumbura, le <strong>{{policy.created_at | date:'dd/MM/yyyy, h:mm a'}}</strong> par <strong> {{policy.operator?.full_name}} </strong></p>
+              </div>
+            <div class="d-flex mt-4 justify-content-between">
+                <div class="d-grid align-items-center text-center">
+                    @if(policy.credit_insurance?.is_group){
+                        <span>REPRÉSENTANT DU GROUPE</span>
+                    }@else{
+                        <span>Preneur d'assurance</span>
+                    }
                     <b>{{policy.credit_insurance?.members[0].full_name}}</b>
+                </div>
+                <div class="d-grid align-items-center text-center">
+                    <span>Banqe-Beneficiaire</span>
+                    <b>{{policy.agency?.name}}</b>
+                </div>
+                <div class="d-grid align-items-center text-center">
+                    <span>Compagnie d'assurance</span>
+                    <b>{{policy.company?.name}}</b>
+                    <img style="width: 160px; height:80px" src="../../../../../assets/images/signature-dg.webp" alt="Signature">
                 </div>
             </div>
         </div>
