@@ -33,7 +33,7 @@
                 <div>
                     <div class="d-grid">
                         <h3 class="text-center w-auto px-4 bg-main rounded p-2 header-title mb-3 text-white">
-                            <b>POLICE D'ASSURANCE PROTECTION CRÉDIT</b>
+                            <b>POLICE D'ASSURANCE PROTECTION CRÉDIT / Solde restant dû </b>
                         </h3>
                         
                         <div class="d-grid my-3">
@@ -254,6 +254,7 @@
                                                     <span>9. Désertion de service;</span>
                                                     <span>10. Licenciement collectif ou en cas de force majeure;</span>
                                                     <span>11. Le changement d'employeur</span>
+                                                    <span>12. Licenciement pour des raisons politiques et/ou economiques</span>
                                                 </div>
                                             </td>
                                         </tr>
@@ -277,13 +278,17 @@
                                 </div>
                             </div>
                         }
-                        
+                        <div class="my-2">
+                            <small>
+                                <b>N.B : Le contrat vie n'a ni valeur de reduction, ni valeur d'achat</b>
+                            </small>
+                        </div>
                         <div class="my-2">
                             <small style="font-style: italic;">Le présent contrat est valide à la date de sa signature et après le paiement de la prime.</small>
                         </div>
                         
                         <div class="my-3">
-                            <div>
+                            <div> 
                                 Je soussigné 
                                     <b class="mx-0">{{policy.credit_insurance?.members[0].full_name}}</b>
                                     @if(policy.credit_insurance?.is_group){
@@ -299,7 +304,7 @@
                         </div>
                         
                         <div class="my-2 d-flex justify-content-end">
-                            <span>Fait à Bujumbura, <b>{{policy.issue_date | date:'dd/MM/yyyy'}}</b></span>
+                            <span>Fait à Bujumbura, <b>{{policy.created_at | date:'dd/MM/yyyy'}}</b></span>
                         </div>
                         
                         <div class="d-flex mt-4 justify-content-between">
@@ -318,7 +323,7 @@
                             <div class="d-grid align-items-center text-center">
                                 <span>Compagnie d'assurance</span>
                                 <b>{{policy.company?.name}}</b>
-                                <img style="width: 70px; height:25px" src="../../../../../assets/images/signature-dg.png" alt="Signature">
+                                <img style="width: 160px; height:80px" src="../../../../../assets/images/signature-dg.webp" alt="Signature">
                             </div>
                         </div>
                     </div>

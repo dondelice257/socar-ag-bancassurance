@@ -6,6 +6,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { AuthState } from './shared/states/auth/auth.state';
 import { CoreModule } from './core/services/core.module';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +31,8 @@ export class AppComponent {
 //
 
 this.isAuthenticated$ = store.select(AuthState.isAuthenticated)
+this.initializeBackButtonCustomHandler();
+
   }
 
 
@@ -66,6 +69,22 @@ this.isAuthenticated$ = store.select(AuthState.isAuthenticated)
 
 
 
+  }
+
+
+  initializeBackButtonCustomHandler() {
+    App.addListener('backButton', () => {
+      const currentRoute = this.router.url;
+
+      // List of routes where you want the app to exit
+      const exitRoutes = ['/', '/home', '/tabs/home'];
+
+      if (exitRoutes.includes(currentRoute)) {
+        App.exitApp();
+      } else {
+        window.history.back(); // Go to previous route
+      }
+    });
   }
 
 
