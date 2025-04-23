@@ -14,6 +14,7 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { ToastrModule, provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { AgencyState } from './shared/states/selectedAgency/agency.state';
 // import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
 
 //state
@@ -28,12 +29,13 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(NgxsModule.forRoot([
       AuthState,
       // UserState,
+      AgencyState
       
     ], {developmentMode: !environment.production}),
     NgxsStoragePluginModule.forRoot({
       key: [
           'auth',
-          // 'user',
+          'agency',
 
       ],
   }),

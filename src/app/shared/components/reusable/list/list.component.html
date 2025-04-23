@@ -12,11 +12,13 @@
       <form [formGroup]="filterForm" (ngSubmit)="getData()" class="filters d-flex p-3 gap-3">
         <mat-form-field>
           <mat-label>Filtrer par agence</mat-label>
-          <mat-select  formControlName="agency" name="agency">
+          <mat-select name="agency"
+
+          (selectionChange)="selectAgency($event.value); getData()"   formControlName="agency" name="agency">
             <mat-option value="">Toutes les agences</mat-option>
 
             @for (agency of agencies; track agency) {
-              <mat-option [value]="agency.id">{{agency.name}} - {{agency.sub_agency}}</mat-option>
+              <mat-option  [value]="agency.id">{{agency.name}} - {{agency.sub_agency}}</mat-option>
             }
           </mat-select>
         </mat-form-field>

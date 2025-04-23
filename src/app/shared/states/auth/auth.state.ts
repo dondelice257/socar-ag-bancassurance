@@ -15,6 +15,7 @@ import { AuthStateModel } from './auth.model';
   defaults: {
     isAuthenticated: false,
     token: null,
+
     connectedUser : null,
     connectedOperator : null,
 
@@ -32,6 +33,9 @@ export class AuthState {
   static token(state: AuthStateModel) {
     return state.token;
   }
+
+
+
 
   @Selector()
   static connectedUser(state: AuthStateModel) {

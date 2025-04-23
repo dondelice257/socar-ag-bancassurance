@@ -20,6 +20,10 @@ import { GeneralService } from '../../../../core/services/general.service';
 import { format } from 'date-fns';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { AgencyState } from '../../../states/selectedAgency/agency.state';
+import { SetSelectedAgency } from '../../../states/selectedAgency/agency.action';
 
 interface ColumnConfig {
   header: string;
@@ -58,6 +62,9 @@ export class ListComponent implements AfterViewInit {
   data: any[]= [];
   agencies: any[]= [];
 
+  selectedAgency$:Observable<string | null>
+  selectedAgency:any=''
+
   displayedColumns: string[] = [];
   dataSource!: MatTableDataSource<any>;
 
@@ -67,8 +74,13 @@ export class ListComponent implements AfterViewInit {
   constructor(
     private router: Router,
     private generalService: GeneralService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private store : Store
   ) {
+
+
+    this.selectedAgency$ = this.store.select(AgencyState.selectedAgency)
+
     this.filterForm = this.fb.group({
       searchQuery: [''],
       fromDate: [''],
@@ -79,9 +91,13 @@ export class ListComponent implements AfterViewInit {
   }
 
   ngOnInit() {
-    this.getData();
     this.getAgencies()
     this.displayedColumns = this.columns.map(c => c.columnDef);
+
+    this.selectedAgency$.subscribe((selectedAgency) => {
+      this.selectedAgency = selectedAgency;
+      this.filterForm.patchValue({ agency: selectedAgency });  // Keep filterForm in sync
+    });
   }
 
   ngAfterViewInit() {
@@ -97,7 +113,7 @@ export class ListComponent implements AfterViewInit {
     const formattedFromDate = fromDate ? format(new Date(fromDate), 'dd/MM/yyyy') : '';
     const formattedToDate = toDate ? format(new Date(toDate), 'dd/MM/yyyy') : '';
 
-    this.generalService.GetList(this.url, searchQuery, formattedFromDate, formattedToDate, this.filterForm.value.agency)
+    this.generalService.GetList(this.url, searchQuery, formattedFromDate, formattedToDate, this.selectedAgency)
       .subscribe((data: any) => {
         this.isLoading = false  
         this.data = data;
@@ -111,6 +127,8 @@ export class ListComponent implements AfterViewInit {
   getAgencies(){
     this.generalService.GetAgencies().subscribe((agencies:any)=>{
       this.agencies = agencies
+    this.getData();
+
     })
   }
 
@@ -147,5 +165,9 @@ export class ListComponent implements AfterViewInit {
       saveAs(blob, this.title);
     });
   }
+
+selectAgency(selectedAgency:any){
+this.store.dispatch(new SetSelectedAgency(selectedAgency))
+}
   
 }
