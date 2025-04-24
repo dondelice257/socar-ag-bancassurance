@@ -25,6 +25,7 @@
               </div>
               <div class="row margin-x-1 border-btm">
                
+
                 <div class="col-3">TYPE AVENANT:</div>
                 <div class="col-3 fw-bold">{{policy.type_avenant | uppercase}}</div>
                 <div class="col-3">NUM AVENANT :</div>
@@ -32,7 +33,7 @@
               </div>
           <div class="row border-btm">
             <div class="col-3">DATE EFFET :</div>
-            <div class="col-3 fw-bold">{{policy.expiration_date | uppercase}}</div>
+            <div class="col-3 fw-bold">{{policy.issue_date |  date:'dd/MM/yyyy'}}</div>
             <div class="col-6">Pour le voyage</div>
             <div class="col-3 fw-bold">MONNAIE</div>
             <div class="col-3">{{policy.currency | uppercase}} </div>
