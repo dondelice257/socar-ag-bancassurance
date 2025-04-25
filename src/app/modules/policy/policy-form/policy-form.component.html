@@ -472,116 +472,169 @@
             </div>
           </div>
         }@else {
-          <h4 class="mb-3"><b>Ajout des crediteurs</b></h4>
+          <h4 class="mb-3"><b>Ajout des bénéficiaires</b></h4>
         
           <div class="container my-4">
             <!-- Form to add guarantees -->
-                          <div class="card p-4 shadow-sm">
-              <!-- <h4 class="text-center mb-4">Ajouter les membres du groupe </h4> -->
-              <form [formGroup]="memberForm">
-                <div class="row">
-                  <!-- Guarantee type selection -->
-                  <div class="col-lg-6 mb-3" >
-                    <div class="form-floating">
-                      <input type="text" class="form-control" formControlName="full_name" placeholder="Nom complet">
-                      <label>Nom complet</label>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mb-3" >
-                    <div class="form-floating">
-                      <input type="number" class="form-control" formControlName="age" placeholder="Age du membre">
-                      <label>Age</label>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mb-3" >
 
-                                      <div class="form-floating">
-                      <input type="number" class="form-control" formControlName="credit_amount" placeholder="Montant">
-                      <label>Montant du credit</label>
-                    </div>
-                    </div>
-                  <div class="col-lg-6 mb-3" >
-                    <div class="form-floating">
-                      <input type="number" class="form-control" formControlName="number_of_installments" placeholder="Periode">
-                      <label>Periode en mois</label>
-                    </div>
-                  </div>
-                                    <div class="col-lg-6 mb-3" >
-                    <div class="form-floating">
-                      <input type="number" class="form-control" formControlName="credit_rate" placeholder="Taux">
-                      <label>Taux</label>
-                    </div>
-                  </div>
-
-                  @if(specificInsurance?.is_refinancing){
-                    <div class="form-floating col-lg-6 mb-3">
-                      <input type="number" class="form-control" formControlName="ongoing_amount" placeholder="Montant en cours">
-                      <label>Montant en cours</label>
-                    </div>
-                    <div class="col-lg-6 mb-3" >
+            <div class="card p-4 shadow-sm">
+              <!-- Manual Form Input: show only if not group -->
+              <ng-container *ngIf="!specificInsurance?.is_group && selectedMembers.length==0">
+                <form [formGroup]="memberForm">
+                  <div class="row">
+                    <!-- Full Name -->
+                    <div class="col-lg-6 mb-3">
                       <div class="form-floating">
-                        <input type="number" class="form-control" formControlName="ongoing_rate" placeholder="Taux en cours">
-                        <label>Taux en cours</label>
+                        <input type="text" class="form-control" formControlName="full_name" placeholder="Nom complet" />
+                        <label>Nom complet</label>
                       </div>
-                      </div>
-                  }
-                  <div class="col-lg-6 mb-3" >
-                    <div class="form-floating">
-                      <input type="text" class="form-control" formControlName="addresse" placeholder="Addresse du membre">
-                      <label>Addresse</label>
                     </div>
-                  </div>
-                  <div class="col-lg-6 mb-3" >
-                    <div class="form-floating">
-                      <input type="text" class="form-control" formControlName="phone_number" placeholder="Addresse du membre">
-                      <label>Numero de Telephone</label>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mb-3" >
-                    <div class="form-floating">
-                      <input type="text" class="form-control" formControlName="id_number" placeholder="Addresse du membre">
-                      <label>Numero CNI ou passport</label>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mb-3" >
-                    <div class="form-floating">
-                      <input type="text" class="form-control" formControlName="employer" placeholder="Addresse du membre">
-                      <label>Employeur</label>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mb-3" >
-                    <div class="form-floating">
-                      <input type="text" class="form-control" formControlName="email" placeholder="Addresse du membre">
-                      <label>Email</label>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mb-3" >
-                    <div class="form-floating">
-                      <input type="text" class="form-control" formControlName="account_number" placeholder="Addresse du membre">
-                      <label>Numero de compte</label>
-                    </div>
-                  </div>
-                  
-
-                  
-
-                  
             
-                  
-                  <!-- Add button -->
-                  <div class="col-lg-12 d-flex align-items-center justify-content-center">
-                    <button type="button" class="p-2 rounded text-white bg-primary-2 w-100" (click)="addMember()">
-                      Ajouter
-                    </button>
+                    <!-- Age -->
+                    <div class="col-lg-6 mb-3">
+                      <div class="form-floating">
+                        <input type="number" class="form-control" formControlName="age" placeholder="Age du membre" />
+                        <label>Age</label>
+                      </div>
+                    </div>
+            
+                    <!-- Credit Amount -->
+                    <div class="col-lg-6 mb-3">
+                      <div class="form-floating">
+                        <input type="number" class="form-control" formControlName="credit_amount" placeholder="Montant" />
+                        <label>Montant du credit</label>
+                      </div>
+                    </div>
+            
+                    <!-- Number of Installments -->
+                    <div class="col-lg-6 mb-3">
+                      <div class="form-floating">
+                        <input type="number" class="form-control" formControlName="number_of_installments" placeholder="Periode" />
+                        <label>Periode en mois</label>
+                      </div>
+                    </div>
+            
+                    <!-- Credit Rate -->
+                    <div class="col-lg-6 mb-3">
+                      <div class="form-floating">
+                        <input type="number" class="form-control" formControlName="credit_rate" placeholder="Taux" />
+                        <label>Taux</label>
+                      </div>
+                    </div>
+            
+                    <!-- Refinancing fields -->
+                    <ng-container *ngIf="specificInsurance?.is_refinancing">
+                      <div class="form-floating col-lg-6 mb-3">
+                        <input type="number" class="form-control" formControlName="ongoing_amount" placeholder="Montant en cours" />
+                        <label>Montant en cours</label>
+                      </div>
+                      <div class="col-lg-6 mb-3">
+                        <div class="form-floating">
+                          <input type="number" class="form-control" formControlName="ongoing_rate" placeholder="Taux en cours" />
+                          <label>Taux en cours</label>
+                        </div>
+                      </div>
+                    </ng-container>
+            
+                    <!-- Address -->
+                    <div class="col-lg-6 mb-3">
+                      <div class="form-floating">
+                        <input type="text" class="form-control" formControlName="addresse" placeholder="Adresse du membre" />
+                        <label>Adresse</label>
+                      </div>
+                    </div>
+            
+                    <!-- Phone Number -->
+                    <div class="col-lg-6 mb-3">
+                      <div class="form-floating">
+                        <input type="text" class="form-control" formControlName="phone_number" placeholder="Numéro de téléphone" />
+                        <label>Numéro de téléphone</label>
+                      </div>
+                    </div>
+            
+                    <!-- ID Number -->
+                    <div class="col-lg-6 mb-3">
+                      <div class="form-floating">
+                        <input type="text" class="form-control" formControlName="id_number" placeholder="Numéro CNI ou passeport" />
+                        <label>Numéro CNI ou passeport</label>
+                      </div>
+                    </div>
+            
+                    <!-- Employer -->
+                    <div class="col-lg-6 mb-3">
+                      <div class="form-floating">
+                        <input type="text" class="form-control" formControlName="employer" placeholder="Employeur" />
+                        <label>Employeur</label>
+                      </div>
+                    </div>
+            
+                    <!-- Email -->
+                    <div class="col-lg-6 mb-3">
+                      <div class="form-floating">
+                        <input type="text" class="form-control" formControlName="email" placeholder="Email" />
+                        <label>Email</label>
+                      </div>
+                    </div>
+            
+                    <!-- Account Number -->
+                    <div class="col-lg-6 mb-3">
+                      <div class="form-floating">
+                        <input type="text" class="form-control" formControlName="account_number" placeholder="Numéro de compte" />
+                        <label>Numéro de compte</label>
+                      </div>
+                    </div>
+            
+                    <!-- Add Button -->
+                    <div class="col-lg-12 d-flex align-items-center justify-content-center">
+                      <button type="button" class="p-2 rounded text-white bg-primary-2 w-100" (click)="addMember()">
+                        Ajouter
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </ng-container>
+            
+<!-- Excel Import: show only if group -->
+<ng-container *ngIf="specificInsurance?.is_group">
+  <div class="card border-0 shadow-sm p-4 my-4">
+    <h5 class="mb-3 text-primary">
+      <i class="bi bi-file-earmark-excel me-2"></i>
+      Importation des membres via Excel
+    </h5>
+
+    <div class="mb-3">
+      <label for="excelFile" class="form-label fw-semibold">Choisir un fichier Excel (.xlsx, .xls)</label>
+      <input
+        type="file"
+        id="excelFile"
+        #fileInput
+        (change)="onExcelImport($event)"
+        accept=".xlsx, .xls"
+        class="form-control"
+      />
+      <div class="form-text">
+        Assurez-vous que le fichier contient les colonnes nécessaires.
+      </div>
+    </div>
+
+    <div class="text-end mt-3">
+      <button type="button" class="btn btn-outline-secondary" (click)="removeAllMembers()">
+        <i class="bi bi-trash me-1"></i> Réinitialiser
+      </button>
+    </div>
+  </div>
+</ng-container>
+
             </div>
+            
 
             
             <!-- Table of selected guarantees (conditional display) -->
             <div class="card p-4 mt-4 shadow-sm" *ngIf="selectedMembers.length > 0">
-              <h4 class="text-center mb-3">Membres ajoutés</h4>
+              <div classs="d-flex my-2 align-items-center w-100 justify-content-between">
+              <h4 class="">Membres ajoutés</h4>
+
+              </div>
               <table class="table table-bordered table-striped text-center">
                 <thead class="table-dark">
                   <tr>

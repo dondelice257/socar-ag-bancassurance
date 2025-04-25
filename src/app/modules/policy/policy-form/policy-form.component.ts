@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { LookupComponent } from '../../../shared/components/reusable/lookup/lookup.component';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -15,6 +15,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ToastrService } from 'ngx-toastr';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CreditFormComponent } from '../../production/credit-form/credit-form.component';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-policy-form',
@@ -103,6 +104,10 @@ export class PolicyFormComponent {
   autoOptions = ['RESPONSABILITE CIVILE', 'DEGATS MATERIELS', 'INCENDIE', 'VOL', 'BRIS DE VITRE', 'INDIVIDUEL OCCUPANT', 'PASSAGERS SUR PLATEAU', 'EXTENSION COMESA'];
   fireOptions = ['INCENDIE ET RISQUES CONNEXES', 'TEMPETE OURAGAN ET TROMBE', 'TREMBLEMENT DE TERRE ET ERRUPTION VOLCANIQUE', 'DE ( DEGATS DES EAUX )', 'INONDATION', 'RE ( RISQUES ELECTRIQUES)', 'FAP SAUF', 'BG ( BRIS DE GLACE )', 'VOL', 'FRAIS DE POMPIERS', 'FRAIS DE DEBLAIS', 'CHOMAGES IMMOBILIERS', 'PERTES D EXPLOITATION', 'RECOURS DES VOISINS'];
   transportOptions = ['Tous risques', 'Accident caracterise', 'FAP SAUF'];
+
+
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
 
   
@@ -398,7 +403,12 @@ createPolicy() {
       this.memberForm.patchValue({
         full_name: '',
         age: '',
-
+        addresse: '',
+        phone_number: '',
+        id_number: '',
+        employer: '',
+        email: '',
+        account_number: '',
         credit_amount: 0,
         credit_rate: 0,
         ongoing_amount: 0,
@@ -415,6 +425,11 @@ createPolicy() {
    * Adds an insured asset to the selected goods list
    * from the goods form data
    */
+
+
+
+
+
   addGoods() {
     if (this.goodsForm.valid) {
       const goods = {
@@ -622,5 +637,64 @@ submitGoods() {
       this.toastr.error("Une erreur s'est produite. Veuillez contacter l'administrateur.", 'Erreur système');
     }
   }
+
+
+  removeAllMembers() {
+    this.selectedMembers.length = 0;
+  
+    // Reset the file input
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
+  
+  
+
+  onExcelImport(event: any) {
+    const target: DataTransfer = <DataTransfer>(event.target);
+    if (target.files.length !== 1) {
+      console.error('Cannot use multiple files');
+
+      return;
+    }
+  
+    const reader: FileReader = new FileReader();
+    reader.onload = (e: any) => {
+      const bstr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
+  
+      // Assuming first sheet
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+  
+      // Convert to JSON
+      const data = <any[]>(XLSX.utils.sheet_to_json(ws, { defval: '' }));
+  
+      // Expected fields in the Excel file:
+      // full_name, age, addresse, phone_number, id_number, employer, email, account_number, credit_amount, credit_rate, ongoing_amount, ongoing_rate, number_of_installments
+  
+      for (const row of data) {
+        const member = {
+          full_name: row.full_name || '',
+          age: row.age || '',
+          addresse: row.addresse || '',
+          phone_number: row.phone_number || '',
+          id_number: row.id_number || '',
+          employer: row.employer || '',
+          email: row.email || '',
+          account_number: row.account_number || '',
+          credit_amount: Number(row.credit_amount) || 0,
+          credit_rate: Number(row.credit_rate) || 0,
+          ongoing_amount: Number(row.ongoing_amount) || 0,
+          ongoing_rate: Number(row.ongoing_rate) || 0,
+          number_of_installments: Number(row.number_of_installments) || 0
+        };
+        this.selectedMembers.push(member);
+      }
+    };
+  
+    reader.readAsBinaryString(target.files[0]);
+  }
+  
   
 }

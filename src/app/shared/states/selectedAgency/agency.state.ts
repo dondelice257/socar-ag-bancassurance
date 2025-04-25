@@ -14,7 +14,7 @@ import { SetSelectedAgency } from './agency.action';
 @State<SelectedAgencyModel>({
   name: 'agency',
   defaults: {
-    selectedAgency: null,
+    selectedAgency: '',
 
   },
 })
