@@ -684,9 +684,9 @@ submitGoods() {
           email: row.email || '',
           account_number: row.account_number || '',
           credit_amount: Number(row.credit_amount) || 0,
-          credit_rate: Number(row.credit_rate) || 0,
-          ongoing_amount: Number(row.ongoing_amount) || 0,
-          ongoing_rate: Number(row.ongoing_rate) || 0,
+          credit_rate: Number(row.insurance_rate) || 0,
+          ongoing_amount: Number(row.outstanding_amount) || 0,
+          ongoing_rate: Number(row.outstanding_rate) || 0,
           number_of_installments: Number(row.number_of_installments) || 0
         };
         this.selectedMembers.push(member);

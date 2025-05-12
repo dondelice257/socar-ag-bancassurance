@@ -239,7 +239,7 @@
                                             <td class="w-50">
                                                 <div class="d-grid">
                                                     <span>1. Le licenciement pour faute lourde ou faute grave;</span>
-                                                    <span>2. Chômage technique ou la perte d'emploi pour des raisons liées à des mesures;</span>
+                                                    <span>2. Chômage technique ou la perte d'emploi pour des raisons liées à des mesures d'assainissement;</span>
                                                     <span>3. Démission volontaire de l'assuré ainsi que le départ négocié à caractère individuel;</span>
                                                     <span>4. Renvoi lié directement ou indirectement à une blessure qu'on s'inflige soi-même, ou une activité illégale;</span>
                                                     <span>5. Le chômage à l'issue ou en cours d'un contrat du travail à durée déterminée ou d'une période d'essai non concluante;</span>
@@ -283,17 +283,22 @@
                             </small>
                         </div>
                         <div class="my-2">
-                            <small style="font-style: italic;">Le présent contrat est valide à la date de sa signature et après le paiement de la prime.</small>
+                            <small style="font-style: italic;">Le présent contrat sera valide à la date d'octroi du crédit.</small>
                         </div>
                         
                         <div class="my-3">
                             <div> 
-                                Je soussigné 
+                                @if(policy.credit_insurance?.is_group){
+                                    Nous soussignés 
                                     <b class="mx-0">{{policy.credit_insurance?.members[0].full_name}}</b>
-                                    @if(policy.credit_insurance?.is_group){
-                                        <span> au nom du groupe </span>
-                                        <b>{{policy.credit_insurance?.raison_sociale}}</b>
-                                    }
+                                    <span> et </span>
+                                    <b>{{policy.credit_insurance?.members[1].full_name}}</b>
+                                    <span> au nom du groupe </span>
+                                    <b>{{policy.credit_insurance?.raison_sociale}}</b>
+                                }@else{
+                                    Je soussigné 
+                                    <b class="mx-0">{{policy.credit_insurance?.members[0].full_name}}</b>
+                                }
                                 déclare que cette assurance ne remplace aucune autre assurance et je comprends que je pourrais être tenu de subir des examens médicaux dans certaines circonstances. Je conviens que si les déclarations ci-dessus ne sont pas vraies, cette assurance sera nulle et non avenue.
                             </div>
                         </div>
@@ -307,23 +312,32 @@
                             <p>Fait à Bujumbura, le <strong>{{policy.created_at | date:'dd/MM/yyyy, h:mm a'}}</strong> par <strong> {{policy.operator?.full_name}} </strong></p>
                           </div>
                         
-                        <div class="d-flex mt-4 justify-content-between">
+                        <div class="d-flex mt-4 justify-content-between align-items-start">
                             <div class="d-grid align-items-center text-center">
                                 @if(policy.credit_insurance?.is_group){
-                                    <span>REPRÉSENTANT DU GROUPE</span>
+                                    <span>REPRÉSENTANT DU GROUPE 1</span>
+                                    <b>{{policy.credit_insurance?.members[0].full_name}}</b>
+                                    <span class="mt-4">REPRÉSENTANT DU GROUPE 2</span>
+                                    <b>{{policy.credit_insurance?.members[1].full_name}}</b>
                                 }@else{
                                     <span>Preneur d'assurance</span>
+                                    <b>{{policy.credit_insurance?.members[0].full_name}}</b>
                                 }
-                                <b>{{policy.credit_insurance?.members[0].full_name}}</b>
                             </div>
                             <div class="d-grid align-items-center text-center">
-                                <span>Banqe-Beneficiaire</span>
+                                <span>BANQUE/BENEFICIAIRE</span>
                                 <b>{{policy.agency?.name}}</b>
                             </div>
                             <div class="d-grid align-items-center text-center">
                                 <span>Compagnie d'assurance</span>
                                 <b>{{policy.company?.name}}</b>
-                                <img style="width: 160px; height:80px" src="../../../../../assets/images/signature-dg.webp" alt="Signature">
+                                <div class="d-flex align-items-center">
+                                    <img style="width: 160px; height:80px; " src="../../../../../assets/images/signature-dc.webp" alt="Signature dc">
+
+                                    <img style="width: 200px; height:250px" src="../../../../../assets/images/cachet-ucar.webp" alt="Cachet">
+                                    <img style="width: 160px; height:80px; " src="../../../../../assets/images/signature-dg.webp" alt="Signature dg">
+
+                                </div>
                             </div>
                         </div>
                     </div>
