@@ -24,7 +24,7 @@ export class AutoFormComponent {
     'TESLA', 'SUBARU', 'MAZDA', 'MITSUBISHI', 'PORSCHE', 
     'JAGUAR', 'LEXUS', 'ACURA', 'INFINITI', 'MINI', 'DODGE', 
      'CHRYSLER', 'CITROËN', 'SAAB', 'ALFA ROMEO', 
-    'SUZUKI', 'HONDA', 'MERCEDES', 'VOLVO'
+    'SUZUKI', 'HONDA', 'MERCEDES', 'VOLVO', 'HOWO', 'MACHINE', 'LEXUS'
   ];
 
   classes:string[]= [
