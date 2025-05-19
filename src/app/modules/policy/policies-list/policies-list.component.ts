@@ -69,7 +69,10 @@ export class PoliciesListComponent {
           { columnDef: 'formatted_avenant', header: 'Avenant' },
           { columnDef: 'bill.status', header: 'Status' },
           { columnDef: 'premium_amount', header: 'Prime totale' },
-          { columnDef: 'commission', header: 'Commission' },
+          { columnDef: 'prime_nette', header: 'Prime Nette' },
+          { columnDef: 'charges_arca', header: 'Charges ARCA' },
+
+          { columnDef: 'charges_diverses', header: 'Charges diverses' },
           
       
           { columnDef: 'tva', header: 'TVA' },
