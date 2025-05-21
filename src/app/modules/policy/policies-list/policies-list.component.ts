@@ -71,6 +71,8 @@ export class PoliciesListComponent {
           { columnDef: 'premium_amount', header: 'Prime totale' },
           { columnDef: 'prime_nette', header: 'Prime Nette' },
           { columnDef: 'frais', header: 'Frais' },
+          { columnDef: 'commission', header: 'Commission' },
+
 
           { columnDef: 'charges_arca', header: 'Charges ARCA' },
 
