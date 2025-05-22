@@ -22,6 +22,13 @@
     font-size: 12px;
     background: white;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .content-wrapper {
+    flex: 1;
+    page-break-inside: avoid;
   }
   
   .header-title {
@@ -63,15 +70,85 @@
     margin-top: 60px;
   }
   
-  // @media print {
-  //   .contract-wrapper {
-  //     padding: 0;
-  //   }
+  @media print {
+    .contract-wrapper {
+      padding: 0;
+      min-height: auto;
+    }
+
+    .header-title {
+      page-break-after: avoid;
+      page-break-inside: avoid;
+    }
+
+    .content-wrapper {
+      page-break-before: avoid;
+      page-break-inside: auto;
+    }
+
+    .signatures {
+      page-break-inside: avoid;
+      margin-top: 40px;
+    }
+
+    // Ensure tables don't break across pages
+    table {
+      page-break-inside: avoid;
+    }
+
+    // Ensure rows don't break across pages
+    tr {
+      page-break-inside: avoid;
+    }
+
+    *{
+      font-size: 9.5px;
+      padding: 0;
+      margin: 0;
+    }
+
+ 
+    /* Hide elements marked as 'no-print' */
+    .no-print {
+      display: none !important;
+    }
+  
+    /* Ensure elements marked as 'printed' are visible when printed */
+    .printed {
+      display: block !important; /* or use the default display style you want */
+    }
+  
+    .really-print{
+      margin-left: 56%;
+    }
+  
+    .to-print{
+      display: block;
+    }
+  
+    .no-border-print{
+      border: none;
+    }
+    .go-down{
+      margin-top: 6px;
+    }
+  
+    .print-only{
+      display: block;
+    }
+
+
+    .table-bordered {
+      border:1px solid black !important;
+    }
     
-  //   .table {
-  //     page-break-inside: avoid;
-  //   }
-  // }
+    .table-bordered th,
+    .table-bordered td {
+      border: 1px solid black !important;
+    }
+    
+  
+  }
 
 
 
@@ -175,59 +252,6 @@
     background-color: rgba(137, 235, 205, 0.2); /* Bleu gris avec une opacité de 0.2 */
   }
   
-  @media print {
-
-    *{
-      font-size: 9.5px;
-      padding: 0;
-      margin: 0;
-    }
-
- 
-    /* Hide elements marked as 'no-print' */
-    .no-print {
-      display: none !important;
-    }
-  
-    /* Ensure elements marked as 'printed' are visible when printed */
-    .printed {
-      display: block !important; /* or use the default display style you want */
-    }
-  
-    .really-print{
-      margin-left: 56%;
-    }
-  
-    .to-print{
-      display: block;
-    }
-  
-    .no-border-print{
-      border: none;
-    }
-    .go-down{
-      margin-top: 6px;
-    }
-  
-    .print-only{
-      display: block;
-    }
-
-
-    .table-bordered {
-      border:1px solid black !important;
-    }
-    
-    .table-bordered th,
-    .table-bordered td {
-      border: 1px solid black !important;
-    }
-    
-  
-  }
-
-
-
   .premium-summary {
     display: flex;
     flex-direction: column;

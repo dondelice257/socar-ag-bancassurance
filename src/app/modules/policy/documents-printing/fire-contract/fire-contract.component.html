@@ -1,29 +1,28 @@
 <div class="contract-wrapper">
     <!-- Header -->
     @if(policy?.agency?.group == "kazoza"){
-      <div class="d-flex flex-column h-100">
-        <div class="d-grid mb-5">
+      <div class="d-flex flex-column">
+        <div class="d-flex mb-2 justify-content-between align-items-center">
           <div class="d-grid">
-            <div class="d-flex mb-2 justify-content-between">
-              <div class="d-grid">
-                <img style="width:100px" src="{{policy.company?.logo}}">
-
-              </div>
-
-              <img style="width:100px" src="{{policy.agency?.logo}}">
-            </div>
+            <img style="width:200px" src="{{policy.company?.logo}}">
           </div>
+          <img style="width:100px" src="{{policy.agency?.logo}}">
         </div>
       </div>
     }@else {
-      <div class="text-center header-title  border-btm" [ngClass]="{'mt-5 pt-5': policy?.agency?.group != 'kazoza'}">
-        <h6 class="mb-0 mt-4"><b>@if(policy.is_demo){PROPOSITION}@else {CONTRAT} D'ASSURANCE DES BIENS MEUBLES ET IMMEUBLES</b></h6>
-        <h6 class="mb-0"><b>CONDITIONS PARTICULIERES INCENDIE & R.CONNEXES</b></h6>
-      </div>
+
     }
+    <div class="d-grid">
+
+      <div class="text-center header-title  border-btm" [ngClass]="{'mt-5 pt-5': policy?.agency?.group != 'kazoza'}">
+        <h4 class="mb-0 mt-4"><b>@if(policy.is_demo){PROPOSITION}@else {CONTRAT} D'ASSURANCE DES BIENS MEUBLES ET IMMEUBLES</b></h4>
+        <h4 class="mb-0"><b>CONDITIONS PARTICULIERES INCENDIE & R.CONNEXES</b></h4>
+      </div>
+    </div>
+
   
     <!-- Main Content -->
-    <div class="">
+    <div class="content-wrapper">
       <!-- Top Info -->
       <div class="row ">
         <div class="col-3">DATE OPERATION :</div>
@@ -190,8 +189,8 @@
 <div class="my-2 d-grid">
   <div class="fw-bold">Définitions :</div>
   <strong>Inondation :</strong>
-  <span>- Tout débordement ou déviation des voies normales des cours d’eau naturels ou artificiels, à l’exclusion du lac Tanganyika.</span>
-  <span>- Tout débit ou accumulation d’eau sur le terrain, sauf lorsque ce débit ou cette accumulation d’eau provient des points d’eau principaux, robinets, tuyaux, soupapes ou assimilés.</span>
+  <span>- Tout débordement ou déviation des voies normales des cours d'eau naturels ou artificiels, à l'exclusion du lac Tanganyika.</span>
+  <span>- Tout débit ou accumulation d'eau sur le terrain, sauf lorsque ce débit ou cette accumulation d'eau provient des points d'eau principaux, robinets, tuyaux, soupapes ou assimilés.</span>
 </div>
 
 <!-- Footer Content -->
@@ -199,12 +198,12 @@
   <div class="fw-bold">Exclusions :</div>
   <span>* Les exclusions dans les conditions générales sont applicables.</span>
   @if(policy.beneficiaire){
-  <span>BÉNÉFICIAIRE : En cas de sinistre, les indemnités seront versées à {{policy.beneficiaire}}, qui est bénéficiaire de cette police d’assurance.</span>
+  <span>BÉNÉFICIAIRE : En cas de sinistre, les indemnités seront versées à {{policy.beneficiaire}}, qui est bénéficiaire de cette police d'assurance.</span>
   }
 </div>
 
 <div class="d-grid">
-  <strong>Le preneur d’assurance déclare avoir pris connaissance des conditions générales et particulières.</strong>
+  <strong>Le preneur d'assurance déclare avoir pris connaissance des conditions générales et particulières.</strong>
   <strong>La présente fait partie intégrante de la police et sont nulles toutes adjonctions ou modifications matérielles non revêtues du visa de la direction ou du représentant autorisé de la compagnie.</strong>
 </div>
 
