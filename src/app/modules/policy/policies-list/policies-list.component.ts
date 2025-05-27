@@ -45,45 +45,44 @@ export class PoliciesListComponent {
 
       if(this.connectedOperator.company?.is_non_vie){
         this.tableColumns = [
+          { columnDef: 'client.id', header: 'Numero Client' },
+
+          { columnDef: 'client.user_full_name', header: 'Nom' },
+
           { 
             columnDef: 'policy_number', 
-            header: 'Code police',
+            header: 'Numero police',
             detail: {
               link: '/policy/details/',
               field: 'id',
             }, 
           },
-          { columnDef: 'id', header: 'ID unique' },
-          { columnDef: 'is_saved', header: 'Systeme' },
-
-
-          { columnDef: 'category', header: 'Categorie' },
-      
-          { columnDef: 'client.user_full_name', header: 'Client' },
           { columnDef: 'operator.full_name', header: 'Operateur' },
           { columnDef: 'agency.name', header: 'Agence' },
           { columnDef: 'agency.sub_agency', header: 'Sous agence' },
-          
-      
-      
-          { columnDef: 'formatted_avenant', header: 'Avenant' },
-          { columnDef: 'bill.status', header: 'Status' },
-          { columnDef: 'premium_amount', header: 'Prime totale' },
-          { columnDef: 'prime_nette', header: 'Prime Nette' },
-          { columnDef: 'frais', header: 'Frais' },
-          { columnDef: 'commission', header: 'Commission' },
-
-
-          { columnDef: 'charges_arca', header: 'Charges ARCA' },
-
-          { columnDef: 'charges_diverses', header: 'Charges diverses' },
-          
-      
-          { columnDef: 'tva', header: 'TVA' },
-          { columnDef: 'bill.bill_code', header: 'Facture' },
-      
+          { columnDef: 'category', header: 'Categorie' },
           { columnDef: 'issue_date', header: 'Date effet' },
           { columnDef: 'expiration_date', header: 'Date echeance' },
+          { columnDef: 'prime_nette', header: 'Prime Nette' },
+
+          { columnDef: 'id', header: 'ID unique' },
+          { columnDef: 'is_saved', header: 'Systeme' },
+          { columnDef: 'frais', header: 'Frais' },
+          { columnDef: 'charges_diverses', header: 'Charges diverses' },
+          { columnDef: 'charges_arca', header: 'Charges ARCA' },
+          { columnDef: 'tva', header: 'TVA' },
+          { columnDef: 'premium_amount', header: 'Prime totale' },
+          { columnDef: 'commission', header: 'Commission' },
+
+      
+
+
+
+          { columnDef: 'formatted_avenant', header: 'Avenant' },
+          { columnDef: 'bill.status', header: 'Status' },
+   
+          { columnDef: 'bill.bill_code', header: 'Facture' },
+      
       
         ];
       }else{
