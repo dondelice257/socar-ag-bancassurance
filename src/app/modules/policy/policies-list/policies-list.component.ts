@@ -65,7 +65,7 @@ export class PoliciesListComponent {
           { columnDef: 'expiration_date', header: 'Date echeance' },
           { columnDef: 'prime_nette', header: 'Prime Nette' },
 
-          { columnDef: 'id', header: 'ID unique' },
+          // { columnDef: 'id', header: 'ID unique' },
           { columnDef: 'is_saved', header: 'Systeme' },
           { columnDef: 'frais', header: 'Frais' },
           { columnDef: 'charges_diverses', header: 'Charges diverses' },
@@ -73,7 +73,7 @@ export class PoliciesListComponent {
           { columnDef: 'tva', header: 'TVA' },
           { columnDef: 'premium_amount', header: 'Prime totale' },
           { columnDef: 'commission', header: 'Commission' },
-
+          {columnDef: 'assured_capital_in_bif', header : 'VA'},
       
 
 
