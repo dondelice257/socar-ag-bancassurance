@@ -157,7 +157,19 @@ export class ListComponent implements AfterViewInit {
   
     this.data.forEach((row: any) => {
       const rowData = this.columns.map(col => this.getNestedValue(row, col.columnDef));
-      worksheet.addRow(rowData);
+      const excelRow = worksheet.addRow(rowData);
+      
+      // Check if the row has cancelled status
+      const status = this.getNestedValue(row, 'status') || this.getNestedValue(row, 'bill.status');
+      if (status === 'cancelled') {
+        excelRow.eachCell((cell) => {
+          cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFFF0000' } // Red color
+          };
+        });
+      }
     });
   
     workbook.xlsx.writeBuffer().then(buffer => {
