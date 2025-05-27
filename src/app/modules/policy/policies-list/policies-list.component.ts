@@ -73,7 +73,7 @@ export class PoliciesListComponent {
           { columnDef: 'tva', header: 'TVA' },
           { columnDef: 'premium_amount', header: 'Prime totale' },
           { columnDef: 'commission', header: 'Commission' },
-          {columnDef: 'assured_capital_in_bif', header : 'VA'},
+          {columnDef: 'assured_capital_bif', header : 'VA'},
       
 
 
