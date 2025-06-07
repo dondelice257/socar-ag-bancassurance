@@ -257,7 +257,31 @@
 }
 
 
+.w-33 {
+  width: 33.333%;
+  flex: 0 0 33.333%;
+}
 
+.qr-code-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.small-qr-code {
+  width: 50px !important;
+  height: 50px !important;
+  max-width: 50px !important;
+  max-height: 50px !important;
+}
+
+.small-qr-code canvas {
+  width: 50px !important;
+  height: 50px !important;
+  max-width: 50px !important;
+  max-height: 50px !important;
+}
 
 
   

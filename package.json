@@ -35,6 +35,7 @@
     "@ngxs/logger-plugin": "^3.8.1",
     "@ngxs/storage-plugin": "^3.8.2",
     "@ngxs/store": "^3.8.2",
+    "angularx-qrcode": "^17.0.1",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.7",
     "date-fns": "^4.1.0",

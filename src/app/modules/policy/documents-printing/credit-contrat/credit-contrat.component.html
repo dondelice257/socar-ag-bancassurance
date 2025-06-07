@@ -49,7 +49,7 @@
                                     <tr>
                                         <td>
                                             <div class="d-grid">
-                                                <div class="d-flex align-items-center">
+                                                <div class="d-flex align-items-center mb-1">
                                                     <span>Preneur d'assurance :</span>
                                                     @if(policy.credit_insurance?.is_group){
                                                         <b>{{policy.credit_insurance?.raison_sociale}}</b>
@@ -58,23 +58,23 @@
                                                     }
                                                 </div>
                                                 @if(!policy.credit_insurance?.is_group){
-                                                    <div class="d-flex align-items-center">
+                                                    <div class="d-flex align-items-center mb-1">
                                                         <span>Date de naissance :</span>
                                                         <b>{{policy.credit_insurance?.members[0].birth_year}}</b>
                                                     </div>
-                                                    <div class="d-flex align-items-center">
+                                                    <div class="d-flex align-items-center mb-1">
                                                         <span>Addresse :</span>
                                                         <b>{{policy.credit_insurance?.members[0].addresse}}</b>
                                                     </div>
-                                                    <div class="d-flex align-items-center">
+                                                    <div class="d-flex align-items-center mb-1">
                                                         <span>No de Telephone :</span>
                                                         <b>{{policy.credit_insurance?.members[0].phone_number}}</b>
                                                     </div>
-                                                    <div class="d-flex align-items-center">
+                                                    <div class="d-flex align-items-center mb-1">
                                                         <span>CNI/PASSPORT/No :</span>
                                                         <b>{{policy.credit_insurance?.members[0].id_number}}</b>
                                                     </div>
-                                                    <div class="d-flex align-items-center">
+                                                    <div class="d-flex align-items-center mb-1">
                                                         <span>Employeur :</span>
                                                         <b>{{policy.credit_insurance?.members[0].employer}}</b>
                                                     </div>
@@ -84,15 +84,15 @@
                                         @if(!policy.credit_insurance?.is_group){
                                             <td>
                                                 <div class="d-grid">
-                                                    <div class="d-flex align-items-center">
+                                                    <div class="d-flex align-items-center mb-1">
                                                         <span>Prochain anniversaire :</span>
                                                         <b>{{policy.credit_insurance?.members[0].next_birth}}</b>
                                                     </div>
-                                                    <div class="d-flex align-items-center">
+                                                    <div class="d-flex align-items-center mb-1">
                                                         <span>Email :</span>
                                                         <b>{{policy.credit_insurance?.members[0].email}}</b>
                                                     </div>
-                                                    <div class="d-flex align-items-center">
+                                                    <div class="d-flex align-items-center mb-1">
                                                         <span>No du compte :</span>
                                                         <b>{{policy.credit_insurance?.members[0].account_number}}</b>
                                                     </div>
@@ -101,18 +101,18 @@
                                         }
                                         <td>
                                             <div class="d-grid">
-                                                <div class="d-flex align-items-center">
+                                                <div class="d-flex align-items-center mb-1">
                                                     <span>Nom de la banque/succursale :</span>
                                                     <b>{{policy.agency?.name}}</b>
                                                 </div>
-                                                <div class="d-flex align-items-center">
+                                                <div class="d-flex align-items-center mb-1">
                                                     <span>Agence :</span>
                                                     <b>{{policy.agency?.sub_agency}}</b>
                                                 </div>
-                                                <div class="d-flex align-items-center">
+                                                <!-- <div class="d-flex align-items-center">
                                                     <span>Mandataire :</span>
                                                     <b></b>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </td>
                                     </tr>
@@ -126,6 +126,10 @@
                                 <div class="border border-dark p-2">
                                     <div class="d-grid">
                                         <div class="d-flex align-items-center">
+                                            <span>Effet de la garantie : </span>
+                                            <b>Date d'octroi du crédit</b>
+                                        </div>
+                                        <div class="d-flex align-items-center">
                                             <span>Montant du prêt :</span>
                                             <b>{{policy.credit_insurance?.credit_amount | number}} FBU</b>
                                         </div>
@@ -137,7 +141,7 @@
                                             <span>Prime à payer :</span>
                                             <b>{{policy.credit_insurance?.total_premium | number}} FBU</b>
                                         </div>
-                                        <div class="d-flex row justify-content-between">
+                                        <!-- <div class="d-flex row justify-content-between">
                                             <div class="d-flex col-lg-4 mt-2 align-items-center">
                                                 <b>Période de la police </b>
                                                 <b></b>
@@ -150,7 +154,7 @@
                                                 <span>Date d'échéance :</span>
                                                 <b>{{policy.expiration_date | date:'dd/MM/yyyy'}}</b>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     
                                     <table class="table table-bordered mt-2">
@@ -282,9 +286,9 @@
                                 <b>N.B : Le contrat vie n'a ni valeur de reduction, ni valeur d'achat</b>
                             </small>
                         </div>
-                        <div class="my-2">
+                        <!-- <div class="my-2">
                             <small style="font-style: italic;">Le présent contrat sera valide à la date d'octroi du crédit.</small>
-                        </div>
+                        </div> -->
                         
                         <div class="my-3">
                             <div> 
@@ -312,33 +316,46 @@
                             <p>Fait à Bujumbura, le <strong>{{policy.created_at | date:'dd/MM/yyyy, h:mm a'}}</strong> par <strong> {{policy.operator?.full_name}} </strong></p>
                           </div>
                         
-                        <div class="d-flex mt-4 justify-content-between align-items-start">
-                            <div class="d-grid align-items-center text-center">
+                          <div class="d-flex mt-4 justify-content-between align-items-start">
+                            <div class="d-grid align-items-center text-center w-33">
                                 @if(policy.credit_insurance?.is_group){
-                                    <span>REPRÉSENTANT DU GROUPE 1</span>
-                                    <b>{{policy.credit_insurance?.members[0].full_name}}</b>
-                                    <span class="mt-4">REPRÉSENTANT DU GROUPE 2</span>
+                                    <span>PRENEUR D'ASSURANCE</span>
+                                    <b class="mb-4">{{policy.credit_insurance?.members[0].full_name}}</b>
                                     <b>{{policy.credit_insurance?.members[1].full_name}}</b>
                                 }@else{
-                                    <span>Preneur d'assurance</span>
+                                    <span>PRENEUR D'ASSURANCE</span>
                                     <b>{{policy.credit_insurance?.members[0].full_name}}</b>
                                 }
                             </div>
-                            <div class="d-grid align-items-center text-center">
+                            <div class="d-grid align-items-center text-center w-33">
                                 <span>BANQUE/BENEFICIAIRE</span>
                                 <b>{{policy.agency?.name}}</b>
                             </div>
-                            <div class="d-grid align-items-center text-center">
-                                <span>Compagnie d'assurance</span>
+                            <div class="d-grid align-items-center text-center w-33">
+                                <span>Approuvé par </span>
                                 <b>{{policy.company?.name}}</b>
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <img style=" height:140px; transform: translate(50%, -19%);" src="../../../../../assets/images/signature-dc.webp" alt="Signature dc">
-            
-                                    <img style="width: 200px; height:250px" src="../../../../../assets/images/cachet-ucar.webp" alt="Cachet">
-                                    <img style="height:80px; transform: translate(-40%, -10%);" src="../../../../../assets/images/signature-dg.webp" alt="Signature dg">
-            
+                                <div class="qr-code-container">
+                                    <qrcode
+    [qrdata]=" 
+              '\nNuméro de police: ' + policy.policy_number + 
+              'Preneur d\'assurance: ' + policy.credit_insurance?.members[0].full_name +
+              '\nDate: ' + (policy.issue_date | date:'dd/MM/yyyy') +
+              '\nValidité: ' + (policy.expiration_date | date:'dd/MM/yyyy')+
+              '\nBANQUE/BENEFICIAIRE :' + policy.agency?.name + 
+
+              '\nCompagnie d\'assurance: ' + (policy.company?.name) 
+              "
+
+    [width]="50"
+    [errorCorrectionLevel]="'M'"
+    [elementType]="'canvas'">
+</qrcode>
                                 </div>
                             </div>
+                        </div>
+                        <div class="my-2 d-flex align-items-center">
+                            <span>Bancassurance : </span>
+                            <b>{{policy.agency?.name}}</b>
                         </div>
                     </div>
                 </div>
