@@ -98,32 +98,40 @@
             <div class="text-center my-2">
                 <p>Fait à Bujumbura, le <strong>{{policy.created_at | date:'dd/MM/yyyy, h:mm a'}}</strong> par <strong> {{policy.operator?.full_name}} </strong></p>
               </div>
-            <div class="d-flex mt-4 justify-content-between align-items-start">
-
-                <div class="d-grid align-items-center text-center">
+              <div class="d-flex mt-4 justify-content-between align-items-start">
+                <div class="d-grid align-items-center text-center w-33">
                     @if(policy.credit_insurance?.is_group){
-                        <span>REPRÉSENTANT DU GROUPE 1</span>
-                        <b>{{policy.credit_insurance?.members[0].full_name}}</b>
-                        <span class="mt-4">REPRÉSENTANT DU GROUPE 2</span>
+                        <span>PRENEUR D'ASSURANCE</span>
+                        <b class="mb-5">{{policy.credit_insurance?.members[0].full_name}}</b>
                         <b>{{policy.credit_insurance?.members[1].full_name}}</b>
                     }@else{
-                        <span>Preneur d'assurance</span>
+                        <span>PRENEUR D'ASSURANCE</span>
                         <b>{{policy.credit_insurance?.members[0].full_name}}</b>
                     }
                 </div>
-                <div class="d-grid align-items-center text-center">
-                    <span>Banque/Beneficiaire</span>
+                <div class="d-grid align-items-center text-center w-33">
+                    <span>BANQUE/BENEFICIAIRE</span>
                     <b>{{policy.agency?.name}}</b>
                 </div>
-                <div class="d-grid align-items-center text-center">
-                    <span>Compagnie d'assurance</span>
+                <div class="d-grid align-items-center text-center w-33">
+                    <span>Approuvé par </span>
                     <b>{{policy.company?.name}}</b>
-                    <div class="d-flex align-items-center justify-content-center">
-                        <img style=" height:140px; transform: translate(50%, -19%);" src="../../../../../assets/images/signature-dc.webp" alt="Signature dc">
+                    <div class="qr-code-container">
+                        <qrcode
+[qrdata]=" 
+  '\nNuméro de police: ' + policy.policy_number + 
+  '\nPreneur d\'assurance: ' + policy.credit_insurance?.members[0].full_name +
+  '\nDate: ' + (policy.issue_date | date:'dd/MM/yyyy') +
+  '\nValidité: ' + (policy.expiration_date | date:'dd/MM/yyyy')+
+  '\nBANQUE/BENEFICIAIRE :' + policy.agency?.name + 
 
-                        <img style="width: 200px; height:250px" src="../../../../../assets/images/cachet-ucar.webp" alt="Cachet">
-                        <img style="height:80px; transform: translate(-40%, -10%);" src="../../../../../assets/images/signature-dg.webp" alt="Signature dg">
+  '\nCompagnie d\'assurance: ' + (policy.company?.name) 
+  "
 
+[width]="50"
+[errorCorrectionLevel]="'M'"
+[elementType]="'canvas'">
+</qrcode>
                     </div>
                 </div>
             </div>
