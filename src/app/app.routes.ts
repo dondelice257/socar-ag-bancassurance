@@ -17,6 +17,8 @@ import { PolicyFormComponent } from './modules/policy/policy-form/policy-form.co
 import { PoliciesOffersComponent } from './modules/policy/policies-offers/policies-offers.component';
 import { PolicyRenewComponent } from './modules/policy/policy-renew/policy-renew.component';
 import { ChangePasswordComponent } from './modules/authentication/change-password/change-password.component';
+import { DeclarationsListComponent } from './modules/policy/declarations-list/declarations-list.component';
+import { EncaissementsListComponent } from './modules/policy/encaissements-list/encaissements-list.component';
 
 export const routes: Routes = [
     {
@@ -78,6 +80,14 @@ export const routes: Routes = [
             {
                 path: 'policy/list',
                 component: PoliciesListComponent
+            },
+            {
+                path: 'policy/declarations',
+                component: DeclarationsListComponent
+            },
+            {
+                path: 'policy/encaissements',
+                component: EncaissementsListComponent
             },
             {
                 path: 'policy/offer',

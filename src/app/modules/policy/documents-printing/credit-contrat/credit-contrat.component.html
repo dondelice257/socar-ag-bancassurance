@@ -335,22 +335,22 @@
                                 <span>Approuvé par </span>
                                 <b>{{policy.company?.name}}</b>
                                 <div class="qr-code-container">
-                                    <qrcode
-    [qrdata]=" 
-              '\nNuméro de police: ' + policy.policy_number + 
-              '\nPreneur d\'assurance: ' + policy.credit_insurance?.members[0].full_name +
-              '\nDate: ' + (policy.issue_date | date:'dd/MM/yyyy') +
-              '\nValidité: ' + (policy.expiration_date | date:'dd/MM/yyyy')+
-              '\nBANQUE/BENEFICIAIRE :' + policy.agency?.name + 
+                                    <qr-code
+                                    value="{{
+                                        '\nNuméro de police: ' + policy.policy_number + 
+                                        '\nPreneur d\'assurance: ' + policy.credit_insurance?.members[0].full_name +
+                                        '\nDate: ' + (policy.issue_date | date:'dd/MM/yyyy') +
+                                        '\nValidité: ' + (policy.expiration_date | date:'dd/MM/yyyy')+
+                                        '\nBANQUE/BENEFICIAIRE :' + policy.agency?.name + 
+                          
+                                        '\nCompagnie d\'assurance: ' + (policy.company?.name) 
+                              }}"
+    size="120"
+/>
+<!--
 
-              '\nCompagnie d\'assurance: ' + (policy.company?.name) 
-              "
+-->
 
-    [width]="10"
-    [imageHeight]="10"
-    [errorCorrectionLevel]="'M'"
-    [elementType]="'canvas'">
-</qrcode>
                                 </div>
                             </div>
                         </div>

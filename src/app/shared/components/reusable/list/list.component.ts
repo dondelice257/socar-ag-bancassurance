@@ -20,10 +20,13 @@ import { GeneralService } from '../../../../core/services/general.service';
 import { format } from 'date-fns';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { AgencyState } from '../../../states/selectedAgency/agency.state';
 import { SetSelectedAgency } from '../../../states/selectedAgency/agency.action';
+import { PolicyService } from '../../../../core/services/policy.service';
+import { ToastrService } from 'ngx-toastr';
 
 interface ColumnConfig {
   header: string;
@@ -32,6 +35,15 @@ interface ColumnConfig {
     link: string;
     field: string;
   };
+}
+
+interface ActionConfig {
+  label: string;
+  tooltip: string;
+  actionType: string;
+  service?: any;
+  successMessage?: string;
+  errorMessage?: string;
 }
 
 @Component({
@@ -43,60 +55,63 @@ interface ColumnConfig {
     MatTableModule, MatPaginatorModule, CommonModule, MatButtonModule,
     MatDividerModule, MatIconModule, MatCardModule, GetNestedValuePipe,
     MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule,
-    MatProgressSpinnerModule, MatSelectModule
-
+    MatProgressSpinnerModule, MatSelectModule, MatTooltipModule
   ],
 })
 export class ListComponent implements AfterViewInit {
   @Input() columns: ColumnConfig[] = [];
   @Input() enablePagination: boolean = true;
   @Input() showFilters: boolean = false;
-  
+  @Input() actions: ActionConfig[] = [];
   
   isLoading: boolean = false;
-
+  isActionLoading: boolean = false;
 
   @Input() title: string = '';
   @Input() url: string = '';
 
-  data: any[]= [];
-  agencies: any[]= [];
-
-  selectedAgency$:Observable<string | null>
-  selectedAgency:any=''
+  data: any[] = [];
+  agencies: any[] = [];
+  selectedAgency$: Observable<string | null>;
+  selectedAgency: any = '';
 
   displayedColumns: string[] = [];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   filterForm: FormGroup;
+  selectedAction: any;
+  selectedRow: any;
+
 
   constructor(
     private router: Router,
     private generalService: GeneralService,
     private fb: FormBuilder,
-    private store : Store
+    private store: Store,
+    private policyService: PolicyService,
+    private toastr : ToastrService
+
   ) {
-
-
-    this.selectedAgency$ = this.store.select(AgencyState.selectedAgency)
-
+    this.selectedAgency$ = this.store.select(AgencyState.selectedAgency);
     this.filterForm = this.fb.group({
       searchQuery: [''],
       fromDate: [''],
       toDate: [''],
       agency: [''],
-
     });
   }
 
   ngOnInit() {
-    this.getAgencies()
+    this.getAgencies();
     this.displayedColumns = this.columns.map(c => c.columnDef);
+    if (this.actions.length > 0) {
+      this.displayedColumns.push('actions');
+    }
 
     this.selectedAgency$.subscribe((selectedAgency) => {
       this.selectedAgency = selectedAgency;
-      this.filterForm.patchValue({ agency: selectedAgency });  // Keep filterForm in sync
+      this.filterForm.patchValue({ agency: selectedAgency });
     });
   }
 
@@ -106,30 +121,67 @@ export class ListComponent implements AfterViewInit {
     }
   }
 
+  selectAction(row : any, action:ActionConfig){
+    this.selectedAction = action
+    this.selectedRow = row
+  }
+
+  handleAction() {
+      this.isActionLoading = true;
+      
+      // Handle different action types
+          this.policyService.doPolicyAction(this.selectedRow.id, this.selectedAction.action_type, {})
+            .subscribe({
+              next: (response) => {
+                console.log('Action successful:', response);
+                if (this.selectedAction.successMessage) {
+                this.toastr.success(this.selectedAction.successMessage);
+
+                }
+
+                this.getData(); // Refresh the list
+                this.isActionLoading = false;
+              },
+              error: (error) => {
+                console.error('Action failed:', error);
+
+                this.toastr.error(this.selectedAction.errorMessage);
+
+                this.isActionLoading = false;
+              }
+            });
+        // Add more action types as needed
+  }
+
   getData() {
-    this.data = []
-    this.isLoading = true
+    this.data = [];
+    this.isLoading = true;
     const { searchQuery, fromDate, toDate } = this.filterForm.value;
     const formattedFromDate = fromDate ? format(new Date(fromDate), 'dd/MM/yyyy') : '';
     const formattedToDate = toDate ? format(new Date(toDate), 'dd/MM/yyyy') : '';
 
     this.generalService.GetList(this.url, searchQuery, formattedFromDate, formattedToDate, this.selectedAgency)
-      .subscribe((data: any) => {
-        this.isLoading = false  
-        this.data = data;
-        this.dataSource = new MatTableDataSource(this.data);
-        if (this.enablePagination && this.paginator) {
-          this.dataSource.paginator = this.paginator;
+      .subscribe({
+        next: (data: any) => {
+          this.isLoading = false;
+          this.data = data;
+          this.dataSource = new MatTableDataSource(this.data);
+          if (this.enablePagination && this.paginator) {
+            this.dataSource.paginator = this.paginator;
+          }
+        },
+        error: (error) => {
+          this.isLoading = false;
+          console.error('Error fetching data:', error);
         }
       });
   }
 
-  getAgencies(){
-    this.generalService.GetAgencies().subscribe((agencies:any)=>{
-      this.agencies = agencies
-    this.getData();
-
-    })
+  getAgencies() {
+    this.generalService.GetAgencies().subscribe((agencies: any) => {
+      this.agencies = agencies;
+      this.getData();
+    });
   }
 
   onRowClick(row: any) {
@@ -178,8 +230,7 @@ export class ListComponent implements AfterViewInit {
     });
   }
 
-selectAgency(selectedAgency:any){
-this.store.dispatch(new SetSelectedAgency(selectedAgency))
-}
-  
+  selectAgency(selectedAgency: any) {
+    this.store.dispatch(new SetSelectedAgency(selectedAgency));
+  }
 }

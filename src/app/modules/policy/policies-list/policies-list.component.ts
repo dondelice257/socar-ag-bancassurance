@@ -25,6 +25,7 @@ export class PoliciesListComponent {
   tableColumns :any[]= [];
   
   tableData:any
+  actions:any
 
 
   constructor(
@@ -38,6 +39,16 @@ export class PoliciesListComponent {
 
 
   ngOnInit(){
+
+    this.actions = [
+      {
+          label: 'Enregistrer',
+          tooltip: 'Enregistrer dans le syteme',
+          action_type: 'save',
+          successMessage: 'Police enregistrée dans le systeme avec succès',
+          errorMessage: 'Une erreur est survenue lors de l\'enregistrement'
+      }
+  ];
 
     this.connectedOperator$.subscribe((connectedOperator: any) => {
       this.connectedOperator = connectedOperator;
