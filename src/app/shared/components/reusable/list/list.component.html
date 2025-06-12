@@ -65,7 +65,7 @@
             <td mat-cell *matCellDef="let element">
               <div class="d-flex gap-2">
                 @for (action of actions; track action) {
-                  <button mat-button [matTooltip]="action.tooltip" data-bs-toggle="modal" data-bs-target="#actionModal" class="btn bg-main text-white" (click)="selectAction(element, action); $event.stopPropagation()">
+                  <button [matTooltip]="action.tooltip" data-bs-toggle="modal" data-bs-target="#actionModal" class="btn bg-main text-white" (click)="selectAction(element, action); $event.stopPropagation()">
                     <b>{{action.label}}</b>
                   </button>
                 }

@@ -43,9 +43,12 @@
               <span class="text-center">Compte de versement des primes ( {{connectedOperator.agency?.name}} ) :</span>
               <b class="text-center">{{connectedOperator.agency?.premium_account}} </b>
             </div> -->
-            <button type="button" class="btn btn-outline-light me-3" data-bs-toggle="modal" data-bs-target="#tarifModal" *ngIf="!connectedOperator?.company?.is_non_vie">
-              <i class="fa fa-info-circle me-1"></i> Tarifs & Commission
-          </button>
+            @if(!connectedOperator.company.is_non_vie){
+              <button type="button" class="btn btn-outline-light me-3" data-bs-toggle="modal" data-bs-target="#tarifModal" *ngIf="!connectedOperator?.company?.is_non_vie">
+                <i class="fa fa-info-circle me-1"></i> Tarifs & Commission
+            </button>
+            }
+
             <div
              class="border my-2 border-danger rounded p-2 text-danger d-flex justify-content-between"
              (click)="logout()"              
