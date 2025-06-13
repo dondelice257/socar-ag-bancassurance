@@ -68,31 +68,34 @@ export class PoliciesListComponent {
               field: 'id',
             }, 
           },
+          { columnDef: 'formatted_avenant', header: 'Avenant' },
+
           { columnDef: 'operator.full_name', header: 'Operateur' },
           { columnDef: 'agency.name', header: 'Agence' },
           { columnDef: 'agency.sub_agency', header: 'Sous agence' },
           { columnDef: 'category', header: 'Categorie' },
           { columnDef: 'issue_date', header: 'Date effet' },
           { columnDef: 'expiration_date', header: 'Date echeance' },
-          { columnDef: 'prime_nette', header: 'Prime Nette' },
-
-          // { columnDef: 'id', header: 'ID unique' },
-          { columnDef: 'is_saved', header: 'Systeme' },
+          { columnDef: 'prime_base', header: 'Prime de base' },
           { columnDef: 'frais', header: 'Frais' },
+          { columnDef: 'prime_nette', header: 'Prime nette' },
           { columnDef: 'charges_diverses', header: 'Charges diverses' },
           { columnDef: 'charges_arca', header: 'Charges ARCA' },
           { columnDef: 'tva', header: 'TVA' },
+
           { columnDef: 'premium_amount', header: 'Prime totale' },
           { columnDef: 'commission', header: 'Commission' },
+          // { columnDef: 'id', header: 'ID unique' },
+          { columnDef: 'is_saved', header: 'Systeme' },
+
           {columnDef: 'assured_capital_bif', header : 'VA'},
       
 
 
 
-          { columnDef: 'formatted_avenant', header: 'Avenant' },
-          { columnDef: 'bill.status', header: 'Status' },
+          // { columnDef: 'bill.status', header: 'Status' },
    
-          { columnDef: 'bill.bill_code', header: 'Facture' },
+          // { columnDef: 'bill.bill_code', header: 'Facture' },
       
       
         ];
