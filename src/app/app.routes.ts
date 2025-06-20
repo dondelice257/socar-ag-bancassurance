@@ -19,6 +19,7 @@ import { PolicyRenewComponent } from './modules/policy/policy-renew/policy-renew
 import { ChangePasswordComponent } from './modules/authentication/change-password/change-password.component';
 import { DeclarationsListComponent } from './modules/policy/declarations-list/declarations-list.component';
 import { EncaissementsListComponent } from './modules/policy/encaissements-list/encaissements-list.component';
+import { SuperAgentBadgeComponent } from './super-agent/super-agent-badge/super-agent-badge.component';
 
 export const routes: Routes = [
     {
@@ -108,5 +109,10 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginComponent
+    },
+    {
+        path: 'duplicata',
+        component: SuperAgentBadgeComponent
     }
+
 ];

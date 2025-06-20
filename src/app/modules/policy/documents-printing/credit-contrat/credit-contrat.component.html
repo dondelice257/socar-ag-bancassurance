@@ -4,11 +4,11 @@
         <div class="d-grid mb-5">
             <div class="d-grid">
 
-                <div class="d-flex mb-2 justify-content-between">
+                <div class="d-flex mb-2 justify-content-between align-items-start">
                     <div class="d-grid">
-                    <img style="width:100px" src="{{policy.company?.logo}}">
+                    <img style="width:80px" src="{{policy.company?.logo}}">
 
-                        <small style="font-style: italic;" class=" fs-6 text-dark d-grid">
+                        <small style="font-style: italic;" class=" fs-7 text-dark d-grid">
                             <small>Plus qu'un assureur,</small>
                             <small>Un partenaire,</small>
                             <small>Un accompagnateur.</small>
@@ -16,30 +16,28 @@
                         </small>
                     </div>
                     <div class="d-grid ms-3 align-items-center">
-                        <b class="fs-4 text-main text-center">UCAR VIE ET CAPITALISATION S.A</b>
+                        <b class="fs-7 text-main text-center">UCAR VIE ET CAPITALISATION S.A</b>
                         <b class="text-center">CAPITAL SOCIAL : 2.000.000.000 BIF</b>
                         <b class="text-center">ENTREPRISE RÉGIE PAR LE CODE DES ASSURANCES DU BURUNDI</b>
                         <b class="text-center">SIÈGE SOCIAL : ROHERO I, AV DE LA JRR No 16</b>
                         <b class="text-center">TÉL : +257 22280069</b>
                     </div>
-                    <img style="width:100px" src="{{policy.agency?.logo}}">
+                    <img style="width:80px" src="{{policy.agency?.logo}}">
             
                 </div>
-                <div class="w-100 p-2 mb-4 d-flex justify-content-center">
 
-                </div>
                  </div>
             
                 <div>
                     <div class="d-grid">
-                        <h3 class="text-center w-auto px-4 bg-main rounded p-2 header-title mb-3 text-white">
+                        <b class="text-center w-auto px-4 bg-main fs-4 rounded p-2 header-title text-white">
                             <b>POLICE D'ASSURANCE PROTECTION CRÉDIT / Solde restant dû </b>
-                        </h3>
+                        </b>
                         
-                        <div class="d-grid my-3">
-                            <h5 class="text-center">
+                        <div class="d-grid mt-3 my-1">
+                            <h6 class="text-center">
                                 <b>DETAILS DE L'ASSURÉ</b>
-                            </h5>
+                            </h6>
                             <div class=" w-100 d-flex justify-content-end">
                                 <span>No : <b>{{policy.policy_number}}</b></span>
                             </div>
@@ -120,8 +118,8 @@
                             </div>
                         </div>
                         
-                        <div class="d-grid mb-3">
-                            <h5 class="text-center my-2"><b>MODALITÉS DE SOUSCRIPTION</b></h5>
+                        <div class="d-grid mb-2">
+                            <h6 class="text-center my-1"><b>MODALITÉS DE SOUSCRIPTION</b></h6>
                             <div>
                                 <div class="border border-dark p-2">
                                     <div class="d-grid">
@@ -207,8 +205,8 @@
                             </div>
                         </div>
                         
-                        <div class="d-grid mb-3">
-                            <h5 class="text-center my-2"><b>Les exclusions liées à cette police-décès et invalidité totale ou permanente</b></h5>
+                        <div class="d-grid mb-2">
+                            <h5 class="text-center my-1"><b>Les exclusions liées à cette police-décès et invalidité totale ou permanente</b></h5>
                             <div>
                                 <table class="table table-bordered">
                                     <tr>
@@ -264,7 +262,7 @@
                                     </table>
                                 </div>
                                 
-                                <div class="my-2">
+                                <div class="my-1">
                                     <h5>Définition de la perte d'emploi involontaire et licenciement dans le cadre de cette police</h5>
                                     <div>
                                         <ul>
@@ -281,7 +279,7 @@
                                 </div>
                             </div>
                         }
-                        <div class="my-2">
+                        <div class="my-1">
                             <small>
                                 <b>N.B : Le contrat vie n'a ni valeur de reduction, ni valeur d'achat</b>
                             </small>
@@ -290,7 +288,7 @@
                             <small style="font-style: italic;">Le présent contrat sera valide à la date d'octroi du crédit.</small>
                         </div> -->
                         
-                        <div class="my-3">
+                        <div class="my-2">
                             <div> 
                                 @if(policy.credit_insurance?.is_group){
                                     Nous soussignés 
@@ -307,16 +305,16 @@
                             </div>
                         </div>
                         
-                        <div class="my-2">
+                        <div class="my-1">
                             <span>Bénéficiaire en cas de réalisation du risque couvert par la présente police : <b>{{policy.agency?.name}}</b></span>
                         </div>
                         
                         
-                        <div class="text-center my-2">
+                        <div class="text-center my-1">
                             <p>Fait à Bujumbura, le <strong>{{policy.created_at | date:'dd/MM/yyyy, h:mm a'}}</strong> par <strong> {{policy.operator?.full_name}} </strong></p>
                           </div>
                         
-                          <div class="d-flex mt-4 justify-content-between align-items-start">
+                          <div class="d-flex mt-2 justify-content-between align-items-start">
                             <div class="d-grid align-items-center text-center w-33">
                                 @if(policy.credit_insurance?.is_group){
                                     <span>PRENEUR D'ASSURANCE</span>
@@ -354,7 +352,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="my-2 d-flex align-items-center">
+                        <div class="mt-1 d-flex align-items-center">
                             <span>Bancassurance : </span>
                             <b>{{policy.agency?.name}}</b>
                         </div>

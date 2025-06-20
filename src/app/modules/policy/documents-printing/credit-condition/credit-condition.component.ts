@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QrCodeComponent } from 'ng-qrcode';
 
 @Component({
   selector: 'app-credit-condition',
   standalone: true,
   imports: [
     CommonModule,
-    QRCodeModule,
+    QrCodeComponent,
+
 
   ],
   templateUrl: './credit-condition.component.html',
