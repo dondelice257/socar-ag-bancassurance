@@ -277,7 +277,8 @@
       </div>
           
       <!-- Print button section -->
-      <div class="d-flex justify-content-end mb-1">
+       @if(policy.status=='approved'){
+              <div class="d-flex justify-content-end mb-1">
         <div>
           <div style="width: 150px;" class="position-relative">
             <div role="button" class="">
@@ -290,5 +291,7 @@
           </div>
         </div>
       </div>
+       }
+
     </div>
   </main>

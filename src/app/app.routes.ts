@@ -20,6 +20,7 @@ import { ChangePasswordComponent } from './modules/authentication/change-passwor
 import { DeclarationsListComponent } from './modules/policy/declarations-list/declarations-list.component';
 import { EncaissementsListComponent } from './modules/policy/encaissements-list/encaissements-list.component';
 import { SuperAgentBadgeComponent } from './super-agent/super-agent-badge/super-agent-badge.component';
+import { PendingPoliciesComponent } from './modules/policy/pending-policies/pending-policies.component';
 
 export const routes: Routes = [
     {
@@ -93,6 +94,10 @@ export const routes: Routes = [
             {
                 path: 'policy/offer',
                 component: PoliciesOffersComponent
+            },
+            {
+                path: 'policy/pending',
+                component: PendingPoliciesComponent
             },
             {
                 path: 'policy/details/:policyId',

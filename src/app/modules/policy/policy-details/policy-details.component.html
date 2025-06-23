@@ -500,7 +500,8 @@ class="modal-overlay d-grid align-items-center justify-content-center"
       <!-- Print Button Container -->
       <div role="button" class="p-2 text-white">
         @if(documentToPrint!=="card"){
-          <div class="d-flex justify-content-around align-items-center">
+          @if(policy.status=='approved'){
+                      <div class="d-flex justify-content-around align-items-center">
             <button class="bg-main p-2 rounded text-white" 
                     ngxPrint 
                     [printSectionId]="'print-'+documentToPrint"
@@ -508,6 +509,8 @@ class="modal-overlay d-grid align-items-center justify-content-center"
               <b class="me-1">Imprimer</b>
             </button>
           </div>
+          }
+
         }
       </div>
     </div>
