@@ -6,7 +6,7 @@
 
 export const environment = {
     production: true,
-    apiUrl: 'https://ucarvie.pythonanywhere.com/api/',
+    apiUrl: 'https://gasago.pythonanywhere.com/api/',
 
 
 };
