@@ -16,6 +16,8 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { AuthState } from '../../../shared/states/auth/auth.state';
 import { CreditConditionComponent } from '../documents-printing/credit-condition/credit-condition.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-policy-details',
@@ -28,10 +30,12 @@ import { CreditConditionComponent } from '../documents-printing/credit-condition
     AutoContractComponent,
     AutoCardComponent,
     ReactiveFormsModule,
+    FormsModule,
     BillPrintComponent,
     MatProgressSpinnerModule,
     CreditContratComponent,
-    CreditConditionComponent
+    CreditConditionComponent,
+    MatCheckboxModule
   ],
   templateUrl: './policy-details.component.html',
   styleUrl: './policy-details.component.scss'
@@ -48,6 +52,7 @@ connectedOperator: any;
 policy:any
 isModalShown:boolean=false
 isLoading:boolean=false
+hasHeader : boolean = false
 
 totalPrimeBase = 0
 documentToPrint ='contrat'
