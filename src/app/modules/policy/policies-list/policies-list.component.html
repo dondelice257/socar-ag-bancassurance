@@ -1,3 +1,6 @@
+
+
+@if(connectedOperator.company.is_non_vie){
     <app-list 
 [columns]="tableColumns" 
 [enablePagination]="true"
@@ -6,3 +9,13 @@
 [url]="'policy/policies/?is_demo='+false+'&status='+'approved'"
 title="Polices">
 </app-list>
+}@else{
+        <app-list 
+[columns]="tableColumns" 
+[enablePagination]="true"
+[showFilters]="true"
+[actions]="actions"
+[url]="'policy/policies/?is_demo='+false"
+title="Polices">
+</app-list>
+}
