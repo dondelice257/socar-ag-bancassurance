@@ -546,6 +546,7 @@ class="modal-overlay d-grid align-items-center justify-content-center"
       <!-- Print Button Container -->
       <div role="button" class="p-2 text-white">
         @if(documentToPrint!=="card"){
+          @if(policy.company.is_non_vie){
           @if(policy.status=='approved' || policy.is_demo){
                       <div class="d-flex justify-content-between align-items-center">
                         @if(policy.company?.is_non_vie){
@@ -563,6 +564,21 @@ class="modal-overlay d-grid align-items-center justify-content-center"
             </button>
           </div>
           }
+          }@else{
+                      @if(policy.status=='validated' || policy.is_demo){
+                      <div class="d-flex justify-content-between align-items-center">
+                       
+                               
+            <button class="bg-main p-2 rounded text-white" 
+                    ngxPrint 
+                    [printSectionId]="'print-'+documentToPrint"
+                    [useExistingCss]="true">
+              <b class="me-1">Imprimer</b>
+            </button>
+          </div>
+          }
+          }
+
 
         }
       </div>
