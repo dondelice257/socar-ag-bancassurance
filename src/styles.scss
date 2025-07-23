@@ -6,6 +6,23 @@ $main:#F06717;
 $primary-2:#2c2828;
 
 
+:root {
+  --bg-primary: #00AE5E;
+  --bg-secondary: #A1A1A1;
+  --bg-dark: #333333;
+
+
+}
+
+
+.bg-primary {
+  background-color: var(--bg-primary) !important;
+}
+.text-primary {
+  color: var(--bg-primary) !important;
+}
+
+
 $green:#A4CA39;
 $focus:#0f5be7;
 $main-less-light:#3e5681;

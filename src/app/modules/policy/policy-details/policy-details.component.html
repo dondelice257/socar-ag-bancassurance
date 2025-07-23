@@ -8,10 +8,17 @@
       @if(policy.is_demo){
         <span class="badge bg-warning text-dark me-2">Ceci est une proposition</span>
       }
-      @if(!policy.is_demo && policy.status === 'pending'){
+      @if(!policy.is_demo && !policy.is_approved){
         <span class="badge bg-warning text-dark">En attente d'approbation, veuillez l'approuver si vous avez accès ou bien demander à celui qui a accès</span>
       }
+            @if(!policy.is_demo && policy.is_approved && !policy.is_validated && !policy.company.is_non_vie && !policy.is_cancelled){
+        <span class="badge bg-warning text-dark">En attente de validation par l'assureur, veuillez le valider si vous avez accès ou bien demander à celui qui a accès</span>
+      }
       </div>
+
+      @if(policy.is_cancelled){
+        <span>Pas d'actions a afficher, la police a ete annulee</span>
+      }@else {
       <div class="d-flex align-items-center">
         <!-- Actions Dropdown -->
         <div class="dropdown">
@@ -25,7 +32,7 @@
 
               @if(!policy.is_demo || policy.type_avenant !="ANRI"){
                 @if(policy.category=="credit"){
-                @if(policy.status =="validated" || policy.operator.is_operator_super_admin){
+                @if(policy.is_validated  || policy.operator.is_operator_super_admin){
                   <li>
                     <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='contract'">
                       <i class="fas fa-print me-2"></i> Imprimer le contrat
@@ -100,9 +107,13 @@
 
           </ul>
         </div>
-      </div>
+      </div>          
+      }
       
-    </div>
+
+      
+    </div>Vouliez-vous vraiment passer cette action si importante ?
+
       
     <!-- Policy Information Grid Layout -->
     <div class="row">
@@ -138,7 +149,7 @@
 
 
           }
-            @if(!policy.is_demo){
+            <!-- @if(!policy.is_demo){
                         <p class="col-lg-4">
             <i class="fas fa-info-circle text-secondary"></i> <strong>Statut:</strong> 
             @if(policy.category =="credit"){
@@ -158,7 +169,7 @@
             }
 
           </p>
-            }
+            } -->
          
         </div>
       </div>
@@ -547,7 +558,7 @@ class="modal-overlay d-grid align-items-center justify-content-center"
       <div role="button" class="p-2 text-white">
         @if(documentToPrint!=="card"){
           @if(policy.company.is_non_vie){
-          @if(policy.status=='approved' || policy.is_demo){
+          @if(policy.is_approved || policy.is_demo){
                       <div class="d-flex justify-content-between align-items-center">
                         @if(policy.company?.is_non_vie){
                           <div class="col-lg-3 mb-3" title="">
@@ -565,7 +576,7 @@ class="modal-overlay d-grid align-items-center justify-content-center"
           </div>
           }
           }@else{
-                      @if(policy.status=='validated' || policy.is_demo){
+                      @if(policy.is_validated || policy.is_demo){
                       <div class="d-flex justify-content-between align-items-center">
                        
                                
