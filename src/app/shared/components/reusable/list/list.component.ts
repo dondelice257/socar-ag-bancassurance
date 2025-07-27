@@ -27,6 +27,7 @@ import { AgencyState } from '../../../states/selectedAgency/agency.state';
 import { SetSelectedAgency } from '../../../states/selectedAgency/agency.action';
 import { PolicyService } from '../../../../core/services/policy.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthState } from '../../../states/auth/auth.state';
 
 interface ColumnConfig {
   header: string;
@@ -77,11 +78,16 @@ export class ListComponent implements AfterViewInit {
 
   displayedColumns: string[] = [];
   dataSource!: MatTableDataSource<any>;
+  defaultAgency=1
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   filterForm: FormGroup;
   selectedAction: any;
   selectedRow: any;
+    connectedOperator$!:Observable<any> 
+
+  connectedOperator: any;
+
 
 
   constructor(
@@ -94,12 +100,17 @@ export class ListComponent implements AfterViewInit {
 
   ) {
     this.selectedAgency$ = this.store.select(AgencyState.selectedAgency);
+        const today = new Date();
+    const todayISO = today.toISOString().substring(0, 10);
+
     this.filterForm = this.fb.group({
       searchQuery: [''],
-      fromDate: [''],
-      toDate: [''],
+      fromDate: [todayISO],
+      toDate: [todayISO],
       agency: [''],
     });
+    this.connectedOperator$ = store.select(AuthState.connectedOperator)
+    
   }
 
   ngOnInit() {
@@ -113,6 +124,26 @@ export class ListComponent implements AfterViewInit {
       this.selectedAgency = selectedAgency;
       this.filterForm.patchValue({ agency: selectedAgency });
     });
+        this.connectedOperator$.subscribe((connectedOperator:any)=>{
+      this.connectedOperator = connectedOperator 
+      console.log('from operatorrr conneccttteedd', this.connectedOperator)
+
+
+      if(!connectedOperator){
+    // this.router.navigateByUrl('/login')
+
+      }
+
+
+      // this.router.events.subscribe(event => {
+      //   if (event instanceof NavigationEnd) {
+      //     window.scrollTo(0, 0); // Scroll to top of the page
+
+      //     console.log('NavigationEnd event:', event);
+      //     // this.vps.scrollToPosition([0,0]);
+      //   }
+      // });
+    })
   }
 
   ngAfterViewInit() {
@@ -180,7 +211,7 @@ export class ListComponent implements AfterViewInit {
   getAgencies() {
     this.generalService.GetAgencies().subscribe((agencies: any) => {
       this.agencies = agencies;
-      this.getData();
+      // this.getData();
     });
   }
 

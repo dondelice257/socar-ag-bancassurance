@@ -2,7 +2,7 @@
   <div class="mat-elevation-z8 overflow-x-auto">
     <div class="d-flex align-items-center justify-content-between w-100 p-3">
       <mat-card-title class="fs-3">{{ title }}</mat-card-title>
-      <button type="button" class="bg-main p-2 rounded text-white d-flex align-items-center" (click)="exportToExcel()">
+      <button [disabled]="isActionLoading" type="button" class="bg-main p-2 rounded text-white d-flex align-items-center" (click)="exportToExcel()">
         <i class="fa fa-file-excel me-2"></i>
         <b>Generer le rapport</b>
       </button>
@@ -12,9 +12,12 @@
       <form [formGroup]="filterForm" (ngSubmit)="getData()" class="filters d-flex p-3 gap-3">
         <mat-form-field>
           <mat-label>Filtrer par agence</mat-label>
-          <mat-select name="agency" (selectionChange)="selectAgency($event.value); getData()" formControlName="agency">
+          <mat-select [(ngModel)]="defaultAgency" name="agency" (selectionChange)="selectAgency($event.value); getData()" formControlName="agency">
+            @if(connectedOperator.is_operator_super_admin){
             <mat-option value="">Toutes les agences</mat-option>
-            @for (agency of agencies; track agency) {
+
+            }
+            @for (agency of agencies; track agency; let i=$index) {
               <mat-option [value]="agency.id">{{agency.name}} - {{agency.sub_agency}}</mat-option>
             }
           </mat-select>
@@ -38,7 +41,7 @@
           <input matInput formControlName="searchQuery">
         </mat-form-field>
     
-        <button mat-raised-button color="primary" type="submit">Rechercher</button>
+        <button [disabled]="!selectedAgency" mat-raised-button color="primary" type="submit">Rechercher</button>
       </form>
     }
     
@@ -59,7 +62,7 @@
         }
 
         <!-- Actions column -->
-        @if (actions && actions.length > 0) {
+        @if (actions && actions.length > 0 && connectedOperator.is_operator_super_admin) {
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let element">
@@ -78,7 +81,10 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
             (click)="onRowClick(row)" 
             [class.clickable]="isRowClickable(row)"
-            [class.cancelled-row]="getNestedValue(row, 'status') === 'cancelled' || getNestedValue(row, 'bill.status') === 'cancelled'">
+            [class.cancelled-row]="getNestedValue(row, 'is_cancelled') === true"
+
+            [class.bg-warning]="getNestedValue(row, 'status') === 'expired'"
+            >
         </tr>
       </table>
     }
