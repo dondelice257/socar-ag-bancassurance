@@ -32,7 +32,7 @@ export class CreateClientComponent {
     email: [''],
     first_name: ['', [Validators.required, Validators.minLength(2)]],
     last_name: [''],
-    phone_number: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
+    phone_number: ['+257', [Validators.required]],
     country: ['BURUNDI', Validators.required],
     zone: ['', Validators.required],
     quartier: ['', Validators.required],

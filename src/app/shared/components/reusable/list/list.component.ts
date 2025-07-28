@@ -116,9 +116,13 @@ export class ListComponent implements AfterViewInit {
   ngOnInit() {
     this.getAgencies();
     this.displayedColumns = this.columns.map(c => c.columnDef);
-    if (this.actions.length > 0) {
+    const shouldShowActions = this.actions.length > 0 && this.connectedOperator?.is_operator_super_admin;
+
+    if (shouldShowActions) {
       this.displayedColumns.push('actions');
     }
+
+    
 
     this.selectedAgency$.subscribe((selectedAgency) => {
       this.selectedAgency = selectedAgency;
@@ -211,6 +215,7 @@ export class ListComponent implements AfterViewInit {
   getAgencies() {
     this.generalService.GetAgencies().subscribe((agencies: any) => {
       this.agencies = agencies;
+      this.selectedAgency=agencies[0].id
       // this.getData();
     });
   }
