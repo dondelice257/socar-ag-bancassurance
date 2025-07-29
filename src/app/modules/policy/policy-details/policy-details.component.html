@@ -303,11 +303,11 @@
          <div class="col-md-4">
       <div class="d-flex justify-content-center w-100">
         <b class="text-primary">Info du client</b>
-        @if(!policy.is_approved){
+        <!-- @if(!policy.is_approved){ -->
                         <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('user/list', policy.client?.user?.id, 'Client', policy.client?.user)" data-bs-toggle="modal" data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>
                 </span>
-        }
+        <!-- } -->
 
 
       </div>
