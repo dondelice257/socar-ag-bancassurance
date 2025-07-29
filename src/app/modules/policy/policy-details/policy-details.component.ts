@@ -18,6 +18,8 @@ import { AuthState } from '../../../shared/states/auth/auth.state';
 import { CreditConditionComponent } from '../documents-printing/credit-condition/credit-condition.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { UpdateComponent } from '../../../shared/components/reusable/update/update.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-policy-details',
@@ -35,7 +37,8 @@ import { FormsModule } from '@angular/forms';
     MatProgressSpinnerModule,
     CreditContratComponent,
     CreditConditionComponent,
-    MatCheckboxModule
+    MatCheckboxModule,
+    UpdateComponent
   ],
   templateUrl: './policy-details.component.html',
   styleUrl: './policy-details.component.scss'
@@ -56,11 +59,16 @@ hasHeader : boolean = false
 
 totalPrimeBase = 0
 documentToPrint ='contrat'
-
+selectedIdUpdate=''
+selectedUrlUpdate = ''
+selectedBodyUpdate ={}
+selectedTitleUpdate=''
 actions:{action:string, description:string, label:string, is_danger:boolean, icon:string}[]=[]
 
 renewForm:FormGroup
 @ViewChild('myModal') myModal: ElementRef | any;
+@ViewChild('updateModalBtn') updateModalBtn!: ElementRef;
+
 
 
   constructor(
@@ -69,6 +77,7 @@ renewForm:FormGroup
     private router : Router,
     private fb: FormBuilder,
     private store : Store,
+    private toastr : ToastrService
   ){
     // Initialize main policy form with validations
     this.renewForm = this.fb.group({
@@ -188,5 +197,57 @@ renewForm:FormGroup
   
 
 
+  chooseObjectUpdate(url:string, id:string, title:string, body:any){
+this.selectedUrlUpdate = url
+this.selectedIdUpdate = id
+this.selectedTitleUpdate = title
+
+
+
+if(title=='Garantie'){
+this.selectedBodyUpdate = body.guarantee_type=='fixed'?{'name':body.name, 'value':body.value, 'assured_capital':body.assured_capital}:{'name':body.name, 'rate':body.rate, 'assured_capital':body.assured_capital}
+
+}else if(title=='Client'){
+  console.log(body)
+this.selectedBodyUpdate = {'first_name':body.first_name, 'phone_number':body.phone_number}
+}else if(title=='Automobile'){
+  console.log('tttt', title)
+  this.selectedBodyUpdate = {'plaque':body.plaque, 'chasis':body.chasis, 'limites_territoriales':body.limites_territoriales, 'marque':body.marque, 'model':body.model, 'annee_fabrication':body.annee_fabrication, 'puissance_moteur':body.puissance_moteur, 'places_cabine':body.places_cabine, 'places_plateau':body.places_plateau}
+}else if(title=='Incendie'){
+  this.selectedBodyUpdate = {'nature_risque':body.nature_risque, 'quartier':body.quartier, 'province':body.province, 'cadastre':body.cadastre, 'titre':body.titre}
+}else if(title=='Transport'){
+  this.selectedBodyUpdate = {'nature_marchandise':body.nature_marchandise, 'description':body.description, 'nature_emballage':body.nature_emballage, 'depart':body.depart, 'arrivee':body.arrivee, 'quantity':body.quantity, 'colis_number': body.colis_number, 'reference':body.reference, 'packaging': body.packaging, 'transport_type': body.transport_type, 'descriptif_marchandise': body.descriptif_marchandise}
+}else if(title=='Echeance'){
+  console.log('eeeeeeee', body)
+this.selectedBodyUpdate = {'period':body.period, 'issue_date':body.issue_date}
+}
 
 }
+
+
+
+
+
+
+
+
+getOutputFromUpdateComponent($event:any){
+console.log($event)
+
+if($event){
+      this.toastr.success('Mis a jour avec success !', 'Succès');
+      this.getPolicyDetails()
+
+          this.updateModalBtn.nativeElement.click();
+      
+
+}
+}
+
+
+
+
+  }
+
+
+

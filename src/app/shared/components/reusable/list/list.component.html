@@ -35,9 +35,10 @@
           <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
+        
     
         <mat-form-field appearance="outline" class="search-input">
-          <mat-label>Rechercher le client, plaque ou chasis</mat-label>
+          <mat-label>Rechercher le contrat par numero police ou nom</mat-label>
           <input matInput formControlName="searchQuery">
         </mat-form-field>
     
@@ -82,7 +83,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
             (click)="onRowClick(row)" 
             [class.clickable]="isRowClickable(row)"
-            [class.cancelled-row]="getNestedValue(row, 'is_cancelled') === true"
+            [class.cancelled-row]="getNestedValue(row, 'status') === 'cancelled'"
 
             [class.bg-warning]="getNestedValue(row, 'status') === 'expired'"
             >

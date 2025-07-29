@@ -216,7 +216,11 @@ export class ListComponent implements AfterViewInit {
     this.generalService.GetAgencies().subscribe((agencies: any) => {
       this.agencies = agencies;
       this.selectedAgency=agencies[0].id
-      // this.getData();
+    this.store.dispatch(new SetSelectedAgency(this.selectedAgency));
+      this.filterForm.patchValue({ agency: this.selectedAgency });
+
+
+      this.getData();
     });
   }
 

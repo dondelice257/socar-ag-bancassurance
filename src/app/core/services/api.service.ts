@@ -81,22 +81,6 @@ export class ApiService {
             .pipe(catchError(this.formatErrors));
     }
 
-    put(
-        path: string,
-        body: object = {},
-        headers: HttpHeaders = new HttpHeaders()
-    ): Observable<any> {
-        if (headers['lazyUpdate']) {
-            this.headers = headers;
-        }
-
-        return this.http
-            .put(`${environment.apiUrl}${path}`, JSON.stringify(body), {
-                headers: this.headers,
-            })
-            .pipe(catchError(this.formatErrors));
-    }
-
     delete(path: string): Observable<any> {
         return this.http
             .delete(`${environment.apiUrl}${path}`)

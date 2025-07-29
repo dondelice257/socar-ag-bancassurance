@@ -11,12 +11,11 @@ import { GeneralService } from '../../../../core/services/general.service';
   styleUrl: './update.component.scss'
 })
 export class UpdateComponent {
-  @Input() id: number | null = null;
+  @Input() id: string ='';
   @Input() title: string = '';
   @Input() url: string = '';
   @Input() body: any = {};
-  @Output() saved = new EventEmitter<any>();
-  @Output() cancelled = new EventEmitter<void>();
+  @Output() saved = new EventEmitter<boolean>();
 
   form: FormGroup = this.fb.group({});
   isLoading = false;
@@ -42,23 +41,21 @@ export class UpdateComponent {
     this.isLoading = true;
     this.error = null;
     const data = this.form.value;
-    
-    // const req$ = this.id
-    //   ? this.generalService.apiService.put(this.url + this.id + '/', data)
-    //   : this.generalService.apiService.post(this.url, data);
-    // req$.subscribe({
-    //   next: (res) => {
-    //     this.isLoading = false;
-    //     this.saved.emit(res);
-    //   },
-    //   error: (err) => {
-    //     this.isLoading = false;
-    //     this.error = err?.message || 'An error occurred';
-    //   }
-    // });
+
+    const req$ = this.generalService.Update(this.url, this.id, data)
+    req$.subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        this.saved.emit(true);
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.error = err?.message || 'An error occurred';
+      }
+    });
   }
 
-  onCancel() {
-    this.cancelled.emit();
-  }
+  // onCancel() {
+  //   this.cancelled.emit();
+  // }
 }

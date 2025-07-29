@@ -78,6 +78,29 @@ GetList(url: string, query: string, date_from: string, date_to: string, agency_i
 );
 }
 
+
+
+
+
+
+
+
+
+
+Update(url: string, id: string, body: any, ): Observable<any> {
+  const lookupUrl = `${environment.apiUrl}${url}/${id}/`;
+  const header={
+    'content-type': 'application/json',
+    'Authorization' : `Token ${this.token}`
+
+  }
+  return this.httpClient.patch(lookupUrl, body, {headers:header}).pipe(
+    map((data) => {
+        return data;
+    })
+);
+}
+
 GetAgencies(): Observable<any> {
   const url = `${environment.apiUrl}agency`;
   const header={

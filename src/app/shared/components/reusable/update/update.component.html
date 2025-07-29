@@ -10,7 +10,7 @@
           [id]="key.key"
           class="form-control"
           [formControlName]="key.key"
-          [type]="typeof body[key.key] === 'number' ? 'number' : 'text'"
+          type="text"
         />
         <div *ngIf="form.get(key.key)?.invalid && form.get(key.key)?.touched" class="text-danger small">
           {{ key.key | titlecase }} is required
@@ -18,12 +18,20 @@
       </div>
       <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
       <div class="d-flex justify-content-end gap-2">
-        <button type="button" class="btn btn-secondary" (click)="onCancel()" [disabled]="isLoading">Cancel</button>
-        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isLoading">
-          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-          {{ id ? 'Update' : 'Save' }}
+        <!-- <button type="button" class="btn btn-secondary" (click)="onCancel()" [disabled]="isLoading">Cancel</button> -->
+        <button type="submit" class="btn bg-main text-white" [disabled]="form.invalid || isLoading">
+          <span data-bs-toggle="modal" data-bs-target="#updateModal" *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+          Enregistrer
         </button>
       </div>
     </form>
   </div>
 </div>
+
+
+
+
+<!--
+          [type]="typeof body[key.key] === 'number' ? 'number' : 'text'" 
+
+-->
