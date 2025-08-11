@@ -116,11 +116,8 @@ export class ListComponent implements AfterViewInit {
   ngOnInit() {
     this.getAgencies();
     this.displayedColumns = this.columns.map(c => c.columnDef);
-    const shouldShowActions = this.actions.length > 0 && this.connectedOperator?.is_operator_super_admin;
 
-    if (shouldShowActions) {
-      this.displayedColumns.push('actions');
-    }
+
 
     
 
@@ -131,6 +128,13 @@ export class ListComponent implements AfterViewInit {
         this.connectedOperator$.subscribe((connectedOperator:any)=>{
       this.connectedOperator = connectedOperator 
       console.log('from operatorrr conneccttteedd', this.connectedOperator)
+
+          const shouldShowActions = this.actions.length > 0 && this.connectedOperator?.is_operator_super_admin;
+
+    if (shouldShowActions) {
+      this.displayedColumns.push('actions');
+      console.log("actions should be there hahhahah")
+    }
 
 
       if(!connectedOperator){
