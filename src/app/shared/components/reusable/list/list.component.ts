@@ -121,10 +121,7 @@ export class ListComponent implements AfterViewInit {
 
     
 
-    this.selectedAgency$.subscribe((selectedAgency) => {
-      this.selectedAgency = selectedAgency;
-      this.filterForm.patchValue({ agency: selectedAgency });
-    });
+
         this.connectedOperator$.subscribe((connectedOperator:any)=>{
       this.connectedOperator = connectedOperator 
       console.log('from operatorrr conneccttteedd', this.connectedOperator)
@@ -198,6 +195,7 @@ export class ListComponent implements AfterViewInit {
     const { searchQuery, fromDate, toDate } = this.filterForm.value;
     const formattedFromDate = fromDate ? format(new Date(fromDate), 'dd/MM/yyyy') : '';
     const formattedToDate = toDate ? format(new Date(toDate), 'dd/MM/yyyy') : '';
+    
 
     this.generalService.GetList(this.url, searchQuery, formattedFromDate, formattedToDate, this.selectedAgency)
       .subscribe({
@@ -219,12 +217,24 @@ export class ListComponent implements AfterViewInit {
   getAgencies() {
     this.generalService.GetAgencies().subscribe((agencies: any) => {
       this.agencies = agencies;
-      this.selectedAgency=agencies[0].id
+
+      this.selectedAgency$.subscribe((selectedAgency) => {
+      this.selectedAgency = selectedAgency;
+      this.filterForm.patchValue({ agency: selectedAgency });
+            if(!this.selectedAgency){
+              this.selectedAgency=agencies[0].id
     this.store.dispatch(new SetSelectedAgency(this.selectedAgency));
       this.filterForm.patchValue({ agency: this.selectedAgency });
 
 
       this.getData();
+      }else{
+      this.getData();
+
+      }
+    });
+
+
     });
   }
 
@@ -276,5 +286,6 @@ export class ListComponent implements AfterViewInit {
 
   selectAgency(selectedAgency: any) {
     this.store.dispatch(new SetSelectedAgency(selectedAgency));
+      this.filterForm.patchValue({ agency: this.selectedAgency });
   }
 }

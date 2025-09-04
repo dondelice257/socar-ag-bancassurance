@@ -220,6 +220,10 @@ this.selectedBodyUpdate = {'first_name':body.first_name, 'phone_number':body.pho
 }else if(title=='Echeance'){
   console.log('eeeeeeee', body)
 this.selectedBodyUpdate = {'period':body.period, 'issue_date':body.issue_date}
+}else if(title=='Membre'){
+  console.log('eeeeeeee', body)
+this.selectedBodyUpdate = {'age':body.age, 'full_name':	body.full_name, "number_of_installments":body.number_of_installments, "credit_amount":body.credit_amount, "credit_rate":body.credit_rate, "addresse": body.addresse, "birth_year":body.birth_year, "phone_number":body.phone_number, "id_number":body.id_number, "employer":body.employer, "next_birth":body.next_birth, "email":body.email, "account_number":body.account_number}
+
 }
 
 }

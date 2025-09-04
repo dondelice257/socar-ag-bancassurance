@@ -37,7 +37,7 @@ export class UpdateComponent {
   }
 
   onSave() {
-    if (this.form.invalid) return;
+    // if (this.form.invalid) return;
     this.isLoading = true;
     this.error = null;
     const data = this.form.value;
