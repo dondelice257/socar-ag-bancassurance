@@ -450,7 +450,7 @@
                 <td scope="col">{{member.member_prime | number}} FBU</td>
                             <td>
               <div class="d-flex">
-                @if(!policy.is_approved){
+                @if(!policy.is_validated){
                 <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/member', member.id, 'Membre', member)" data-bs-toggle="modal" data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>
                 </span>                  
