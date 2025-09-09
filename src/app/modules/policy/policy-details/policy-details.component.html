@@ -32,7 +32,7 @@
 
               @if(!policy.is_demo || policy.type_avenant !="ANRI"){
                 @if(policy.category=="credit"){
-                @if(policy.is_validated  || policy.operator.is_operator_super_admin){
+                <!-- @if(policy.is_validated  || policy.operator.is_operator_super_admin){ -->
                   <li>
                     <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='contract'">
                       <i class="fas fa-print me-2"></i> Imprimer le contrat
@@ -43,9 +43,9 @@
                       <i class="fas fa-print me-2"></i> Imprimer les conditions particulieres
                     </button>
                   </li>  
-                }@else {
+                <!-- }@else { -->
 
-                }
+                <!-- } -->
 
                 }@else{
 <li>
