@@ -1,132 +1,132 @@
-<div class="d-grid contract-wrapper">
-                        
-                        
-                        <div class="d-grid ">
-                                            <div class="d-flex mb-2 justify-content-between align-items-start">
+<div class="page-container">
+    <div class="content">
+                    <div class="d-grid contract-wrapper">   
+                                        <div class="d-flex justify-content-between align-items-center">
                     <div class="d-grid">
-                    <img style="width:80px" src="{{policy.company?.logo}}">
+                    <img style="width:140px" src="{{policy.company?.logo}}">
 
-                        <small style="font-style: italic;" class=" fs-7 text-dark d-grid">
-                            <small>Plus qu'un assureur,</small>
-                            <small>Un partenaire,</small>
-                            <small>Un accompagnateur.</small>
-                              
-                        </small>
                     </div>
                     <div class="d-grid ms-3 align-items-center">
                         <b class="fs-7 text-main text-center">UCAR VIE ET CAPITALISATION S.A</b>
-                        <b class="text-center">CAPITAL SOCIAL : 2.000.000.000 BIF</b>
-                        <b class="text-center">ENTREPRISE RÉGIE PAR LE CODE DES ASSURANCES DU BURUNDI</b>
-                        <b class="text-center">SIÈGE SOCIAL : ROHERO I, AV DE LA JRR No 16</b>
-                        <b class="text-center">TÉL : +257 22280069</b>
+                        <b class="fs-7 text-center">CAPITAL SOCIAL : 2.000.000.000 BIF</b>
+                        <!-- <b class="fs-7 text-center">ENTREPRISE RÉGIE PAR LE CODE DES ASSURANCES DU BURUNDI</b> -->
+                        <b class="fs-7 text-center">SIÈGE SOCIAL : ROHERO I, AV DE LA JRR No 16</b>
+                        <b class="fs-7 text-center">TÉL : +257 22280069</b>
                     </div>
-                    <img style="width:80px" src="{{policy.agency?.logo}}">
+                    <img style="width:140px" src="{{policy.agency?.logo}}">
+                
             
-                </div>
-                            <b class="text-center w-auto px-4 bg-main fs-4 rounded p-2 header-title text-white">
-                            <b>POLICE D'ASSURANCE PROTECTION CRÉDIT / Solde restant dû </b>
-                        </b>
-                            <h6 class="text-center">
+                            </div>
+                        <h3 class="text-center w-auto px-4  rounded header-title mb-3 text-white">
+                            <b class="bg-main p-1 px-5 mx-3 rounded">@if(policy.is_demo){PROPOSITION}@else {POLICE} D'ASSURANCE PROTECTION CRÉDIT / Solde restant dû </b>
+                        </h3>
+                        
+                        <div class="d-grid">
+                            <h5 class="text-center">
                                 <b>DETAILS DE L'ASSURÉ</b>
-                            </h6>
+                            </h5>
                             <div class=" w-100 d-flex justify-content-end">
                                 <span>No : <b>{{policy.policy_number}}</b></span>
                             </div>
+                            <!--
+                            -->
                             
                             <div>
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <td>
-                                            <div class="d-grid">
-                                                <div class="d-flex align-items-center mb-1">
-                                                    <span>Preneur d'assurance :</span>
-                                                    @if(policy.credit_insurance?.is_group){
-                                                        <b>{{policy.credit_insurance?.raison_sociale}}</b>
-                                                    }@else {
-                                                        <b>{{policy.credit_insurance?.members[0].full_name}}</b>
-                                                    }
-                                                </div>
-                                                @if(!policy.credit_insurance?.is_group){
-                                                    <div class="d-flex align-items-center mb-1">
-                                                        <span>Date de naissance :</span>
-                                                        <b>{{policy.credit_insurance?.members[0].birth_year}}</b>
-                                                    </div>
-                                                    <div class="d-flex align-items-center mb-1">
-                                                        <span>Addresse :</span>
-                                                        <b>{{policy.credit_insurance?.members[0].addresse}}</b>
-                                                    </div>
-                                                    <div class="d-flex align-items-center mb-1">
-                                                        <span>No de Telephone :</span>
-                                                        <b>{{policy.credit_insurance?.members[0].phone_number}}</b>
-                                                    </div>
-                                                    <div class="d-flex align-items-center mb-1">
-                                                        <span>CNI/PASSPORT/No :</span>
-                                                        <b>{{policy.credit_insurance?.members[0].id_number}}</b>
-                                                    </div>
-                                                    <div class="d-flex align-items-center mb-1">
-                                                        <span>Employeur :</span>
-                                                        <b>{{policy.credit_insurance?.members[0].employer}}</b>
-                                                    </div>
-                                                }
-                                            </div>
-                                        </td>
-                                        @if(!policy.credit_insurance?.is_group){
-                                            <td>
-                                                <div class="d-grid">
-                                                    <!-- <div class="d-flex align-items-center mb-1">
-                                                        <span>Prochain anniversaire :</span>
-                                                        <b>{{policy.credit_insurance?.members[0].next_birth}}</b>
-                                                    </div> -->
-                                                    <div class="d-flex align-items-center mb-1">
-                                                        <span>Email :</span>
-                                                        <b>{{policy.credit_insurance?.members[0].email}}</b>
-                                                    </div>
-                                                    <div class="d-flex align-items-center mb-1">
-                                                        <span>No du compte :</span>
-                                                        <b>{{policy.credit_insurance?.members[0].account_number}}</b>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        }
-                                        <td>
-                                            <div class="d-grid">
-                                                <div class="d-flex align-items-center mb-1">
-                                                    <span>Nom de la banque/succursale :</span>
-                                                    <b>{{policy.agency?.name}}</b>
-                                                </div>
-                                                <div class="d-flex align-items-center mb-1">
-                                                    <span>Agence :</span>
-                                                    <b>{{policy.agency?.sub_agency}}</b>
-                                                </div>
-                                                <!-- <div class="d-flex align-items-center">
-                                                    <span>Mandataire :</span>
-                                                    <b></b>
-                                                </div> -->
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                        
-                        <div class="d-grid mb-2">
-                            <h6 class="text-center my-1"><b>MODALITÉS DE SOUSCRIPTION</b></h6>
-                            <div>
-                                <div class="border border-dark p-2">
+                              <table class="table table-bordered align-middle">
+                                <tr>
+                                  <td class="align-top">
                                     <div class="d-grid">
-                                        <div class="d-flex align-items-center">
-                                            <span>Effet de la garantie : </span>
-                                            <b>Date d'octroi du crédit</b>
+                                      <div class="d-flex justify-content-between mb-1">
+                                        <span>Preneur d'assurance :</span>
+                                        @if(policy.credit_insurance?.is_group){
+                                          <b class="text-break">{{policy.credit_insurance?.raison_sociale}}</b>
+                                        } @else {
+                                          <b class="text-break">{{policy.credit_insurance?.members[0].full_name}}</b>
+                                        }
+                                      </div>
+                                  
+                                      @if(!policy.credit_insurance?.is_group){
+                                        <div class="d-flex justify-content-between mb-1">
+                                          <span>Date de naissance :</span>
+                                          <b class="text-break">{{policy.credit_insurance?.members[0].birth_year}}</b>
                                         </div>
-                                        <div class="d-flex align-items-center">
+                                        <div class="d-flex justify-content-between mb-1">
+                                          <span>Adresse :</span>
+                                          <b class="text-break">{{policy.credit_insurance?.members[0].addresse}}</b>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                          <span>No de Téléphone :</span>
+                                          <b class="text-break">{{policy.credit_insurance?.members[0].phone_number}}</b>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                          <span>CNI/PASSPORT :</span>
+                                          <b class="text-break">{{policy.credit_insurance?.members[0].id_number}}</b>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                          <span>Employeur :</span>
+                                          <b class="text-break">{{policy.credit_insurance?.members[0].employer}}</b>
+                                        </div>
+                                      }
+                                    </div>
+                                  </td>
+                              
+                                  @if(!policy.credit_insurance?.is_group){
+                                    <td class="align-top">
+                                      <div class="d-grid">
+                                        <div class="d-flex justify-content-between mb-1">
+                                          <span>Email :</span>
+                                          <b class="text-break">{{policy.credit_insurance?.members[0].email}}</b>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                          <span>No du compte :</span>
+                                          <b class="text-break">{{policy.credit_insurance?.members[0].account_number}}</b>
+                                        </div>
+                                      </div>
+                                    </td>
+                                  }
+                              
+                                  <td class="align-top">
+                                    <div class="d-grid">
+                                      <div class="d-flex justify-content-between mb-1">
+                                        <span>Nom de la banque / succursale :</span>
+                                        <b class="text-break">{{policy.agency?.name}}</b>
+                                      </div>
+                                      <div class="d-flex justify-content-between mb-1">
+                                        <span>Agence :</span>
+                                        <b class="text-break">{{policy.agency?.sub_agency}}</b>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+
+
+                                                    </div>
+                        
+                        <div class="d-grid my-2">
+                            <h5 class="text-center"><b>MODALITÉS DE SOUSCRIPTION</b></h5>
+                            <div>
+                                <div class="border border-dark pt-2">
+                                    <div class="d-grid w-50">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span>Effet de la garantie : </span>
+                                            @if(policy.agency.group=='CRDB'){ 
+                                            <span>Le ......./......./.......</span>
+
+                                            }@else {
+                                                <span>Le {{policy.issue_date | date : 'dd/MM/YYYY'}} </span>
+                                            }
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between">
                                             <span>Montant du prêt :</span>
                                             <b>{{policy.credit_insurance?.credit_amount | number}} FBU</b>
                                         </div>
-                                        <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center justify-content-between">
                                             <span>Durée de remboursement :</span>
                                             <b>{{policy.period}} mensualités</b>
                                         </div>
-                                        <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center justify-content-between">
                                             <span>Prime à payer :</span>
                                             <b>{{policy.credit_insurance?.total_premium | number}} FBU</b>
                                         </div>
@@ -184,7 +184,7 @@
                                                         <span>Invalidité totale permanente : solde restant dû</span>
                                                         @if(policy.credit_insurance?.coverage=="job_loss"){
                                                             <span>
-                                                                Perte d'emploi involontaire : Remboursement du solde restant dû avec un maximum de 10 millions après une franchise de 3 mois
+                                                                Perte d'emploi involontaire : prise en charge des mensualités jusqu'un maximum de 12 mensualités
                                                             </span>
                                                         }
                                                     </div>
@@ -196,84 +196,88 @@
                             </div>
                         </div>
                         
-                        <div class="d-grid mb-2">
-                            <h5 class="text-center my-1"><b>Les exclusions liées à cette police-décès et invalidité totale ou permanente</b></h5>
+                        <div class="d-grid my-2">
+                            <h5 class="text-center my-2">
+                              <b>Les exclusions liées à cette police-décès et invalidité totale ou permanente</b>
+                            </h5>
                             <div>
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <td class="w-50">
-                                            <div class="d-grid">
-                                                <span>1. Risque de guerre, émeutes, insurrection civile ou terrorisme;</span>
-                                                <span>2. Suicide &laquo; conscient ou inconscient &raquo;;</span>
-                                                <span>3. Les pandémies;</span>
-                                                <span>4. Les risques aériens spéciaux;</span>
-                                                <span>5. Participation à tout acte criminel;</span>
-                                            </div>
-                                        </td>
-                                        <td class="w-50">
-                                            <div class="d-grid">
-                                                <span>6. Usage de stupéfiants non ordonnés médicalement;</span>
-                                                <span>7. Maladies mentales ou troubles nerveux chroniques;</span>
-                                                <span>8. Conséquences de la désintégration du noyau atomique des radiations ionisantes;</span>
-                                                <span>9. Tout fait intentionnel de l'assuré</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
+                              <table class="table table-bordered">
+                                <tr>
+                                  <td class="w-50">
+                                    <ol class="two-col-list">
+                                      <li>Risque de guerre, émeutes, insurrection civile ou terrorisme;</li>
+                                      <li>Suicide &laquo; conscient ou inconscient &raquo;;</li>
+                                      <li>Les pandémies;</li>
+                                      <li>Les risques aériens spéciaux;</li>
+                                      <li>Participation à tout acte criminel;</li>
+                                    </ol>
+                                  </td>
+                                  <td class="w-50">
+                                    <ol class="two-col-list" start="6">
+                                      <li>Usage de stupéfiants non ordonnés médicalement;</li>
+                                      <li>Maladies mentales ou troubles nerveux chroniques;</li>
+                                      <li>Conséquences de la désintégration du noyau atomique des radiations ionisantes;</li>
+                                      <li>Tout fait intentionnel de l'assuré;</li>
+                                    </ol>
+                                  </td>
+                                </tr>
+                              </table>
                             </div>
                         </div>
                         
                         @if(policy.credit_insurance?.coverage=="job_loss"){
-                            <div class="d-grid mb-3">
-                                <h5 class="text-center my-2 mt-2"><b>Sont exclus de la garantie de perte d'emploi involontaire</b></h5>
+                            <div class="d-grid my-2">
+                                <h5 class="text-center my-1"><b>Sont exclus de la garantie de perte d'emploi involontaire</b></h5>
                                 <div class="mb-3">
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <td class="w-50">
-                                                <div class="d-grid">
-                                                    <span>1. Le licenciement pour faute lourde ou faute grave;</span>
-                                                    <span>2. Chômage technique ou la perte d'emploi pour des raisons liées à des mesures d'assainissement et/ou catastrophe naturelles;</span>
-                                                    <span>3. Démission volontaire de l'assuré ainsi que le départ négocié à caractère individuel;</span>
-                                                    <span>4. Renvoi lié directement ou indirectement à une blessure qu'on s'inflige soi-même, ou une activité illégale;</span>
-                                                    <span>5. Le chômage à l'issue ou en cours d'un contrat du travail à durée déterminée ou d'une période d'essai non concluante;</span>
-                                                </div>
-                                            </td>
-                                            <td class="w-50">
-                                                <div class="d-grid">
-                                                    <span>6. La simple suspension du contrat de travail;</span>
-                                                    <span>7. Couverture au-delà de fin de mandat ou de projet;</span>
-                                                    <span>8. La mise à la retraite anticipée;</span>
-                                                    <span>9. Désertion de service;</span>
-                                                    <span>10. Licenciement collectif ou en cas de force majeure;</span>
-                                                    <span>11. Le changement d'employeur</span>
-                                                    <span>12. Licenciement pour des raisons politiques et/ou economiques</span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <table class="table table-bordered">
+                                  <tr>
+                                    <td class="w-50">
+                                      <ol class="two-col-list">
+                                        <li>Chômage technique ou la perte d'emploi pour des raisons liées à des mesures d'assainissement et/ou catastrophe naturelles;</li>
+                                        <li>Démission volontaire de l'assuré ainsi que le départ négocié à caractère individuel;</li>
+                                        <li>Renvoi lié directement ou indirectement à une blessure qu'on s'inflige soi-même, ou une activité illégale;</li>
+                                        <li>Le chômage à l'issue ou en cours d'un contrat du travail à durée déterminée ou d'une période d'essai non concluante;</li>
+                                      </ol>
+                                    </td>
+                                    <td class="w-50">
+                                      <ol start="5" class="two-col-list">
+                                        <li>La simple suspension du contrat de travail;</li>
+                                        <li>Couverture au-delà de fin de mandat ou de projet;</li>
+                                        <li>La mise à la retraite anticipée;</li>
+                                        <li>Désertion de service;</li>
+                                        <li>Licenciement collectif ou en cas de force majeure;</li>
+                                        <li>Le changement d'employeur;</li>
+                                        <li>Licenciement pour des raisons politiques et/ou économiques;</li>
+                                      </ol>
+                                    </td>
+                                  </tr>
+                                </table>
+
                                 </div>
                                 
                                 <div class="my-1">
                                     <h5>Définition de la perte d'emploi involontaire et licenciement dans le cadre de cette police</h5>
                                     <div>
-                                        <ul>
-                                            <li class="d-flex align-items-center">
+                                        <ol class="two-col-list">
+                                            <li class="">
                                                 
-                                                <span><b>1. La perte d'emploi involontaire </b> signifie que vous tombez et restez au chômage directement à la suite d'un licenciement et que vous ne recevez aucun revenu d'aucune profession.</span>
+                                                La perte d'emploi involontaire signifie que vous tombez et restez au chômage directement à la suite d'un licenciement et que vous ne recevez aucun revenu d'aucune profession.
                                             </li>
-                                            <li class="d-flex align-items-center">
+                                            <li class="">
                                                 
-                                                <span><b>2. Licenciement </b> signifie que votre fonction chez votre employeur prend fin à la suite de l'introduction d'une nouvelle technologie ou de la réorganisation de votre entreprise.</span>
+                                        
+                                                Licenciement signifie que votre fonction chez votre employeur prend fin à la suite de l'introduction d'une nouvelle technologie ou de la réorganisation de votre entreprise.
                                             </li>
-                                        </ul>
+                                        </ol>
+
                                     </div>
                                 </div>
                             </div>
                         }
-                        <div class="my-1">
-                            <small>
-                                <b>N.B : Le contrat vie n'a ni valeur de reduction, ni valeur d'achat</b>
-                            </small>
+                        <div class="my-2">
+                            <!-- <small> -->
+                                <div class="fw-bold">N.B : Le contrat vie n'a ni valeur de reduction, ni valeur d'achat</div>
+                            <!-- </small> -->
                         </div>
                         <!-- <div class="my-2">
                             <small style="font-style: italic;">Le présent contrat sera valide à la date d'octroi du crédit.</small>
@@ -301,7 +305,7 @@
                         </div>
                         
                         
-                        <div class="text-center my-1">
+                        <div class="text-center">
                             <p>Fait à Bujumbura, le <strong>{{policy.created_at | date:'dd/MM/yyyy, h:mm a'}}</strong> par <strong> {{policy.operator?.full_name}} </strong></p>
                           </div>
                         
@@ -324,6 +328,7 @@
                                 <span>Approuvé par </span>
                                 <b>{{policy.company?.name}}</b>
                                 <div class="qr-code-container">
+
                                     <qr-code
                                     value="{{
                                         '\nNuméro de police: ' + policy.policy_number + 
@@ -332,19 +337,32 @@
                                         '\nValidité: ' + (policy.expiration_date | date:'dd/MM/yyyy')+
                                         '\nBANQUE/BENEFICIAIRE :' + policy.agency?.name + 
                           
-                                        '\nCompagnie d\'assurance: ' + (policy.company?.name) 
+                                        '\nCompagnie d\'assurance: ' + (policy.company?.name)                             
+
+
+
                               }}"
     size="120"
 />
-<!--
-
--->
 
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-1 d-flex align-items-center">
+                        <div class=" d-flex align-items-center">
                             <span>Bancassurance : </span>
-                            <b>{{policy.agency?.name}}</b>
+                            <b>{{policy.agency?.name}}/ 
+                                @if(policy.agency.group =='BANCOBU'){ 
+                                    <span>{{policy.beneficiaire}} </span>
+                                }@else{ 
+                                    <span>{{policy.agency?.sub_agency}} </span>
+                                } 
+                            </b>
                         </div>
                     </div>
+    </div>
+
+</div>
+
+            
+
+

@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { GetNestedValuePipe } from '../../../../core/pipes/get-nested-value.pipe';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
@@ -28,6 +28,11 @@ import { SetSelectedAgency } from '../../../states/selectedAgency/agency.action'
 import { PolicyService } from '../../../../core/services/policy.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthState } from '../../../states/auth/auth.state';
+import { AutoContractComponent } from '../../../../modules/policy/documents-printing/auto-contract/auto-contract.component';
+import { FireContractComponent } from '../../../../modules/policy/documents-printing/fire-contract/fire-contract.component';
+import { TransportContractComponent } from '../../../../modules/policy/documents-printing/transport-contract/transport-contract.component';
+import { NgxPrintModule } from 'ngx-print';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 interface ColumnConfig {
   header: string;
@@ -56,14 +61,25 @@ interface ActionConfig {
     MatTableModule, MatPaginatorModule, CommonModule, MatButtonModule,
     MatDividerModule, MatIconModule, MatCardModule, GetNestedValuePipe,
     MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule,
-    MatProgressSpinnerModule, MatSelectModule, MatTooltipModule
+    MatProgressSpinnerModule, MatSelectModule, MatTooltipModule, AutoContractComponent, FireContractComponent, TransportContractComponent,     
+    NgxPrintModule,FormsModule, MatCheckboxModule
+    
   ],
 })
 export class ListComponent implements AfterViewInit {
   @Input() columns: ColumnConfig[] = [];
   @Input() enablePagination: boolean = true;
-  @Input() showFilters: boolean = false;
-  @Input() actions: ActionConfig[] = [];
+  @Input() showDateFilters: boolean = false;
+  @Input() showSearchFilters: boolean = false;
+  @Input() showSearchButton : boolean = false
+  @Input() showAgencyFilter : boolean = false
+  @Input() showActions : boolean = false
+  @Input() showGenerateReport : boolean = false
+
+  hasHeader : boolean =false
+
+
+  @Input() actions: any= [];
   
   isLoading: boolean = false;
   isActionLoading: boolean = false;
@@ -105,8 +121,8 @@ export class ListComponent implements AfterViewInit {
 
     this.filterForm = this.fb.group({
       searchQuery: [''],
-      fromDate: [todayISO],
-      toDate: [todayISO],
+      fromDate: [''],
+      toDate: [''],
       agency: [''],
     });
     this.connectedOperator$ = store.select(AuthState.connectedOperator)
@@ -128,10 +144,13 @@ export class ListComponent implements AfterViewInit {
 
           const shouldShowActions = this.actions.length > 0 && this.connectedOperator?.is_operator_super_admin;
 
-    if (shouldShowActions) {
+    // if (shouldShowActions) {{}
+    // if(this.showActions){
+      
+    // }
       this.displayedColumns.push('actions');
-      console.log("actions should be there hahhahah")
-    }
+      // console.log("actions should be there hahhahah")
+    // }
 
 
       if(!connectedOperator){
@@ -157,13 +176,13 @@ export class ListComponent implements AfterViewInit {
     }
   }
 
-  selectAction(row : any, action:ActionConfig){
+  selectAction(row : any, action:string){
     this.selectedAction = action
     this.selectedRow = row
   }
 
   handleAction() {
-      this.isActionLoading = true;
+      // this.isActionLoading = true;
       
       // Handle different action types
           this.policyService.doPolicyAction(this.selectedRow.id, this.selectedAction.action_type, {})
@@ -190,7 +209,7 @@ export class ListComponent implements AfterViewInit {
   }
 
   getData() {
-    this.data = [];
+    // this.data = [];
     this.isLoading = true;
     const { searchQuery, fromDate, toDate } = this.filterForm.value;
     const formattedFromDate = fromDate ? format(new Date(fromDate), 'dd/MM/yyyy') : '';

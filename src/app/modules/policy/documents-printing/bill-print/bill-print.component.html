@@ -144,13 +144,13 @@
                     </tr>
                 </tfoot>
             </table>
-            <div class="row justify-content-end signatures text-center mt-2">
-              <div class="col-4 fw-bold">Pour 
+            <div class="row justify-content-end signatures text-center mt-5">
+              <div class="col-6 fw-bold d-flex justify-content-end">Pour 
                 @if(policy.agency?.is_affiliated){
                   {{policy.company?.name}} 
       
                 }@else{
-                  {{policy.agency?.name}} 
+                  {{policy.agency?.name}} @if(policy.agency?.is_bancassurance){/ {{policy.agency.sub_agency}} }
       
                 }
                </div>

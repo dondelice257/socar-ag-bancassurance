@@ -17,14 +17,14 @@
         <div class="col-3">DATE OPERATION :</div>
         <div class="col-3 fw-bold">{{policy.issue_date | date:'dd/MM/yyyy'}}</div>
         <div class="col-3">COURTIER/AGENCE :</div>
-        <div class="col-3 fw-bold">{{policy?.agency.name}}</div>
+        <div class="col-3 fw-bold">{{policy?.agency.name}} @if(policy.agency?.is_bancassurance){/ {{policy.agency.sub_agency}} }</div>
       </div>
   
       <div class="row ">
         <div class="col-3">REDACTEUR :</div>
         <div class="col-3 fw-bold">{{policy.operator?.full_name}}</div>
         <div class="col-3">AVENANT N° :</div>
-        <div class="col-3 fw-bold">00000</div>
+        <div class="col-3 fw-bold">{{policy.formatted_avenant}}</div>
       </div>
   
       <div class="row ">
@@ -70,23 +70,23 @@
       
   
       <div class="row ">
-        <div class="col-5">Nature et localisation du risque :</div>
-        <div class="col-6 fw-bold">{{policy.assured_goods[0]?.name}}</div>
+        <div class="col-3">Nature et localisation du risque :</div>
+        <div class="col-6 fw-bold">{{policy.fire_insurance?.nature_risque}}</div>
       </div>
   
       <div class="row ">
         <div class="col-3">Quartier/AV./Rue/ n° :</div>
-        <div class="col-3 fw-bold">{{policy.fire_insurance.quartier}}</div>
+        <div class="col-3 fw-bold">{{policy.fire_insurance?.quartier}}</div>
         <div class="col-3">Ville/Prov :</div>
-        <div class="col-3 fw-bold">{{policy.fire_insurance.province}}</div>
+        <div class="col-3 fw-bold">{{policy.fire_insurance?.province}}</div>
       </div>
   
       <div class="row border-btm">
 
         <div class="col-3">N° Titre Foncier :</div>
-        <div class="col-3 fw-bold">{{policy.fire_insurance.titre}}</div>
+        <div class="col-3 fw-bold">{{policy.fire_insurance?.titre}}</div>
         <div class="col-3">N° Cadastre :</div>
-        <div class="col-3 fw-bold">{{policy.fire_insurance.cadastre}}</div>
+        <div class="col-3 fw-bold">{{policy.fire_insurance?.cadastre}}</div>
       </div>
 
       <!-- <div class="section-header fw-bold border-bottom mb-1">II* Valeurs des biens assurés :</div>
@@ -145,7 +145,7 @@
             <td>:</td>
             <td class="text-end">{{policy.prime_nette | number}}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td>C.DIVERS</td>
             <td>:</td>
             <td class="text-end">{{policy.charges_diverses | number}}</td>
@@ -154,6 +154,11 @@
             <td>C. ARCA</td>
             <td>:</td>
             <td class="text-end">{{policy.charges_arca | number}}</td>
+          </tr> -->
+          <tr>
+            <td>CHARGES</td>
+            <td>:</td>
+            <td class="text-end">{{charges | number}}</td>
           </tr>
           <!-- <tr>
             <td>P.T AVANT TVA</td>
@@ -187,7 +192,7 @@
   <div class="fw-bold">Exclusions :</div>
   <span>* Les exclusions dans les conditions générales sont applicables.</span>
   @if(policy.beneficiaire){
-  <span>BÉNÉFICIAIRE : En cas de sinistre, les indemnités seront versées à {{policy.beneficiaire}}, qui est bénéficiaire de cette police d'assurance.</span>
+  <div class="mt-2">BÉNÉFICIAIRE : En cas de sinistre, les indemnités seront versées à {{policy.beneficiaire}}, qui est bénéficiaire de cette police d'assurance.</div>
   }
 </div>
 
@@ -212,7 +217,7 @@
         }
         <div class="col-4 fw-bold">
           @if(policy?.agency?.is_bancassurance){
-            BANCASSURANCE
+            BANCASSUREUR
           }@else {
             ASSUREUR
           }

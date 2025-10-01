@@ -20,6 +20,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { UpdateComponent } from '../../../shared/components/reusable/update/update.component';
 import { ToastrService } from 'ngx-toastr';
+import { GeneralService } from '../../../core/services/general.service';
 
 @Component({
   selector: 'app-policy-details',
@@ -56,6 +57,7 @@ policy:any
 isModalShown:boolean=false
 isLoading:boolean=false
 hasHeader : boolean = false
+addingGuarantee = false
 
 totalPrimeBase = 0
 documentToPrint ='contrat'
@@ -66,8 +68,16 @@ selectedTitleUpdate=''
 actions:{action:string, description:string, label:string, is_danger:boolean, icon:string}[]=[]
 
 renewForm:FormGroup
+guaranteeForm:FormGroup
+goodsForm:FormGroup
+
+
 @ViewChild('myModal') myModal: ElementRef | any;
 @ViewChild('updateModalBtn') updateModalBtn!: ElementRef;
+  selectedUrlDelete!: string;
+  selectedTitleDelete!: string;
+  selectedIdDelete!: string;
+  addingGoods: boolean = false;
 
 
 
@@ -77,13 +87,28 @@ renewForm:FormGroup
     private router : Router,
     private fb: FormBuilder,
     private store : Store,
-    private toastr : ToastrService
+    private toastr : ToastrService,
+    private generalService : GeneralService
   ){
     // Initialize main policy form with validations
     this.renewForm = this.fb.group({
       issue_date: ['', Validators.required],
       period_id: ['', Validators.required],
       assured_capital_bif: [0, Validators.required],
+    });
+
+    this.guaranteeForm = this.fb.group({
+      name: ['', Validators.required],
+      assured_capital: [0, [Validators.required, Validators.min(0)]],
+      rate: [0, Validators.max(100)],
+      guarantee_type: ['percentage', [Validators.required]],
+      value: [0],
+    });
+
+
+        this.goodsForm = this.fb.group({
+      name: ['', Validators.required],
+      assured_capital: [0, [Validators.required, Validators.min(0)]],
     });
 
     this.connectedOperator$ = this.store.select(AuthState.connectedOperator);
@@ -119,6 +144,7 @@ renewForm:FormGroup
 
 
   getPolicyDetails(){
+    this.policy=undefined
     this.policyService.getPolicyDetails(this.policyId).subscribe((data:any)=>{
       console.log('policy details', data)
 
@@ -209,10 +235,10 @@ this.selectedBodyUpdate = body.guarantee_type=='fixed'?{'name':body.name, 'value
 
 }else if(title=='Client'){
   console.log(body)
-this.selectedBodyUpdate = {'first_name':body.first_name, 'phone_number':body.phone_number}
+this.selectedBodyUpdate = {'first_name':body.first_name, 'phone_number':body.phone_number, 'country':body.country, 'zone':body.zone, 'quartier':body.quartier, 'city':body.city, 'commune':body.commune}
 }else if(title=='Automobile'){
   console.log('tttt', title)
-  this.selectedBodyUpdate = {'plaque':body.plaque, 'chasis':body.chasis, 'limites_territoriales':body.limites_territoriales, 'marque':body.marque, 'model':body.model, 'annee_fabrication':body.annee_fabrication, 'puissance_moteur':body.puissance_moteur, 'places_cabine':body.places_cabine, 'places_plateau':body.places_plateau}
+  this.selectedBodyUpdate = {'plaque':body.plaque, 'chasis':body.chasis, 'usage':body.usage, 'limites_territoriales':body.limites_territoriales, 'marque':body.marque, 'model':body.model, 'annee_fabrication':body.annee_fabrication, 'puissance_moteur':body.puissance_moteur, 'places_cabine':body.places_cabine, 'places_plateau':body.places_plateau, 'numero_vignette':body.numero_vignette}
 }else if(title=='Incendie'){
   this.selectedBodyUpdate = {'nature_risque':body.nature_risque, 'quartier':body.quartier, 'province':body.province, 'cadastre':body.cadastre, 'titre':body.titre}
 }else if(title=='Transport'){
@@ -223,6 +249,31 @@ this.selectedBodyUpdate = {'period':body.period, 'issue_date':body.issue_date}
 }else if(title=='Membre'){
   console.log('eeeeeeee', body)
 this.selectedBodyUpdate = {'age':body.age, 'full_name':	body.full_name, "number_of_installments":body.number_of_installments, "credit_amount":body.credit_amount, "credit_rate":body.credit_rate, "addresse": body.addresse, "birth_year":body.birth_year, "phone_number":body.phone_number, "id_number":body.id_number, "employer":body.employer, "next_birth":body.next_birth, "email":body.email, "account_number":body.account_number}
+
+}else if(title=='Info contrat'){
+    this.selectedBodyUpdate = {'assured_capital_bif':body.assured_capital_bif}
+
+  if(this.policy.category=='transport'){
+    this.selectedBodyUpdate = {'assured_capital_bif':body.assured_capital_bif, 'assured_capital_devise':body.assured_capital_devise, 'daily_rate':body.daily_rate, 'currency':body.currency}
+
+  }else{
+    this.selectedBodyUpdate = {'assured_capital_bif':body.assured_capital_bif}
+
+  }
+}else if(title=='Bien'){
+  this.selectedBodyUpdate = {'name':body.name, 'assured_capital':body.assured_capital}
+}
+
+}
+
+  chooseObjectDelete(url:string, id:string, title:string, body:any){
+this.selectedUrlDelete = url
+this.selectedIdDelete = id
+this.selectedTitleDelete = title
+
+
+
+if(title=='Garantie'){
 
 }
 
@@ -249,6 +300,83 @@ if($event){
 }
 
 
+
+deleteObject(){
+    this.isLoading = true;
+
+    const req$ = this.generalService.Delete(this.selectedUrlDelete, this.selectedIdDelete)
+    req$.subscribe({
+      next: (res) => {
+        this.isLoading = false;
+              this.toastr.success('Supprimee avec success !');
+              this.getPolicyDetails()
+
+      },
+      error: (err) => {
+        this.isLoading = false;
+      }
+    });
+
+}
+
+
+
+  addGuarantee() {
+    console.log("gggggggggg", this.guaranteeForm.value)
+    if (this.guaranteeForm.valid) {
+      const guarantee = {
+        name: this.guaranteeForm.value.name,
+        assured_capital: this.guaranteeForm.value.assured_capital,
+        guarantee_type: this.guaranteeForm.value.guarantee_type,
+        value: this.guaranteeForm.value.value,
+        rate: this.guaranteeForm.value.rate,
+        policy:this.policyId
+      };
+      
+    this.policyService.createGuarantee(guarantee).subscribe((response)=>{
+      this.toastr.success('Garantie ajoutee avec success !');
+      this.getPolicyDetails()
+                          // Reset form fields after adding
+      this.addingGuarantee=false
+      this.guaranteeForm.patchValue({
+        name: '',
+        rate: 0,
+        guarantee_type: '',
+        assured_capital_bif:0,
+        value: 0,
+      });
+
+    })      
+
+    }else{
+      console.log(this.guaranteeForm.value, this.guaranteeForm.status)
+    }
+  }
+
+    addGoods() {
+    console.log("gggggggggg", this.goodsForm.value)
+    if (this.goodsForm.valid) {
+      const guarantee = {
+        name: this.goodsForm.value.name,
+        assured_capital: this.goodsForm.value.assured_capital,
+      };
+      
+    this.policyService.createGoods(guarantee).subscribe((response)=>{
+      this.toastr.success('Bien ajoutee avec success !');
+      this.getPolicyDetails()
+                          // Reset form fields after adding
+      this.addingGoods=false
+      this.goodsForm.patchValue({
+        name: '',
+        assured_capital_bif:0,
+      });
+
+    })      
+
+    }else{
+      console.log(this.guaranteeForm.value, this.guaranteeForm.status)
+    }
+  }
 
 
   }

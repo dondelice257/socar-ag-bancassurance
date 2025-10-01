@@ -47,7 +47,8 @@ export class PoliciesListComponent {
           action_type: 'save',
           successMessage: 'Police enregistrée dans le systeme avec succès',
           errorMessage: 'Une erreur est survenue lors de l\'enregistrement'
-      }
+      },
+
   ];
 
     this.connectedOperator$.subscribe((connectedOperator: any) => {
@@ -89,6 +90,8 @@ export class PoliciesListComponent {
           { columnDef: 'is_saved', header: 'Systeme' },
 
           {columnDef: 'assured_capital_bif', header : 'VA'},
+          {columnDef: 'auto_insurance.numero_vignette', header : 'Vignette'},
+
       
 
 

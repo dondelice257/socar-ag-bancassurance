@@ -21,7 +21,7 @@
         <div class="d-flex align-items-center profile-border">
 
             <div class="profile-img overflow-hidden border-md-success me-2 rounded-circle">
-                <img src="{{connectedOperator.user.profile_picture}}" alt="">
+                <img src="{{connectedOperator.user.profile_picture || 'assets/images/default-user.png'}}" class="rounded-circle" alt="">
             </div>
             <div class="d-grid me-3">
                 

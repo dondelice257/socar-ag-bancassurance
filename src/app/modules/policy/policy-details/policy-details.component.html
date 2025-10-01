@@ -35,7 +35,7 @@
                 <!-- @if(policy.is_validated  || policy.operator.is_operator_super_admin){ -->
                   <li>
                     <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='contract'">
-                      <i class="fas fa-print me-2"></i> Imprimer le contrat
+                      <i class="fas fa-print me-2"></i> Imprimer @if(policy.is_demo){l'offre}@else{le contrat}
                     </button>
                   </li>
                   <li>
@@ -50,18 +50,12 @@
                 }@else{
 <li>
                     <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='contract'">
-                      <i class="fas fa-print me-2"></i> Imprimer le contrat
+                      <i class="fas fa-print me-2"></i> Imprimer @if(policy.is_demo){l'offre}@else{le contrat}
                     </button>
                   </li>  
                 }
             }
-            @if(policy.is_demo && policy.category !="credit"){
-                          <li>
-              <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='offer'">
-                <i class="fas fa-print me-2"></i> Imprimer l'offre
-              </button>
-            </li>
-            }
+
             
             @if(policy.category=="auto"){
               <li>
@@ -90,7 +84,7 @@
               <li>
                 <button
                 data-bs-toggle="modal" 
-                data-bs-target="#deleteModal"
+                data-bs-target="#actionModal"
                 (click)="selectAction(action.action)"
                 [ngClass]="action.is_danger?'btn-action-danger':'btn-action'"
                  class="dropdown-item">
@@ -127,7 +121,6 @@
           </p>
 
           <p class="col-lg-4"><i class="fas fa-calendar-alt text-secondary"></i> <strong>Date d'effet:</strong> {{ policy.issue_date | date:'dd/MM/yyyy' }}                     
-                @if(!policy.is_approved){
                 <span 
                 role="button"  
                 (click)="chooseObjectUpdate('policy/policies', policy.id, 'Echeance', policy)" 
@@ -135,7 +128,6 @@
                 data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>
                 </span>
-                }  
 
               </p>
           <p class="col-lg-4"><i class="fas fa-calendar-check text-secondary"></i> <strong>Date d'expiration:</strong> {{ policy.expiration_date | date:'dd/MM/yyyy'}}</p>
@@ -148,7 +140,12 @@
           @if(policy.category !="credit"){
           <p class="col-lg-4">
             <!-- <i class="fas fa-hashtag text-secondary"></i> -->
-             <strong>Avenant:</strong> {{ policy.formatted_avenant }}</p>
+             <strong>Avenant:</strong> {{ policy.formatted_avenant }}
+            </p>
+                      <p class="col-lg-4">
+            <!-- <i class="fas fa-hashtag text-secondary"></i> -->
+             <strong>Agence:</strong> {{ policy.agency.name }} @if(policy.agency.is_bancassurance){/ {{policy.agency.sub_agency}} }
+            </p>
 
           }
           @if(policy.category =="credit"){
@@ -217,29 +214,25 @@
                 @case("fire"){
 
 
-                  @if(!policy.is_approved){
                   <div class="d-flex justify-content-end">
                     <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/fire-insurance', policy.fire_insurance?.id, 'Incendie', policy.fire_insurance)" data-bs-toggle="modal" data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>
                 </span>
                   </div>
-                  }
 
                   <!-- Fire Insurance Risk Info -->
                   <p><strong>Nature du risque:</strong> <span class="text-success">{{ policy.fire_insurance?.nature_risque }}</span></p>
                   <p><strong>Province:</strong> {{ policy.fire_insurance?.province }}</p>
                   <p><strong>Quartier:</strong> {{ policy.fire_insurance?.quartier }}</p>
-                  <p><strong>Titre foncier:</strong> {{ policy.fire_insurance.titre }}</p>
+                  <p><strong>Titre foncier:</strong> {{ policy.fire_insurance?.titre }}</p>
                   <p><strong>N° cadastre:</strong> {{ policy.fire_insurance?.cadastre }}</p>
                 }
                 @case("auto"){
-                    @if(!policy.is_approved){
                                     <div class="d-flex justify-content-end">
                     <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/auto-insurance', policy.auto_insurance?.id, 'Automobile', policy.auto_insurance)" data-bs-toggle="modal" data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>
                 </span>
                   </div>
-                    }
 
                   <!-- Auto Insurance Risk Info -->
                   <p><strong>Plaque:</strong> <span class="text-success">{{ policy.auto_insurance?.plaque }}</span></p>
@@ -250,17 +243,18 @@
                   <p><strong>Usage:</strong> {{ policy.auto_insurance?.usage }}</p>
                   <p><strong>Places cabine:</strong> {{ policy.auto_insurance?.places_cabine }}</p>
                   <p><strong>Places plateau:</strong> {{ policy.auto_insurance?.places_plateau }}</p>
+
+                  <p><strong>Numero vignette:</strong> {{ policy.auto_insurance?.numero_vignette }}</p>
+
                 }
                 @case("transport"){
 
 
-                  @if(!policy.is_approved){
                                                       <div class="d-flex justify-content-end">
                     <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/transport-insurance', policy.transport_insurance?.id, 'Transport', policy.transport_insurance)" data-bs-toggle="modal" data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>
                 </span>
                   </div>
-                  }
 
                   <!-- Transport Insurance Risk Info -->
                   <p><strong>Nature marchandise:</strong> <span class="text-success">{{ policy.transport_insurance?.nature_marchandise }}</span></p>
@@ -268,7 +262,7 @@
                   <p><strong>Arrivée:</strong> <span class="">{{ policy.transport_insurance?.arrivee }}</span></p>
                   <p><strong>Description:</strong> {{ policy.transport_insurance?.description }}</p>
                   <p><strong>Nature emballage:</strong> {{ policy.transport_insurance?.nature_emballage }}</p>
-                  <p><strong>Type de transport:</strong> {{ policy.transport_insurance?.type_transport }}</p>
+                  <p><strong>Type de transport:</strong> {{ policy.transport_insurance?.transport_type }}</p>
                   <p><strong>Quantité:</strong> {{ policy.transport_insurance?.quantity }}</p>
                   <p><strong>Nombre de colis:</strong> {{ policy.transport_insurance?.colis_number }}</p>
                 }
@@ -319,7 +313,7 @@
         <p><strong>Code client:</strong> {{ policy.client?.id }}</p>
         <p><strong>Nom:</strong> {{ policy.client?.user_full_name }}</p>
         <p><strong>Nom d'utilisateur:</strong> {{ policy.client?.user_name }}</p>
-        <p><strong>Adresse:</strong> {{ policy.client?.user_address }}</p>
+        <p><strong>Adresse:</strong> {{ policy.client?.user.zone }}</p>
         <p><strong>Numéro de téléphone:</strong> {{ policy.client?.user_phone_number }}</p>
       </div>
     </div> 
@@ -342,6 +336,35 @@
         <!-- <p><strong>Compagnie:</strong> {{ policy.operator?.company_name }}</p> -->
       </div>
     </div>
+
+        <!-- Devise et capital Card -->
+         @if(policy.category !='credit'){
+         <div class="col-md-4">
+      <div class="d-flex justify-content-center w-100">
+        <b class="text-primary">Info general contrat</b>
+                @if(!policy.is_saved){
+                                  <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/policies', policy.id, 'Info contrat', policy)" data-bs-toggle="modal" data-bs-target="#updateModal">
+                  <i class="fa fa-pen fs-5"></i>
+                </span>
+                }
+
+      </div>
+      <div class="card shadow-sm text-center p-3">
+
+        <p><strong>Capital assure BIF:</strong> {{ policy.assured_capital_bif }}</p>
+                @if(policy.category=='transport'){
+                  <p><strong>Capital assure Devise:</strong> {{ policy.assured_capital_devise }}</p>
+        <p><strong>Monnaie:</strong> {{ policy.currency }}</p>
+        <p><strong>Taux du jour:</strong> {{ policy.daily_rate}}</p>
+        }
+
+
+
+        <!-- <p><strong>Compagnie:</strong> {{ policy.operator?.company_name }}</p> -->
+      </div>
+    </div>     
+         }
+
   
     <!-- Company Details Card - Currently Commented Out -->
     <!-- 
@@ -360,7 +383,21 @@
   <!-- Guarantees Table Card -->
    @if(policy.category !="credit"){
     <div class="card mt-4 p-4">
+      <div class="w-100 d-flex justify-content-between align-items-center">
       <h4 class="fw-bold">Garanties</h4>
+      @if(!policy.is_saved){
+                                  <button type="button" class="w-auto py-2 pe-2 rounded bg-transparent border border-dark text-dark w-100" (click)="addingGuarantee=!addingGuarantee">
+
+                      <b>
+                        <i class="fa fa-plus fw-bold"></i>
+                        Ajouter
+                      </b>
+                    </button>
+      }
+
+
+
+      </div>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -376,47 +413,209 @@
             <td>{{ guarantee.assured_capital | currency:'BIF' }}</td>
             <td>{{ guarantee.prime | currency:'BIF' }}</td>
             <td>
+              @if(!policy.is_saved){
               <div class="d-flex">
-                @if(!policy.is_approved){
                 <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/guarantee', guarantee.id, 'Garantie', guarantee)" data-bs-toggle="modal" data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>
-                </span>                  
-                }
+                </span>   
+                <span role="button" id="deleteBtn" class="text-danger"  (click)="chooseObjectDelete('policy/guarantee', guarantee.id, 'Garantie', guarantee)" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                  <i class="fa fa-trash fs-5"></i>
+                </span>                 
 
               </div>
+              }
+
             </td>
           </tr>
         </tbody>
       </table>
+      @if(addingGuarantee){
+                          <div class="card p-4 mt-3 shadow-sm">
+              <h4 class="text-center mb-4">Ajouter une Garantie</h4>
+              <form [formGroup]="guaranteeForm">
+                <div class="row">
+                  <!-- Guarantee type selection -->
+                  <div class="col-lg-2">
+                    <label for="name" class="form-label">Type de garantie</label>
+                    <select class="form-select" formControlName="guarantee_type">
+                      <option [value]="'percentage'">Taux</option>
+                      <option [value]="'fixed'">Montant</option>
+                    </select>
+                  </div>
+                  
+                  <!-- Guarantee name field -->
+                  <div class="col-lg-4">
+                    <label for="name" class="form-label">Garantie</label>
+                                            <input
+                          id="name"
+                          type="text"
+                          class="form-control"
+                          formControlName="name"
+                          placeholder="Nom du garantie"
+                        />
+    <!-- Display select based on selectedCategory -->
+
+                  </div>
+                  
+                  <!-- Insured capital amount -->
+                  <div class="col-lg-2">
+                    <label for="capital" class="form-label">Capital Assuré</label>
+                    <input
+                      id="capital"
+                      type="number"
+                      class="form-control"
+  
+                      formControlName="assured_capital"
+                      placeholder="Capital assuré"
+                    />
+                  </div>
+                  
+                  <!-- Conditional fields based on guarantee type -->
+                  @switch(guaranteeForm.value.guarantee_type){
+                    @case("fixed"){
+                      <div class="col-md-2">
+                        <label for="capital" class="form-label">Prime</label>
+                        <input
+                          id="capital"
+                          type="number"
+                          class="form-control"
+                          formControlName="value"
+                          placeholder="Prime"
+                        />
+                      </div>
+                    }
+                    @case("percentage"){
+                      <div class="col-lg-2">
+                        <label for="capital" class="form-label">Taux</label>
+                        <input
+                          id="capital"
+                          type="number"
+                          class="form-control"
+                          formControlName="rate"
+                          placeholder="Taux"
+                        />
+                      </div>
+                    }
+                  }
+                  
+                  <!-- Add button -->
+                  <div class="col-lg-2 d-flex align-items-end">
+                    <button type="button" class="p-2 rounded text-white bg-primary-2 w-100" (click)="addGuarantee()">
+                      Ajouter
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+      }
+
+      
       <!-- <div class="d-flex justify-content-end mt-3">
         <strong>Total Prime de Base:</strong>
         <span class="fw-bold text-success">{{ totalPrimeBase | number:'1.0-0' }} BIF</span>    </div> -->
     </div>
   
     <!-- Insured Goods Table Card -->
+    @if(policy.category=='fire'){
     <div class="card mt-4 p-4">
-      <h4 class="fw-bold">Biens Assurés</h4>
+      <div class="w-100 d-flex justify-content-between align-items-center">
+      <h4 class="fw-bold">Bien a assurer</h4>
+      @if(!policy.is_saved){
+                                  <button type="button" class="w-auto py-2 pe-2 rounded bg-transparent border border-dark text-dark w-100" (click)="addingGoods=!addingGoods">
+                      <b>
+                        <i class="fa fa-plus fw-bold"></i>
+                        Ajouter
+                      </b>
+                    </button>
+
+      }
+
+
+
+      </div>
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>Bien</th>
+            <th>Bien a assurer</th>
             <th>Capital Assuré</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let goods of policy.goods">
+          <tr *ngFor="let goods of policy.assured_goods">
             <td>{{ goods.name }}</td>
             <td>{{ goods.assured_capital | currency:'BIF' }}</td>
+            <td>
+              @if(!policy.is_saved){
+                              <div class="d-flex">
+                <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/goods', goods.id, 'Bien', goods)" data-bs-toggle="modal" data-bs-target="#updateModal">
+                  <i class="fa fa-pen fs-5"></i>
+                </span>   
+                <span role="button" id="deleteBtn" class="text-danger"  (click)="chooseObjectDelete('policy/goods', goods.id, 'Garantie', goods)" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                  <i class="fa fa-trash fs-5"></i>
+                </span>                 
+
+              </div>
+              }
+
+            </td>
           </tr>
         </tbody>
       </table>
-      <!-- Total section commented out - can be enabled if needed
-      <div class="d-flex justify-content-end mt-3">
+      @if(addingGoods){
+                          <div class="card p-4 mt-3 shadow-sm">
+              <h4 class="text-center mb-4">Ajouter un bien</h4>
+              <form [formGroup]="goodsForm">
+                <div class="row">
+
+                  
+                  <!-- Guarantee name field -->
+                  <div class="col-lg-4">
+                    <label for="name" class="form-label">Bien a assurer</label>
+                                            <input
+                          id="name"
+                          type="text"
+                          class="form-control"
+                          formControlName="name"
+                          placeholder="Nom du bien"
+                        />
+    <!-- Display select based on selectedCategory -->
+
+                  </div>
+                  
+                  <!-- Insured capital amount -->
+                  <div class="col-lg-2">
+                    <label for="capital" class="form-label">Capital Assuré</label>
+                    <input
+                      id="capital"
+                      type="number"
+                      class="form-control"
+  
+                      formControlName="assured_capital"
+                      placeholder="Capital assuré"
+                    />
+                  </div>
+                  
+                  <!-- Conditional fields based on guarantee type -->
+
+                  
+                  <!-- Add button -->
+                  <div class="col-lg-2 d-flex align-items-end">
+                    <button type="button" class="p-2 rounded text-white bg-primary-2 w-100" (click)="addGoods()">
+                      Ajouter
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+      }
+
+      
+      <!-- <div class="d-flex justify-content-end mt-3">
         <strong>Total Prime de Base:</strong>
-        <span class="fw-bold text-success">{{ totalPrimeBase | currency:'BIF' }}</span>
-      </div>
-      -->
+        <span class="fw-bold text-success">{{ totalPrimeBase | number:'1.0-0' }} BIF</span>    </div> -->
     </div>
+    }
    }@else{
     <div class="card mt-4 p-4">
       <h4 class="fw-bold">Les crediteurs</h4>
@@ -554,8 +753,12 @@ class="modal-overlay d-grid align-items-center justify-content-center"
                 </div>
               }
               }@else {
+                @if(policy.company?.is_non_vie){
+                  <br><br><br><br>
+                }@else {
 
-                <div [ngClass]="{'mt-5 pt-5':policy.company?.is_non_vie}"></div>
+                }
+
               }
 
 
@@ -617,6 +820,20 @@ class="modal-overlay d-grid align-items-center justify-content-center"
                   </app-bill-print>
                 </div>
               }
+                  @if(hasHeader){
+                                         <div class="print-footer bg-secondary text-white">
+                        <div class="print-footer__content w-100 d-flex">
+                          <small>{{policy.company?.address}}</small>
+                          <small> {{policy.company?.phone_number}}</small>
+                          <small> {{policy.agency.group}}: {{policy.agency?.premium_account}}</small>
+                          <small> NIF: {{policy.company?.nif}}</small>
+                          <small>RC: {{policy.company?.registration_number}}</small>
+                          <small> Capital social: {{policy.company?.capital_social}} FBU</small>
+                        </div>
+                      </div> 
+                  }
+
+
             </div>
           </div>
         </div>
@@ -665,7 +882,7 @@ class="modal-overlay d-grid align-items-center justify-content-center"
   </section>
 
   <section>
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="actionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content p-3">
           <div
@@ -673,37 +890,7 @@ class="modal-overlay d-grid align-items-center justify-content-center"
   >
   <div
   >
-  @if(selectedAction=='renew'){
-    <div class="row" [formGroup]="renewForm" >
-      <!-- Start date -->
-      <div class="form-floating mb-3 col-lg-6">
-        <input type="date" class="form-control" formControlName="issue_date" placeholder="Date de début">
-        <label>Date de début</label>
-      </div>
-      
-      <!-- Period selection -->
-      <div class="col-lg-6 mb-3">
-        <div class="form-floating">
-          <select class="form-select" formControlName="period_id">
-            <option [value]="1">Mois</option>
-            <option [value]="3">Trimestre</option>
-            <option [value]="6">Semestre</option>
-            <option [value]="12">Année</option>
-            <option [value]="'Custom'">Custom</option>
-          </select>
-          <label>Période (mensualités)</label>
-        </div>
-      </div>
-                    <!-- Insured capital amount with BIF conversion display -->
-    <div class="col-lg-6 mb-3 d-grid">
-      <div class="form-floating">
-        <input  type="text" class="form-control" formControlName="assured_capital_bif" placeholder="Capital Assuré">
-        <label>Capital assuré</label>
-      </div>
-
-    </div>
-</div>
-  }        
+   
   <div class="d-grid">
     <div class="mb-3">
       <b>Vouliez-vous vraiment passer cette action si importante ? </b>
@@ -712,7 +899,7 @@ class="modal-overlay d-grid align-items-center justify-content-center"
       <button 
         type="button" 
         data-bs-toggle="modal" 
-        data-bs-target="#deleteModal"
+        data-bs-target="#actionModal"
         class="btn bg-transparent me-3 py-2 border border-dark text-dark rounded w-50" 
         >Annuler</button>
   
@@ -721,7 +908,7 @@ class="modal-overlay d-grid align-items-center justify-content-center"
         (click)="doPolicyAction()"
         [disabled]="selectedAction=='renew' && !renewForm.valid"
         data-bs-toggle="modal" 
-        data-bs-target="#deleteModal"
+        data-bs-target="#actionModal"
         class="btn text-white bg-main w-50 ms-3 py-2" 
   >
   <b >Soumettre</b>
@@ -764,6 +951,47 @@ class="modal-overlay d-grid align-items-center justify-content-center"
 
           <app-update (saved)="getOutputFromUpdateComponent($event)" [url]="selectedUrlUpdate" [body]="selectedBodyUpdate" [title]="selectedTitleUpdate" [id]="selectedIdUpdate"></app-update>
 
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <section>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content p-3">
+
+              <div class="d-grid">
+    <div class="mb-3">
+      <b>Vouliez-vous vraiment supprimer cette {{selectedTitleDelete}} ? </b>
+    </div>
+    <div class="d-flex mt-4 mb-1 justify-content-center">
+      <button 
+        type="button" 
+        data-bs-toggle="modal" 
+        data-bs-target="#deleteModal"
+        class="btn bg-transparent me-3 py-2 border border-dark text-dark rounded w-50" 
+        >Annuler</button>
+  
+      <button 
+        type="submit" 
+        (click)="deleteObject()"
+        [disabled]="selectedAction=='renew' && !renewForm.valid"
+        data-bs-toggle="modal" 
+        data-bs-target="#deleteModal"
+        class="btn text-white bg-main w-50 ms-3 py-2" 
+  >
+  <b >Soumettre</b>
+  
+  <!-- @if(isLoading){
+    <small  class="spinner-border fs-xs"></small>
+  
+  
+    } -->
+  
+      </button>
+    </div>
+  </div>
         </div>
       </div>
     </div>

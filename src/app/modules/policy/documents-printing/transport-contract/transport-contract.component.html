@@ -18,7 +18,7 @@
           
               <div class="row margin-x-1">
                 <div class="col-3">COURTIER/AGENCE :</div>
-                <div class="col-3 fw-bold">{{policy?.agency.name | uppercase}}</div>
+                <div class="col-3 fw-bold">{{policy?.agency.name | uppercase}} @if(policy.agency?.is_bancassurance){/ {{policy.agency.sub_agency}} }</div>
                 <div class="col-3">Numero Contrat :</div>
                 <div class="col-3 fw-bold">{{policy.policy_number | uppercase}}</div>
         
@@ -168,15 +168,15 @@
                     <td>=</td>
                     <td class="text-end">{{policy.prime_nette | number}}</td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                     <td>C.DIVERS</td>
                     <td>=</td>
                     <td class="text-end">{{policy.charges_diverses | number}}</td>
-                  </tr>
+                  </tr> -->
                   <tr>
-                    <td>C. ARCA</td>
+                    <td>CHARGES</td>
                     <td>=</td>
-                    <td class="text-end">{{policy.charges_arca | number}}</td>
+                    <td class="text-end">{{charges | number}}</td>
                   </tr>
                   <!-- <tr>
                     <td>P.T AVANT TVA</td>
@@ -218,7 +218,7 @@
         <div class="col-4 fw-bold">SOUSCRIPTEUR <br>{{policy.client?.user_full_name}}</div>
         <div class="col-4 fw-bold">
           @if(policy?.agency?.is_bancassurance){
-            BANCASSURANCE
+            BANCASSUREUR
           }@else {
             ASSUREUR
           }

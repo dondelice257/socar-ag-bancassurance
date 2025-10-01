@@ -3,8 +3,13 @@
     <app-list 
 [columns]="tableColumns" 
 [enablePagination]="true"
-[showFilters]="true"
 [actions]="actions"
+[showActions]="true"
+[showAgencyFilter]="true"
+[showDateFilters]="true"
+[showGenerateReport]="true"
+[showSearchFilters]="true"
+[showSearchButton]="true"
 [url]="'policy/policies/?is_demo='+false+'&is_approved='+true"
 title="Polices">
 </app-list>

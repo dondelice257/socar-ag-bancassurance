@@ -61,7 +61,7 @@ export class PolicyRenewComponent {
   
 
   onPolicySelected(policy: any) {
-    this.policyId = policy.lookup_field9;
+    this.policyId = policy.lookup_field5;
     this.renewForm.patchValue({previous_policy_id: this.policyId});
   }
 

@@ -33,18 +33,15 @@
         </div>
         
         <!-- Period selection -->
-        <div class="col-lg-6 mb-3">
-          <div class="form-floating">
-            <select class="form-select" formControlName="period_id">
-              <option [value]="1">Mois</option>
-              <option [value]="3">Trimestre</option>
-              <option [value]="6">Semestre</option>
-              <option [value]="12">Année</option>
-              <!-- <option [value]="'Custom'">Custom</option> -->
-            </select>
-            <label>Période</label>
-          </div>
-        </div>
+
+            <div class="col-lg-6 mb-3">
+              <div class="form-floating">
+
+                <input type="number" class="form-control" formControlName="period_id" placeholder="Période (mensualités)">
+
+                <label>Période (mensualités)</label>
+              </div>
+            </div>
                       <!-- Insured capital amount with BIF conversion display -->
       <div class="col-lg-6 mb-3 d-grid">
         <div class="form-floating">

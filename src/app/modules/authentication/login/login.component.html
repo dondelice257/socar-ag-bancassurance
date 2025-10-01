@@ -7,6 +7,8 @@
             <b>
               <h3 class="text-white">Plus qu'un assureur, Un partenaire, Un accompagnateur.</h3> 
               <!-- <h3 class="text-white">Tekana Turikumwe Namwe.</h3>  -->
+              <!-- <h3 class="text-white">SOCABU m'assure, Ca me rassure.</h3>  -->
+
 
             </b>
         </div>
@@ -15,9 +17,12 @@
             <div class="my-2 d-flex justify-content-center">
               <b>Connectez-vous</b>
             </div>
-            <!-- <div class="d-flex w-100 justify-content-center">
-              <img class="bg-dark" src="../../../../assets/images/murinzi-logo.png" alt="" style="width:120px; height:70px">
-            </div> -->
+            <div class="d-flex w-100 justify-content-center">
+              <!-- <img class="bg-dark" src="../../../../assets/images/murinzi-logo.png" alt="" style="width:120px; height:70px"> -->
+              <img class="bg-dark" src="../../../../assets/images/ucar-vie.png" alt="" style="width:120px; height:70px">
+
+              <!-- <img class="bg-white" src="../../../../assets/images/socabu-logo.jpg" alt="" style="width:120px; height:70px"> -->
+            </div>
             
             <form
             [ngClass]="isLoading?'not-clickable':''"
@@ -64,7 +69,6 @@
               <div class="d-grid bg-main">
                 <button 
                   type="submit" 
-                  [disabled]="loginForm.invalid" 
                   class="btn text-white bg-main text-white py-2">
                   <ng-container *ngIf="isLoading">
                     <small class="spinner-border fs-xs"></small>

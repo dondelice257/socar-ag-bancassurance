@@ -101,6 +101,21 @@ Update(url: string, id: string, body: any, ): Observable<any> {
 );
 }
 
+
+Delete(url: string, id: string ): Observable<any> {
+  const lookupUrl = `${environment.apiUrl}${url}/${id}/`;
+  const header={
+    'content-type': 'application/json',
+    'Authorization' : `Token ${this.token}`
+
+  }
+  return this.httpClient.delete(lookupUrl, {headers:header}).pipe(
+    map((data) => {
+        return data;
+    })
+);
+}
+
 GetAgencies(): Observable<any> {
   const url = `${environment.apiUrl}agency`;
   const header={

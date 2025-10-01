@@ -16,7 +16,7 @@
         
             <div class="row ">
                 <div class="col-3">INTERMEDIAIRE :</div>
-                <div class="col-3 fw-bold">{{policy?.agency.name}}</div>
+                <div class="col-3 fw-bold">{{policy?.agency.name}} @if(policy.agency?.is_bancassurance){/ {{policy.agency.sub_agency}} }</div>
                 <div class="col-3">OPERATEUR :</div>
                 <div class="col-3 fw-bold">{{policy.operator?.full_name}}</div>
            
@@ -104,15 +104,15 @@
                     <td>:</td>
                     <td class="text-end">{{policy.prime_nette | number}}</td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                     <td>C.DIVERS</td>
                     <td>:</td>
                     <td class="text-end">{{policy.charges_diverses | number}}</td>
-                  </tr>
+                  </tr> -->
                   <tr>
-                    <td>C. ARCA</td>
+                    <td>CHARGES</td>
                     <td>:</td>
-                    <td class="text-end">{{policy.charges_arca | number}}</td>
+                    <td class="text-end">{{charges | number}}</td>
                   </tr>
                   <!-- <tr>
                     <td>P.T AVANT TVA</td>
@@ -153,7 +153,7 @@
 <!-- Footer Content -->
 <div class="mt-2">
   <div class="fw-bold">Garanties complémentaires</div>
-  <b>Capital décès : 1 000 000, Capital incapacité : 1 000 000</b>
+  <b>Capital décès : 1 000 000 FBU, Capital incapacité : 1 000 000 FBU</b>
 </div>
 
 <div class="mt-2 d-grid">
@@ -161,8 +161,7 @@
       <b>CLAUSES FACULTATIVES</b>
   </h4>
   <p>Le présent contrat est conclu pour une durée du <strong>{{policy.issue_date | date:'dd/MM/yyyy'}}</strong>  
-       jusqu'au <strong>{{policy.expiration_date | date:'dd/MM/yyyy'}}</strong>. Une semaine avant la date d'échéance, 
-      vous êtes prié de passer au guichet pour récupérer la lettre d'avis d'échéance.
+       jusqu'au <strong>{{policy.expiration_date | date:'dd/MM/yyyy'}}</strong>.
   </p>
 </div>
 
@@ -180,7 +179,7 @@
         </div>
         <div class="col-4 ">
           @if(policy.agency?.is_bancassurance){
-            BANCASSURANCE
+            BANCASSUREUR
           }@else {
             ASSUREUR
           }

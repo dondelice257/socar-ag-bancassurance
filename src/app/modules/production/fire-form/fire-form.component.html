@@ -9,10 +9,8 @@
     <!-- Input field for "Nature du risque" -->
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <select class="form-control" formControlName="nature_risque">
-          <option value="" disabled selected>Choisir la nature du risque</option>
-          <option *ngFor="let nature of natures" [value]="nature">{{ nature }}</option>
-        </select>
+        <input type="text" class="form-control" formControlName="nature_risque" placeholder="Nature du risque">
+
         <label>Nature du risque</label>
       </div>
     </div>

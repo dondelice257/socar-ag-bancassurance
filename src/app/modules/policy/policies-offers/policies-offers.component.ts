@@ -27,12 +27,11 @@ export class PoliciesOffersComponent {
 
     { columnDef: 'client.user_full_name', header: 'Client' },
     { columnDef: 'operator.full_name', header: 'Operateur' },
-    { columnDef: 'operator.company_name', header: 'Compagnie' },
 
 
 
     { columnDef: 'type_avenant', header: 'Type' },
-    { columnDef: 'status', header: 'Status' },
+    // { columnDef: 'status', header: 'Status' },
     { columnDef: 'premium_amount', header: 'Prime totale' },
 
 

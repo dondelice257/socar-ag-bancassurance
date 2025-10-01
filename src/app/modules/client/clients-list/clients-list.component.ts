@@ -17,15 +17,14 @@ export class ClientsListComponent {
   tableColumns = [
     { columnDef: 'user_full_name', header: 'Nom' },
     { columnDef: 'id', header: 'Code' },
-    { columnDef: 'company_name', header: 'Compagnie' },
-    { columnDef: 'user_is_operator', header: 'Operateur' },
+    { columnDef: 'user.phone_number', header: 'Telephone' },   
+    { columnDef: 'user.quartier', header: 'Quartier' },
+    { columnDef: 'user.zone', header: 'Zone' },
+    { columnDef: 'user.commune', header: 'Commune' },
 
+    { columnDef: 'agency_name', header: 'Agence' },
 
-
-
-
-
-
+    { columnDef: 'sub_agency', header: 'Sous-agence' }
 
 
   ];

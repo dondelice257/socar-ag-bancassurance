@@ -12,5 +12,13 @@ import { CommonModule } from '@angular/common';
 })
 export class AutoContractComponent {
   @Input() policy :any
+  charges:number = 0
+
+
+  ngOnInit(){
+    if(this.policy){
+      this.charges = Number(this.policy.charges_arca) + Number(this.policy.charges_diverses)
+    }
+  }
 
 }
