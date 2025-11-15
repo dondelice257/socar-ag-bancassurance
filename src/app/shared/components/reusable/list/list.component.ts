@@ -121,8 +121,8 @@ export class ListComponent implements AfterViewInit {
 
     this.filterForm = this.fb.group({
       searchQuery: [''],
-      fromDate: [''],
-      toDate: [''],
+      fromDate: [todayISO],
+      toDate: [todayISO],
       agency: [''],
     });
     this.connectedOperator$ = store.select(AuthState.connectedOperator)

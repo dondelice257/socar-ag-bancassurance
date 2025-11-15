@@ -194,7 +194,16 @@
 
             <p><strong>Commission:</strong> {{ policy.commission | currency:'BIF' }}</p>
 
-            @if(policy.category !="credit"){
+            @if(policy.category =="credit"){
+            <p><strong>Frais de gestion:</strong> {{ policy.frais_gestion | currency:'BIF' }}</p>
+
+            <p><strong>Frais de controle:</strong> {{ policy.frais_controle | currency:'BIF' }}</p>
+            <p><strong>Frais FAPS:</strong> {{ policy.frais_faps | currency:'BIF' }}</p>
+            <p><strong>Frais dev. secteur:</strong> {{ policy.frais_dev_secteur | currency:'BIF' }}</p>
+            <p><strong>Frais Digitalisation:</strong> {{ policy.frais_digitalisation | currency:'BIF' }}</p>
+            <p><strong>Frais formation:</strong> {{ policy.frais_formation | currency:'BIF' }}</p>
+
+            }@else{
               <p><strong>Prime de base:</strong> {{ policy.prime_base | currency:'BIF' }}</p>
             <p><strong>TVA:</strong> {{ policy.tva | currency:'BIF' }}</p>
             <p><strong>Frais:</strong> {{ policy.frais | currency:'BIF' }}</p>
@@ -632,6 +641,23 @@
                 <th scope="col">Montant de crédit</th>
                 <th scope="col">Durée de remboursement</th>
                 <th scope="col">Prime totale</th>
+
+                <th scope="col">Frais de gestion</th>
+                <th scope="col">Frais de controle</th>
+                <th scope="col">Frais FAPS</th>
+                <th scope="col">Frais Dev secteur</th>
+                <th scope="col">Frais Digitalisation</th>
+                <th scope="col">Frais Formation</th>
+                <th scope="col">Prime nette</th>
+                <th scope="col">Commission</th>
+                <th scope="col">Prime pure</th>
+
+
+
+
+
+
+
             </tr>
         </thead>
         <tbody>
@@ -641,12 +667,26 @@
                 <td>{{member.full_name}}</td>
                 <td>{{member.age}}</td>
                 @if(policy.credit_insurance?.is_refinancing){
-                <td scope="col">{{member.ongoing_amount | number}} FBU</td>
-                <td scope="col">{{member.credit_amount | number}} FBU</td>
+                <td scope="col">{{member.ongoing_amount | number}} </td>
+                <td scope="col">{{member.credit_amount | number}} </td>
                 }
-                <td scope="col">{{member.total_credit | number}} FBU</td>
+                <td scope="col">{{member.credit_amount | number}} </td>
                 <td scope="col">{{member.number_of_installments}}</td>
-                <td scope="col">{{member.member_prime | number}} FBU</td>
+                <td scope="col">{{member.member_prime | number}} </td>
+
+                <td scope="col">{{member.frais_gestion | number}}</td>
+                <td scope="col">{{member.frais_controle | number}}</td>
+                <td scope="col">{{member.frais_faps | number}}</td>
+                <td scope="col">{{member.frais_dev_secteur | number}}</td>
+                <td scope="col">{{member.frais_digitalisation | number}}</td>
+                <td scope="col">{{member.frais_formation | number}}</td>
+                <td scope="col">{{member.prime_nette | number}}</td>
+                <td scope="col">{{member.commission | number}}</td>
+
+                <td scope="col">{{member.prime_pure | number}} </td>
+
+
+
                             <td>
               <div class="d-flex">
                 @if(!policy.is_validated){
@@ -656,6 +696,7 @@
                 }
 
               </div>
+
             </td>
             </tr>
             }
@@ -665,12 +706,26 @@
                 <th scope="row">TOTAL</th>
                 <th scope="row">-</th>
                 @if(policy.credit_insurance?.is_refinancing){
-                <th scope="row">{{policy.credit_insurance?.ongoing_amount | number}} FBU</th>
-                <th scope="row">{{policy.credit_insurance?.credit_amount - policy.credit_insurance?.ongoing_amount | number}} FBU</th>
+                <th scope="row">{{policy.credit_insurance?.ongoing_amount | number}} </th>
+                <th scope="row">{{policy.credit_insurance?.credit_amount - policy.credit_insurance?.ongoing_amount | number}} </th>
                 }
-                <th scope="row">{{policy.credit_insurance?.credit_amount | number}} FBU</th>
+                <th scope="row">{{policy.credit_insurance?.credit_amount | number}} </th>
                 <th scope="row">-</th>
-                <th scope="row">{{policy.credit_insurance?.total_premium | number}} FBU</th>
+                <th scope="row">{{policy.credit_insurance?.total_premium | number}}</th>
+
+                <th scope="row">{{policy.credit_insurance?.total_frais_gestion | number}} </th>
+                <th scope="row">{{policy.credit_insurance?.total_frais_controle | number}} </th>
+                <th scope="row">{{policy.credit_insurance?.total_frais_faps | number}} </th>
+                <th scope="row">{{policy.credit_insurance?.total_frais_dev_secteur | number}} </th>
+                <th scope="row">{{policy.credit_insurance?.total_frais_digitalisation | number}} </th>
+                <th scope="row">{{policy.credit_insurance?.total_frais_formation | number}} </th>
+                <th scope="row">{{policy.credit_insurance?.total_prime_nette | number}} </th>
+                <th scope="row">{{policy.credit_insurance?.total_commission | number}} </th>
+                <th scope="row">{{policy.credit_insurance?.total_prime_pure | number}} </th>
+
+
+
+
             </tr>
         </tbody>
     </table>

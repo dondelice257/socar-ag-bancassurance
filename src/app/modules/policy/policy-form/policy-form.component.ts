@@ -141,7 +141,7 @@ export class PolicyFormComponent {
       credit_amount: [0, [Validators.required, Validators.min(0)]],
       ongoing_amount: [0],
 
-      credit_rate: [0, Validators.max(100)],
+      bank_interest_rate: [0, Validators.max(100)],
       ongoing_rate: [0, Validators.max(100)],
 
       number_of_installments: [0, Validators.required],
@@ -390,7 +390,7 @@ createPolicy() {
 
 
         credit_amount: this.memberForm.value.credit_amount,
-        credit_rate: this.memberForm.value.credit_rate,
+        bank_interest_rate: this.memberForm.value.bank_interest_rate,
         ongoing_amount: this.memberForm.value.ongoing_amount,
         ongoing_rate: this.memberForm.value.ongoing_rate,
         number_of_installments: this.memberForm.value.number_of_installments,
@@ -410,7 +410,7 @@ createPolicy() {
         email: '',
         account_number: '',
         credit_amount: 0,
-        credit_rate: 0,
+        bank_interest_rate: 0,
         ongoing_amount: 0,
         ongoing_rate: 0,
         number_of_installments: 0,
@@ -684,7 +684,7 @@ submitGoods() {
           email: row.email || '',
           account_number: row.account_number || '',
           credit_amount: Number(row.credit_amount) || 0,
-          credit_rate: Number(row.insurance_rate) || 0,
+          bank_interest_rate: Number(row.bank_interest_rate) || 0,
           ongoing_amount: Number(row.outstanding_amount) || 0,
           ongoing_rate: Number(row.outstanding_rate) || 0,
           number_of_installments: Number(row.number_of_installments) || 0

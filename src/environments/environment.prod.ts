@@ -6,7 +6,9 @@
 
 export const environment = {
     production: true,
+    // apiUrl: 'https://assets.serenityinsurance.bi/api/',
     apiUrl: 'https://ucarvie.pythonanywhere.com/api/',
+
 
 
 };
