@@ -28,8 +28,10 @@
     <div class="row" [formGroup]="renewForm" >
         <!-- Start date -->
         <div class="form-floating mb-3 col-lg-6">
-          <input type="date" class="form-control" formControlName="issue_date" placeholder="Date de début">
+          <input type="date" class="form-control" formControlName="issue_date" placeholder="Date de début" [min]="minDate">
           <label>Date de début</label>
+              <small class="text-muted"> <i class="fa fa-info-circle"></i> La date ne peut pas être dans le passé</small>
+
         </div>
         
         <!-- Period selection -->

@@ -137,8 +137,9 @@
           <div class="row align-items-center">
             <!-- Start date -->
             <div class="form-floating mb-3 col-lg-6">
-              <input (input)="checkItNow()" type="date" class="form-control" formControlName="issue_date" placeholder="Date d'effet">
+              <input (input)="checkItNow()" type="date" class="form-control" formControlName="issue_date" placeholder="Date d'effet" [min]="minDate">
               <label>Date d'effet</label>
+              <small class="text-muted"> <i class="fa fa-info-circle"></i> La date ne peut pas être dans le passé</small>
             </div>
             
             <!-- Period selection -->
@@ -171,15 +172,15 @@
             
             <!-- VAT checkbox -->
             @if(connectedOperator.company?.is_non_vie){
-            <div class="col-lg-3 mb-3">
+            <!-- <div class="col-lg-3 mb-3">
               <mat-checkbox class="example-margin" formControlName="assujeti_tva">Exoneré à la TVA</mat-checkbox>
-            </div> 
+            </div>  -->
             }
 
-            <div class="col-lg-3 mb-3" title="En cochant cette option, votre police sera enregistrée comme une proposition. Aucune facture ne sera générée, il s'agira seulement d'un test. Vous pourrez la valider plus tard depuis la liste des offres.">
+            <!-- <div class="col-lg-3 mb-3" title="En cochant cette option, votre police sera enregistrée comme une proposition. Aucune facture ne sera générée, il s'agira seulement d'un test. Vous pourrez la valider plus tard depuis la liste des offres.">
               <mat-checkbox class="example-margin" formControlName="is_demo">Offre</mat-checkbox>
 
-          </div>
+          </div> -->
         </div>
         
         <!-- Next button for step 1 -->

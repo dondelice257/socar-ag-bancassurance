@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CreditFormComponent } from '../../production/credit-form/credit-form.component';
 import * as XLSX from 'xlsx';
+import { noFutureDateValidator } from '../../../core/pipes/no-past-date.pipe';
 
 @Component({
   selector: 'app-policy-form',
@@ -108,6 +109,7 @@ export class PolicyFormComponent {
 
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  minDate: string;
 
 
   
@@ -157,14 +159,14 @@ export class PolicyFormComponent {
     // Initialize main policy form with validations
     this.policyForm = this.fb.group({
       client: [''],
-      issue_date: ['', Validators.required],
+      issue_date: ['', [Validators.required, noFutureDateValidator()]],
       period: ['', Validators.required],
       beneficiaire: [''],
       category: ['', Validators.required],
       custom_days: [0],
       daily_rate: [1],
       assujeti_tva: [false],
-      is_demo: [false],
+      is_demo: [true],
       currency: ['BIF', Validators.required],
       assured_capital_bif: [0],
       assured_capital_devise: [0, Validators.required],
@@ -172,6 +174,9 @@ export class PolicyFormComponent {
   
     // Get the connected operator from the auth state
     this.connectedOperator$ = store.select(AuthState.connectedOperator);
+
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0];
   }
   
   ngOnInit(): void {
@@ -234,6 +239,9 @@ export class PolicyFormComponent {
    */
   onNext() {
     if (this.step === 1 && this.policyForm.valid) {
+      if(this.selectedCategory=='transport'){
+        this.policyForm.patchValue({assujeti_tva:true});
+      }
       this.step++;
     } else if (this.step === 2 && this.isSpecificInsuranceValid) {
       if(this.selectedCategory=="fire"){
@@ -494,9 +502,9 @@ createPolicy() {
           this.router.navigateByUrl('/policy/offer');
         } else {
           this.router.navigateByUrl('/policy/list');
-          this.policyService.sendHqNotification({policy_id:this.policyId}).subscribe(()=>{
-            this.toastr.success('Notification envoyée au siege avec succès', 'Succès');
-          })
+          // this.policyService.sendHqNotification({policy_id:this.policyId}).subscribe(()=>{
+          //   this.toastr.success('Notification envoyée au siege avec succès', 'Succès');
+          // })
         }
         
         console.log('Garanties soumises:', responses);

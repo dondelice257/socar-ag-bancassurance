@@ -36,6 +36,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 interface ColumnConfig {
   header: string;
+  type?: string;
+
   columnDef: string;
   detail?: {
     link: string;

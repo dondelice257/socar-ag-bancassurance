@@ -75,8 +75,8 @@ export class PoliciesListComponent {
           { columnDef: 'agency.name', header: 'Agence' },
           { columnDef: 'agency.sub_agency', header: 'Sous agence' },
           { columnDef: 'category', header: 'Categorie' },
-          { columnDef: 'issue_date', header: 'Date effet' },
-          { columnDef: 'expiration_date', header: 'Date echeance' },
+          { columnDef: 'issue_date', header: 'Date effet', type: 'date' },
+          { columnDef: 'expiration_date', header: 'Date echeance', type: 'date' },
           { columnDef: 'prime_base', header: 'Prime de base' },
           { columnDef: 'frais', header: 'Frais' },
           { columnDef: 'prime_nette', header: 'Prime nette' },
@@ -91,6 +91,11 @@ export class PoliciesListComponent {
 
           {columnDef: 'assured_capital_bif', header : 'VA'},
           {columnDef: 'auto_insurance.numero_vignette', header : 'Vignette'},
+          // {columnDef: 'fire_insurance.cadastre', header : 'No Cadastre'},
+          // {columnDef: 'fire_insurance.titre', header : 'Titre'},
+
+
+
 
       
 
@@ -141,9 +146,9 @@ export class PoliciesListComponent {
       
           // { columnDef: 'bill.bill_code', header: 'Facture' },
       
-          { columnDef: 'issue_date', header: 'Date effet' },
+          { columnDef: 'issue_date', header: 'Date effet', type: 'date' },
 
-          { columnDef: 'expiration_date', header: 'Date echeance' },
+          { columnDef: 'expiration_date', header: 'Date echeance', type: 'date' },
       
         ];
       }

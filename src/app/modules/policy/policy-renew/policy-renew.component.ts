@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LookupComponent } from '../../../shared/components/reusable/lookup/lookup.component';
 import { ToastrService } from 'ngx-toastr';
+import { noFutureDateValidator } from '../../../core/pipes/no-past-date.pipe';
 
 @Component({
   selector: 'app-policy-renew',
@@ -19,6 +20,7 @@ export class PolicyRenewComponent {
   renewForm:FormGroup
   isLoading: boolean = false;
   policyId: any;
+  minDate: string;
 
 
 
@@ -30,12 +32,15 @@ export class PolicyRenewComponent {
   ){
     // Initialize main policy form with validations
     this.renewForm = this.fb.group({
-      issue_date: ['', Validators.required],
+      issue_date: ['', [Validators.required, noFutureDateValidator()]],
       period_id: ['', Validators.required],
       previous_policy_id: ['', Validators.required],
 
       assured_capital_bif: [0, Validators.required],
     });
+
+        const today = new Date();
+    this.minDate = today.toISOString().split('T')[0];
   }
 
 

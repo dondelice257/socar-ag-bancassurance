@@ -37,8 +37,9 @@ export class PoliciesOffersComponent {
 
     { columnDef: 'tva', header: 'TVA' },
 
-    { columnDef: 'issue_date', header: 'Date effet' },
-    { columnDef: 'expiration_date', header: 'Date echeance' },
+    { columnDef: 'issue_date', header: 'Date effet', type: 'date' },
+    { columnDef: 'expiration_date', header: 'Date echeance', type: 'date' },
+    
 
   ];
   

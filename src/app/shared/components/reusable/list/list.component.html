@@ -111,7 +111,12 @@
         @for (column of columns; track column) {
           <ng-container [matColumnDef]="column.columnDef">
             <th mat-header-cell *matHeaderCellDef>{{ column.header }}</th>
-            <td mat-cell *matCellDef="let element">{{ element | getNestedValue: column.columnDef }}</td>
+            <!-- <td mat-cell *matCellDef="let element">{{ element | getNestedValue: column.columnDef }}</td> -->
+                      <td mat-cell *matCellDef="let element">
+            {{ column.type === 'date' 
+               ? (element | getNestedValue: column.columnDef | date:'dd/MM/yyyy')
+               : (element | getNestedValue: column.columnDef) }}
+          </td>
           </ng-container>
         }
 

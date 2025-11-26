@@ -210,8 +210,20 @@ goodsForm:FormGroup
       .subscribe({
         next: (data: any) => {
           this.isLoading = false;
-          console.log('Policy action successful:', data);
+          console.log('Policy action successful:', data, this.selectedAction);
+          if(this.selectedAction=='proceed')
           this.router.navigateByUrl('/policy/list');
+
+          if(this.selectedAction=='proceed'){
+            console.log("this is proceeeddd actionnnn")
+            // this.policyService.sendHqNotification({policy_id:this.policyId}).subscribe(()=>{
+            // // this.toastr.success('Notification envoyée au siege avec succès', 'Succès');
+            // })
+
+
+          }
+          this.getPolicyDetails()
+
         },
         error: (error: any) => {
           this.isLoading = false;
