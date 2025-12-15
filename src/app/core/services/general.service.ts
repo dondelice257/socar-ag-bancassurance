@@ -64,8 +64,8 @@ DoLookup(url: string, search: string = ''): Observable<any> {
   );
 }
 
-GetList(url: string, query: string, date_from: string, date_to: string, agency_id: string): Observable<any> {
-  const lookupUrl = `${environment.apiUrl}${url}&query=${encodeURIComponent(query)}&date_from=${encodeURIComponent(date_from)}&date_to=${encodeURIComponent(date_to)}&agency=${encodeURIComponent(agency_id)}`;
+GetList(url: string, query: string, date_from: string, date_to: string, agency_id: string, branch:string): Observable<any> {
+  const lookupUrl = `${environment.apiUrl}${url}&query=${encodeURIComponent(query)}&date_from=${encodeURIComponent(date_from)}&date_to=${encodeURIComponent(date_to)}&agency=${encodeURIComponent(agency_id)}&category=${encodeURIComponent(branch)}`;
   const header={
     'content-type': 'application/json',
     'Authorization' : `Token ${this.token}`

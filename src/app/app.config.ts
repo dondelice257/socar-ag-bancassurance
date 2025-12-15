@@ -16,6 +16,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AgencyState } from './shared/states/selectedAgency/agency.state';
 import { FiltersState } from './shared/states/filters/filters.state';
+import { BranchState } from './shared/states/selectedBranch/branch.state';
 // import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
 
 //state
@@ -31,14 +32,17 @@ export const appConfig: ApplicationConfig = {
       AuthState,
       // UserState,
       AgencyState,
-      FiltersState
+      FiltersState,
+      BranchState
       
     ], {developmentMode: !environment.production}),
     NgxsStoragePluginModule.forRoot({
       key: [
           'auth',
           'agency',
-          'filters'
+          'filters',
+          'branch',
+
 
       ],
   }),

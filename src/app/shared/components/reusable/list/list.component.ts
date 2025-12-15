@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,6 +33,8 @@ import { FireContractComponent } from '../../../../modules/policy/documents-prin
 import { TransportContractComponent } from '../../../../modules/policy/documents-printing/transport-contract/transport-contract.component';
 import { NgxPrintModule } from 'ngx-print';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { BranchState } from '../../../states/selectedBranch/branch.state';
+import { SetSelectedBranch } from '../../../states/selectedBranch/branch.action';
 
 interface ColumnConfig {
   header: string;
@@ -75,8 +77,12 @@ export class ListComponent implements AfterViewInit {
   @Input() showSearchFilters: boolean = false;
   @Input() showSearchButton : boolean = false
   @Input() showAgencyFilter : boolean = false
+  @Input() showBranchFilter : boolean = false
+
   @Input() showActions : boolean = false
   @Input() showGenerateReport : boolean = false
+  @Output() updateBranch = new EventEmitter<{}>();
+  
 
   hasHeader : boolean =false
 
@@ -92,7 +98,11 @@ export class ListComponent implements AfterViewInit {
   data: any[] = [];
   agencies: any[] = [];
   selectedAgency$: Observable<string | null>;
+  selectedBranch$: Observable<string | null>;
+
   selectedAgency: any = '';
+  selectedBranch: any = '';
+
 
   displayedColumns: string[] = [];
   dataSource!: MatTableDataSource<any>;
@@ -106,6 +116,14 @@ export class ListComponent implements AfterViewInit {
 
   connectedOperator: any;
 
+  branches =[
+    { value: 'auto', viewValue: 'Automobile' },
+    { value: 'fire', viewValue: 'Incendie' },
+    { value: 'transport', viewValue: 'Transport' },
+    // { value: 'credit', viewValue: 'Protection Credit' },
+
+  ]
+
 
 
   constructor(
@@ -118,6 +136,8 @@ export class ListComponent implements AfterViewInit {
 
   ) {
     this.selectedAgency$ = this.store.select(AgencyState.selectedAgency);
+    this.selectedBranch$ = this.store.select(BranchState.selectedBranch);
+
         const today = new Date();
     const todayISO = today.toISOString().substring(0, 10);
 
@@ -126,6 +146,8 @@ export class ListComponent implements AfterViewInit {
       fromDate: [todayISO],
       toDate: [todayISO],
       agency: [''],
+      branch: [''],
+
     });
     this.connectedOperator$ = store.select(AuthState.connectedOperator)
     
@@ -218,7 +240,7 @@ export class ListComponent implements AfterViewInit {
     const formattedToDate = toDate ? format(new Date(toDate), 'dd/MM/yyyy') : '';
     
 
-    this.generalService.GetList(this.url, searchQuery, formattedFromDate, formattedToDate, this.selectedAgency)
+    this.generalService.GetList(this.url, searchQuery, formattedFromDate, formattedToDate, this.selectedAgency, this.selectedBranch)
       .subscribe({
         next: (data: any) => {
           this.isLoading = false;
@@ -253,6 +275,12 @@ export class ListComponent implements AfterViewInit {
       this.getData();
 
       }
+    });
+
+    this.selectedBranch$.subscribe((selectedBranch) => {
+      this.selectedBranch = selectedBranch;
+      this.filterForm.patchValue({ branch: selectedBranch });
+
     });
 
 
@@ -309,4 +337,26 @@ export class ListComponent implements AfterViewInit {
     this.store.dispatch(new SetSelectedAgency(selectedAgency));
       this.filterForm.patchValue({ agency: this.selectedAgency });
   }
+
+    selectBranch(selectedBranch: any) {
+    this.store.dispatch(new SetSelectedBranch(selectedBranch));
+      this.filterForm.patchValue({ branch: this.selectedBranch });
+      this.updateBranch.emit();
+  }
+
+ngOnChanges(changes: SimpleChanges) {
+  if (changes['columns'] && changes['columns'].currentValue) {
+    this.displayedColumns = this.columns.map(c => c.columnDef);
+
+    if (this.showActions) {
+      this.displayedColumns = [...this.displayedColumns, 'actions'];
+    }
+
+    // Force table refresh
+    if (this.dataSource) {
+      this.dataSource._updateChangeSubscription();
+    }
+  }
+}
+
 }

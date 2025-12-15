@@ -1,0 +1,80 @@
+<main>
+    <div class="my-3">
+        <div class="w-100 d-flex justify-content-center">
+            <h3>
+                <b>Changement Detenteur</b>
+            </h3>
+        </div>
+    </div>
+    <div class="row justify-content-center mb-4">
+          <div class="col-lg-6 d-flex justify-content-center">
+        <!-- Dynamic header based on current step -->
+         <div class="d-grid w-100">
+
+            <h4 class="mb-1"><b>Rechercher la police par numero</b></h4>
+
+        
+        <!-- Client lookup component -->
+        <div class="w-50 mb-2">
+          <app-lookup
+            url='policy/policy/search'
+            [option]="'lookup'"
+            itemsLabel="Polices"
+            (selectedItemEvent)="onPolicySelected($event)">
+          </app-lookup>
+        </div>
+
+         </div>
+
+        
+
+
+
+      </div>
+
+                   <div class="col-lg-6 d-flex justify-content-center">
+                    <div class="d-grid w-100">
+                                  <h4 class="mb-1"><b>Rechercher le client par nom ou par code</b></h4>
+
+        
+        <!-- Client lookup component -->
+        <div class="w-50 mb-2">
+          <app-lookup
+            url='client'
+            [option]="'lookup'"
+            itemsLabel="clients"
+            (selectedItemEvent)="onClientSelected($event)">
+          </app-lookup>
+        </div>
+        
+        <!-- Link to create new client if not found -->
+        @if(!selectedClientId){
+          <div class="w-100 d-flex align-items-center">
+            <span class="me-2 text-secondary">Client non trouvé ?</span>
+            <b role="button" routerLink="/client/create/" class="text-main">Créez-le ici </b>
+          </div>
+        }
+        @else {
+          <!-- Space for selected client information -->
+        }
+                    </div>
+        <!-- Dynamic header based on current step -->
+
+      </div> 
+
+    </div>
+
+
+    <div class="row" [formGroup]="renewForm" >
+
+        
+
+  </div>
+  <div class="d-flex justify-content-center">
+    <button type="submit" [disabled]="isLoading || renewForm.invalid" class="p-2 rounded text-white bg-main" (click)="changementDetenteur()">
+      {{ isLoading ? 'Renouvelement en cours...' : 'Renouveler' }}
+    </button>
+  </div>
+
+      
+</main>

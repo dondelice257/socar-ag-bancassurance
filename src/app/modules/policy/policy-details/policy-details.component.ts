@@ -211,7 +211,6 @@ goodsForm:FormGroup
         next: (data: any) => {
           this.isLoading = false;
           console.log('Policy action successful:', data, this.selectedAction);
-          if(this.selectedAction=='proceed')
           this.router.navigateByUrl('/policy/list');
 
           if(this.selectedAction=='proceed'){

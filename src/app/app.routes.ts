@@ -21,6 +21,7 @@ import { DeclarationsListComponent } from './modules/policy/declarations-list/de
 import { EncaissementsListComponent } from './modules/policy/encaissements-list/encaissements-list.component';
 import { SuperAgentBadgeComponent } from './super-agent/super-agent-badge/super-agent-badge.component';
 import { PendingPoliciesComponent } from './modules/policy/pending-policies/pending-policies.component';
+import { PolicyChangementDetenteurComponent } from './modules/policy/policy-changement-detenteur/policy-changement-detenteur.component';
 
 export const routes: Routes = [
     {
@@ -74,6 +75,10 @@ export const routes: Routes = [
             {
                 path: 'production/new-contract',
                 component: PolicyFormComponent
+            },
+            {
+                path: 'production/change_detenteur',
+                component: PolicyChangementDetenteurComponent
             },
             {
                 path: 'production/renew',

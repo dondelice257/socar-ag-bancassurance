@@ -63,6 +63,18 @@
           </mat-select>
         </mat-form-field>
         }
+                        @if(showBranchFilter){
+                  <mat-form-field>
+          <mat-label>Filtrer par branche</mat-label>
+          <mat-select name="branch" (selectionChange)="selectBranch($event.value); getData()" formControlName="branch">
+            <mat-option value="">Toutes les branches</mat-option>
+
+            @for (branch of branches; track branch; let i=$index) {
+              <mat-option [value]="branch.value">{{branch.viewValue}} </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        }
 
         @if(showDateFilters){
         <mat-form-field appearance="outline">
@@ -87,7 +99,7 @@
 
                   <mat-form-field appearance="outline"  class="search-input">
           <mat-label>Rechercher</mat-label>
-          <input matInput (input)="getData()" formControlName="searchQuery">
+          <input matInput  formControlName="searchQuery">
         </mat-form-field>
         }
 
