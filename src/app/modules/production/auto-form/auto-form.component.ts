@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LookupComponent } from '../../../shared/components/reusable/lookup/lookup.component';
 
 @Component({
   selector: 'app-auto-form',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    LookupComponent
   ],
   templateUrl: './auto-form.component.html',
   styleUrl: './auto-form.component.scss'
@@ -39,6 +41,7 @@ export class AutoFormComponent {
   @Output() isFormValid = new EventEmitter<boolean>();
   @Input() initialValue = {};
   @Input() selectedCategory = '';
+  selectedVignetteId: string = '';
 
 
 
@@ -55,7 +58,8 @@ export class AutoFormComponent {
     classe: ['', Validators.required],
     places_cabine: ['', Validators.required],
     places_plateau: ['', Validators.required],
-    numero_vignette: ['', Validators.required],
+    vignette: ['', Validators.required],
+
 
 
 
@@ -81,5 +85,10 @@ private emitFormData(): void {
   this.body.emit(body);
   this.isFormValid.emit(this.insuranceForm.valid);
 }
+
+  vignetteSearch(clientId: any) {
+    this.selectedVignetteId = clientId.lookup_field2;
+    this.insuranceForm.patchValue({vignette: this.selectedVignetteId});
+  }
 }
   

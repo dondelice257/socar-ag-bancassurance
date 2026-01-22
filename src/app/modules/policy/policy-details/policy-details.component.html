@@ -58,10 +58,18 @@
 
             
             @if(policy.category=="auto"){
+              
               <li>
+                @if(policy.auto_insurance?.vignette_data?.is_used){
+
+
+                }@else{
                 <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='card'">
                   <i class="fas fa-print me-2"></i> Imprimer la carte
                 </button>
+
+                }
+
               </li>
             }
             

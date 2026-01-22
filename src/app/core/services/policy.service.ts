@@ -208,4 +208,36 @@ export class PolicyService {
   );
     
   }
+
+
+markVignetteUsed(vignetteId: string) {
+  const url = `${environment.apiUrl}policy/vignette/${vignetteId}/mark_used/`  // ← Added =
+  const header = {
+    'content-type': 'application/json',
+    'Authorization': `Token ${this.token}`
+  }
+  return this.httpClient.post(url, {}, { headers: header }).pipe(  // ← Added empty body {}
+    map((data) => {
+      return data;
+    })
+  );
+}
+
+
+  createVignette(body:any){
+    const url=`${environment.apiUrl}policy/vignette/bulk_create/`
+
+    const header={
+      'content-type': 'application/json',
+      'Authorization' : `Token ${this.token}`
+  
+    }
+  
+    return this.httpClient.post(url, body, {headers:header}).pipe(
+      map((data) => {
+          return data;
+      })
+  );
+    
+  }
 }

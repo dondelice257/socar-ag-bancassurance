@@ -69,13 +69,15 @@ export class PoliciesListComponent {
     { columnDef: 'auto_insurance.chasis', header: 'Chasis' },
     { columnDef: 'auto_insurance.usage', header: 'Usage' },
     { columnDef: 'auto_insurance.marque', header: 'Marque' },
-    { columnDef: 'auto_insurance.model', header: 'Marque' },
+    { columnDef: 'auto_insurance.model', header: 'Modele' },
     { columnDef: 'auto_insurance.annee_fabrication', header: 'Annee de fabrication' },
     { columnDef: 'auto_insurance.puissance_moteur', header: 'Puissance Moteur' },
     { columnDef: 'auto_insurance.classe', header: 'Classe' },
     { columnDef: 'auto_insurance.places_cabine', header: 'Places cabine' },
     { columnDef: 'auto_insurance.places_plateau', header: 'Places plateau' },
-    { columnDef: 'auto_insurance.numero_vignette', header: 'Numero vignette' },
+    { columnDef: 'auto_insurance.vignette_data.code', header: 'Numero vignette' },
+    { columnDef: 'auto_insurance.vignette_data.is_used', header: 'Cart Impr'},
+
 
 
 
@@ -86,6 +88,7 @@ export class PoliciesListComponent {
   ];
 
   private fireColumns = [
+    { columnDef: 'beneficiaire', header: 'Beneficiaire' },
     { columnDef: 'fire_insurance.nature_risque', header: 'Nature du risque' },
     { columnDef: 'fire_insurance.quartier', header: 'Localisation' },
     { columnDef: 'fire_insurance.province', header: 'Province' },

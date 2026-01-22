@@ -1,0 +1,65 @@
+
+
+
+
+
+
+<main>
+    <div class="my-3">
+        <div class="w-100 d-flex justify-content-center">
+            <h3>
+                <b>Creation des vignettes</b>
+            </h3>
+        </div>
+    </div>
+    <form [formGroup]="vignetteForm">
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="number" class="form-control" formControlName="start_code" placeholder="Code debut">
+
+        <label>Code debut</label>
+      </div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <div class="form-floating">
+        <input type="number" class="form-control" formControlName="end_code" placeholder="Code fin">
+
+        <label>Code fin</label>
+      </div>
+    </div>
+    
+
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 mb-3">
+
+                  <mat-form-field>
+          <mat-label>Selectioner l'agence</mat-label>
+          <mat-select name="agency" (selectionChange)="selectAgency($event.value); getAgencies()" formControlName="agency">
+
+            @for (agency of agencies; track agency; let i=$index) {
+              <mat-option [value]="agency.id">{{agency.name}} - {{agency.sub_agency}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+    </div>
+
+
+  </div>
+
+    <div class="d-flex justify-content-center">
+    <button type="submit" [disabled]="isLoading || vignetteForm.invalid" class="p-2 rounded text-white bg-main" (click)="createVignette()">
+      {{ isLoading ? 'Creation en cours...' : 'Creer les vignettes' }}
+    </button>
+  </div>
+
+
+</form>
+
+
+
+
+      
+</main>

@@ -8,7 +8,7 @@
           <div class="d-flex">
             <div class="d-grid w-30 me-3 pe-3 pb-2" style="border-right: 2px dotted black; padding-top: 110px;">
               <div class="mb-2">
-                <b>No {{ policy.policy_number }} |  {{ policy.formatted_avenant }}</b>
+                <b>No {{ policy.auto_insurance?.vignette_data?.code }} |  {{ policy.formatted_avenant }}</b>
               </div>
               <div class="d-flex mb-2 align-items-center w-100">
                 <span class="me-3">ASSUREUR :</span>
@@ -164,7 +164,7 @@
               </div>
               <div class="d-flex mb-2 align-items-center w-100">
                 <span class="me-3">Police No :</span>
-                <b>{{ policy.policy_number }} |  {{ policy.formatted_avenant }}</b>
+                <b>{{ policy.auto_insurance?.vignette_data?.code }} |  {{ policy.formatted_avenant }}</b>
               </div>
               <div class="d-flex mb-2 align-items-center w-100">
                 <span class="me-3">Marque :</span>
@@ -209,7 +209,7 @@
               <div class="d-grid">
                 <div class="d-flex align-items-center">
                   <div class="d-grid w-30">
-                    <b>No {{ policy.policy_number }}  |  {{ policy.formatted_avenant }}</b>
+                    <b>No {{ policy.auto_insurance?.vignette_data?.code }}  |  {{ policy.formatted_avenant }}</b>
                     <span class="">La société d'Assurances</span>
                   </div>
                   <div class="p-1 border border-dark w-70">
@@ -279,11 +279,12 @@
       <!-- Print button section -->
        @if(policy.is_approved){
               <div class="d-flex justify-content-end mb-1">
+                <h2 class="text-danger">ATTENTION: L'impression de la vignette se fait une seule fois</h2>
         <div>
           <div style="width: 150px;" class="position-relative">
             <div role="button" class="">
               <div class="d-flex justify-content-around align-items-center">
-                <button class="bg-main rounded p-2 text-white" ngxPrint printSectionId="print-section" [useExistingCss]="true">
+                <button (click)="markAsUsed()" class="bg-main rounded p-2 text-white" ngxPrint printSectionId="print-section" [useExistingCss]="true">
                   <b class="me-1">Imprimer</b>
                 </button>
               </div>

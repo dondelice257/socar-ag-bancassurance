@@ -22,6 +22,8 @@ import { EncaissementsListComponent } from './modules/policy/encaissements-list/
 import { SuperAgentBadgeComponent } from './super-agent/super-agent-badge/super-agent-badge.component';
 import { PendingPoliciesComponent } from './modules/policy/pending-policies/pending-policies.component';
 import { PolicyChangementDetenteurComponent } from './modules/policy/policy-changement-detenteur/policy-changement-detenteur.component';
+import { VignettesListComponent } from './modules/policy/vignettes-list/vignettes-list.component';
+import { CreateVignetteComponent } from './modules/policy/create-vignette/create-vignette.component';
 
 export const routes: Routes = [
     {
@@ -112,6 +114,14 @@ export const routes: Routes = [
             {
                 path: 'client/create',
                 component: CreateClientComponent
+            },
+                        {
+                path: 'policy/vignette/list',
+                component: VignettesListComponent
+            },
+                                    {
+                path: 'policy/vignette/create',
+                component: CreateVignetteComponent
             },
         
         ]

@@ -21,6 +21,8 @@ export class PolicyRenewComponent {
   isLoading: boolean = false;
   policyId: any;
   minDate: string;
+  selectedVignetteId: string = '';
+
 
 
 
@@ -37,6 +39,7 @@ export class PolicyRenewComponent {
       previous_policy_id: ['', Validators.required],
 
       assured_capital_bif: [0, Validators.required],
+      vignette_id: ['', Validators.required]
     });
 
         const today = new Date();
@@ -54,7 +57,7 @@ export class PolicyRenewComponent {
           this.isLoading = false;
           console.log('Renouvellement réussi:', data);
           this.toastr.success("Votre police a été renouvelée avec succès.", "Succès");
-          this.router.navigateByUrl('/policy/list');
+          this.router.navigateByUrl('/policy/offer');
         },
         error: (error: any) => {
           this.isLoading = false;
@@ -87,6 +90,11 @@ export class PolicyRenewComponent {
     else {
       this.toastr.error("Une erreur s'est produite. Veuillez contacter l'administrateur.", 'Erreur système');
     }
+  }
+
+    vignetteSearch(vignetteId: any) {
+    this.selectedVignetteId = vignetteId.lookup_field2;
+    this.renewForm.patchValue({vignette_id: this.selectedVignetteId});
   }
   
 }

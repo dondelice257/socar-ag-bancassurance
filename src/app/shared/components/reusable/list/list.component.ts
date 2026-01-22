@@ -303,35 +303,85 @@ export class ListComponent implements AfterViewInit {
     return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : ''), obj);
   }
 
-  exportToExcel() {
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Data');
+  // exportToExcel() {
+  //   const workbook = new ExcelJS.Workbook();
+  //   const worksheet = workbook.addWorksheet('Data');
   
-    const headers = this.columns.map(col => col.header);
-    worksheet.addRow(headers);
+  //   const headers = this.columns.map(col => col.header);
+  //   worksheet.addRow(headers);
   
-    this.data.forEach((row: any) => {
-      const rowData = this.columns.map(col => this.getNestedValue(row, col.columnDef));
-      const excelRow = worksheet.addRow(rowData);
+  //   this.data.forEach((row: any) => {
+  //     const rowData = this.columns.map(col => this.getNestedValue(row, col.columnDef));
+  //     const excelRow = worksheet.addRow(rowData);
       
-      // Check if the row has cancelled status
-      const status = this.getNestedValue(row, 'status') || this.getNestedValue(row, 'bill.status');
-      if (status === 'cancelled') {
-        excelRow.eachCell((cell) => {
-          cell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: 'FFFF0000' } // Red color
-          };
-        });
+  //     // Check if the row has cancelled status
+  //     const status = this.getNestedValue(row, 'status') || this.getNestedValue(row, 'bill.status');
+  //     if (status === 'cancelled') {
+  //       excelRow.eachCell((cell) => {
+  //         cell.fill = {
+  //           type: 'pattern',
+  //           pattern: 'solid',
+  //           fgColor: { argb: 'FFFF0000' } // Red color
+  //         };
+  //       });
+  //     }
+  //   });
+  
+  //   workbook.xlsx.writeBuffer().then(buffer => {
+  //     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  //     saveAs(blob, this.title);
+  //   });
+  // }
+
+  exportToExcel() {
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet('Data');
+
+  const headers = this.columns.map(col => col.header);
+  worksheet.addRow(headers);
+
+  this.data.forEach((row: any) => {
+    const rowData = this.columns.map(col => {
+      const value = this.getNestedValue(row, col.columnDef);
+      
+      // Convert to number if it's a numeric string
+      if (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value))) {
+        return Number(value);
+      }
+      
+      return value;
+    });
+    
+    const excelRow = worksheet.addRow(rowData);
+    
+    // Apply formatting to each cell based on its type
+    excelRow.eachCell((cell, colNumber) => {
+      const value = cell.value;
+      
+      // Set number format for numeric values
+      if (typeof value === 'number') {
+        cell.numFmt = '#,##0.00'; // Adjust format as needed
       }
     });
-  
-    workbook.xlsx.writeBuffer().then(buffer => {
-      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      saveAs(blob, this.title);
-    });
-  }
+    
+    // Check if the row has cancelled status
+    const status = this.getNestedValue(row, 'status') || this.getNestedValue(row, 'bill.status');
+    if (status === 'cancelled') {
+      excelRow.eachCell((cell) => {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'FFFF0000' }
+        };
+      });
+    }
+  });
+
+  workbook.xlsx.writeBuffer().then(buffer => {
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    saveAs(blob, this.title);
+  });
+}
 
   selectAgency(selectedAgency: any) {
     this.store.dispatch(new SetSelectedAgency(selectedAgency));
