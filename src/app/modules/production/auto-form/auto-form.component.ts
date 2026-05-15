@@ -41,7 +41,7 @@ export class AutoFormComponent {
   @Output() isFormValid = new EventEmitter<boolean>();
   @Input() initialValue = {};
   @Input() selectedCategory = '';
-  selectedVignetteId: string = '';
+  // selectedVignetteId: string = '';
 
 
 
@@ -58,7 +58,6 @@ export class AutoFormComponent {
     classe: ['', Validators.required],
     places_cabine: ['', Validators.required],
     places_plateau: ['', Validators.required],
-    vignette: ['', Validators.required],
 
 
 
@@ -86,9 +85,9 @@ private emitFormData(): void {
   this.isFormValid.emit(this.insuranceForm.valid);
 }
 
-  vignetteSearch(clientId: any) {
-    this.selectedVignetteId = clientId.lookup_field2;
-    this.insuranceForm.patchValue({vignette: this.selectedVignetteId});
-  }
+  // vignetteSearch(clientId: any) {
+  //   this.selectedVignetteId = clientId.lookup_field2;
+  //   this.insuranceForm.patchValue({vignette: this.selectedVignetteId});
+  // }
 }
   

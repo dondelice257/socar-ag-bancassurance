@@ -21,7 +21,6 @@ export class PolicyRenewComponent {
   isLoading: boolean = false;
   policyId: any;
   minDate: string;
-  selectedVignetteId: string = '';
 
 
 
@@ -39,7 +38,6 @@ export class PolicyRenewComponent {
       previous_policy_id: ['', Validators.required],
 
       assured_capital_bif: [0, Validators.required],
-      vignette_id: ['', Validators.required]
     });
 
         const today = new Date();
@@ -92,9 +90,4 @@ export class PolicyRenewComponent {
     }
   }
 
-    vignetteSearch(vignetteId: any) {
-    this.selectedVignetteId = vignetteId.lookup_field2;
-    this.renewForm.patchValue({vignette_id: this.selectedVignetteId});
-  }
-  
 }

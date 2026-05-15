@@ -249,7 +249,7 @@ this.selectedBodyUpdate = body.guarantee_type=='fixed'?{'name':body.name, 'value
 this.selectedBodyUpdate = {'first_name':body.first_name, 'phone_number':body.phone_number, 'country':body.country, 'zone':body.zone, 'quartier':body.quartier, 'city':body.city, 'commune':body.commune}
 }else if(title=='Automobile'){
   console.log('tttt', title)
-  this.selectedBodyUpdate = {'plaque':body.plaque, 'chasis':body.chasis, 'usage':body.usage, 'limites_territoriales':body.limites_territoriales, 'marque':body.marque, 'model':body.model, 'annee_fabrication':body.annee_fabrication, 'puissance_moteur':body.puissance_moteur, 'places_cabine':body.places_cabine, 'places_plateau':body.places_plateau, 'numero_vignette':body.numero_vignette}
+  this.selectedBodyUpdate = {'plaque':body.plaque, 'chasis':body.chasis, 'usage':body.usage, 'limites_territoriales':body.limites_territoriales, 'marque':body.marque, 'model':body.model, 'annee_fabrication':body.annee_fabrication, 'puissance_moteur':body.puissance_moteur, 'places_cabine':body.places_cabine, 'places_plateau':body.places_plateau, 'numero_vignette':body.numero_vignette, 'classe':body.classe}
 }else if(title=='Incendie'){
   this.selectedBodyUpdate = {'nature_risque':body.nature_risque, 'quartier':body.quartier, 'province':body.province, 'cadastre':body.cadastre, 'titre':body.titre}
 }else if(title=='Transport'){
