@@ -124,7 +124,7 @@
           <p class="col-lg-4">
             <!-- <i class="fas fa-hashtag text-secondary"></i>  -->
             <strong>Numéro de police:</strong> 
-            {{ policy.policy_number }}
+            {{policy.full_policy_number}}
             <span role="button" #updateModalBtn data-bs-toggle="modal" data-bs-target="#updateModal"></span>
           </p>
 
@@ -146,10 +146,14 @@
             {{ policy.category }}
           </p>
           @if(policy.category !="credit"){
+            @if(policy.type_avenant !=='AAAA'){
           <p class="col-lg-4">
-            <!-- <i class="fas fa-hashtag text-secondary"></i> -->
-             <strong>Avenant:</strong> {{ policy.formatted_avenant }}
+                        <!-- <i class="fas fa-hashtag text-secondary"></i> -->
+             <strong>Base:</strong> {{ policy.policy_base }}
             </p>
+
+            }
+
                       <p class="col-lg-4">
             <!-- <i class="fas fa-hashtag text-secondary"></i> -->
              <strong>Agence:</strong> {{ policy.agency.name }} @if(policy.agency.is_bancassurance){/ {{policy.agency.sub_agency}} }

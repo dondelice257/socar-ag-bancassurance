@@ -4,18 +4,63 @@
   </div>
   <div class="card-body">
     <form [formGroup]="form" (ngSubmit)="onSave()">
-      <div *ngFor="let key of form?.controls | keyvalue" class="mb-3">
-        <label [for]="key.key" class="form-label">{{ key.key | titlecase }}</label>
-        <input
-          [id]="key.key"
-          class="form-control"
-          [formControlName]="key.key"
-          type="text"
-        />
-        <div *ngIf="form.get(key.key)?.invalid && form.get(key.key)?.touched" class="text-danger small">
-          {{ key.key | titlecase }} is required
-        </div>
-      </div>
+<div *ngFor="let key of form?.controls | keyvalue" class="mb-3">
+  <label class="form-label">{{ key.key | titlecase }}</label>
+
+  <!-- CHECK IF FIELD IS SELECT -->
+  <!-- <ng-container *ngIf="body[key.key]?.type === 'select'; else inputField">
+
+    <select class="form-select" [formControlName]="key.key">
+      <option *ngFor="let opt of body[key.key]?.options" [value]="opt">
+        {{ opt }}
+      </option>
+    </select>
+
+  </ng-container> -->
+  
+
+
+  <ng-container [ngSwitch]="body[key.key]?.type">
+
+  <!-- SELECT -->
+  <select *ngSwitchCase="'select'" class="form-select" [formControlName]="key.key">
+    <option *ngFor="let opt of body[key.key]?.options || []" [value]="opt">
+      {{ opt }}
+    </option>
+  </select>
+
+  <!-- DATE (calendar) -->
+  <input
+    *ngSwitchCase="'date'"
+    class="form-control"
+    type="date"
+    [formControlName]="key.key"
+  />
+
+  <!-- DEFAULT INPUT -->
+  <input
+    *ngSwitchDefault
+    class="form-control"
+    [type]="body[key.key]?.type || 'text'"
+    [formControlName]="key.key"
+  />
+
+</ng-container>
+
+  <!-- DEFAULT INPUT -->
+  <ng-template #inputField>
+    <input
+      class="form-control"
+      [formControlName]="key.key"
+      type="text"
+    />
+  </ng-template>
+
+  <div *ngIf="form.get(key.key)?.invalid && form.get(key.key)?.touched"
+       class="text-danger small">
+    {{ key.key | titlecase }} is required
+  </div>
+</div>
       <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
       <div class="d-flex justify-content-end gap-2">
         <!-- <button type="button" class="btn btn-secondary" (click)="onCancel()" [disabled]="isLoading">Cancel</button> -->

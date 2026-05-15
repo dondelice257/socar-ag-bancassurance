@@ -24,6 +24,8 @@ import { PendingPoliciesComponent } from './modules/policy/pending-policies/pend
 import { PolicyChangementDetenteurComponent } from './modules/policy/policy-changement-detenteur/policy-changement-detenteur.component';
 import { VignettesListComponent } from './modules/policy/vignettes-list/vignettes-list.component';
 import { CreateVignetteComponent } from './modules/policy/create-vignette/create-vignette.component';
+import { PolicyChangementPlaqueComponent } from './modules/policy/policy-changement-plaque/policy-changement-plaque.component';
+import { PolicyPerteCarteComponent } from './modules/policy/policy-perte-carte/policy-perte-carte.component';
 
 export const routes: Routes = [
     {
@@ -81,6 +83,14 @@ export const routes: Routes = [
             {
                 path: 'production/change_detenteur',
                 component: PolicyChangementDetenteurComponent
+            },
+            {
+                path: 'production/change_plaque',
+                component: PolicyChangementPlaqueComponent
+            },
+                        {
+                path: 'production/perte_carte',
+                component: PolicyPerteCarteComponent
             },
             {
                 path: 'production/renew',

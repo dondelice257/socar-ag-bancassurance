@@ -27,14 +27,23 @@ export class UpdateComponent {
     this.buildForm();
   }
 
-  buildForm() {
-    if (!this.body) return;
-    const group: any = {};
-    Object.keys(this.body).forEach(key => {
-      group[key] = [this.body[key], Validators.required];
-    });
-    this.form = this.fb.group(group);
-  }
+buildForm() {
+  if (!this.body) return;
+
+  const group: any = {};
+
+  Object.keys(this.body).forEach(key => {
+    const field = this.body[key];
+
+    if (typeof field === 'object' && field !== null) {
+      group[key] = [field.value, Validators.required];
+    } else {
+      group[key] = [field, Validators.required];
+    }
+  });
+
+  this.form = this.fb.group(group);
+}
 
   onSave() {
     // if (this.form.invalid) return;
@@ -48,10 +57,21 @@ export class UpdateComponent {
         this.isLoading = false;
         this.saved.emit(true);
       },
-      error: (err) => {
-        this.isLoading = false;
-        this.error = err?.message || 'An error occurred';
-      }
+error: (err) => {
+  this.isLoading = false;
+
+  if (err.error && typeof err.error === 'object') {
+
+    const firstKey = Object.keys(err.error)[0];
+
+    this.error = Array.isArray(err.error[firstKey])
+      ? err.error[firstKey][0]
+      : err.error[firstKey];
+
+  } else {
+    this.error = err.message || 'An error occurred';
+  }
+}
     });
   }
 

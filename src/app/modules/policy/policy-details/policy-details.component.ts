@@ -71,6 +71,59 @@ renewForm:FormGroup
 guaranteeForm:FormGroup
 goodsForm:FormGroup
 
+  marques: string[] = [
+    'TOYOTA', 'VOLKSWAGEN', 'BMW', 'MERCEDES-BENZ', 'FORD', 
+    'HONDA', 'CHEVROLET', 'NISSAN', 'HYUNDAI', 'AUDI', 
+    'KIA', 'PEUGEOT', 'RENAULT', 'FIAT', 'JEEP', 'LAND ROVER', 
+    'TESLA', 'SUBARU', 'MAZDA', 'MITSUBISHI', 'PORSCHE', 
+    'JAGUAR', 'LEXUS', 'ACURA', 'INFINITI', 'MINI', 'DODGE', 
+     'CHRYSLER', 'CITROËN', 'SAAB', 'ALFA ROMEO', 
+    'SUZUKI', 'HONDA', 'MERCEDES', 'VOLVO', 'HOWO', 'MACHINE', 'DAIHATSU'
+  ];
+
+  classes:string[]= [
+    'Vehicule (4pass.)','Vehicule (+4pass.)','Voiture taxi (4 pass.)','Voiture taxi (6-8 pass.)','Minibus 10 passagers','Minibus 14 passagers', 'Minibus(<=11 pass)','Jeep (4 pass.)','Jeep(+4 pass)','Camionnette(-4t)','Camionnette(+=4t)','Camionnette (d.cab)','Bus(45 pass)','Bus(15 pass)','Bus(18 pass)','Bus(25 pass)','Bus(30 pass)','Bus(35 pass)','Bus(42 pass)','Bus(46-60 pass)','Bus(80 pass)','Bus(100 pass)','Camion','Camion remorque','Semi-remorque','Remorque','Tous veh. (4pass.)','Tous veh. (8 pass)','Tous veh.(+11 pass.)', 'Tous veh.', 'Non design', 'Veh. prioritaires', 'Engins speciaux', 'Vehicules de sport', 'Moto (2 Roues)', 'Tricycle (3 roues)', 'Taxi Moto'
+  ]
+
+  usages:string[]= [
+    'Promenades et affaires','Auto-ecole','Transport pour compte propre','Transport de carburants','Transport gratuit','Transport de marchandises','Transport remunere de persones','Location-affaires et promenade','Location-transport gratuit de personnes','Location-transport remunere de personnes','Location-transport de choses', 'Location-transport de carburant','Garagiste (veh propre)','Garagiste (en depot)','Usage specifique','Competition sportive','Acheminement',
+  ]
+
+
+  autoOptions = [
+  'RESPONSABILITE CIVILE',
+  'DEGATS MATERIELS',
+  'INCENDIE',
+  'VOL',
+  'BRIS DE VITRE',
+  'INDIVIDUEL OCCUPANT',
+  'PASSAGERS SUR PLATEAU',
+  'EXTENSION COMESA'
+];
+
+fireOptions = [
+  "INCENDIE FOUDRE EXPLOSION CHUTE D'AERONERFS ET HEURTES DE VEHICULES",
+  'TEMPETE OURAGAN ET TROMBE',
+  'TREMBLEMENT DE TERRE ET ERRUPTION VOLCANIQUE',
+  'DE ( DEGATS DES EAUX )',
+  'INONDATION',
+  'RE ( RISQUES ELECTRIQUES)',
+  'FAP SAUF',
+  'BG ( BRIS DE GLACE )',
+  'VOL',
+  'FRAIS DE POMPIERS',
+  'FRAIS DE DEBLAIS',
+  'CHOMAGES IMMOBILIERS',
+  'PERTES D EXPLOITATION',
+  'RECOURS DES VOISINS'
+];
+
+transportOptions = [
+  'Tous risques',
+  'Accident caracterise',
+  'FAP SAUF'
+];
+
 
 @ViewChild('myModal') myModal: ElementRef | any;
 @ViewChild('updateModalBtn') updateModalBtn!: ElementRef;
@@ -241,22 +294,89 @@ this.selectedTitleUpdate = title
 
 
 
-if(title=='Garantie'){
-this.selectedBodyUpdate = body.guarantee_type=='fixed'?{'name':body.name, 'value':body.value, 'assured_capital':body.assured_capital}:{'name':body.name, 'rate':body.rate, 'assured_capital':body.assured_capital}
+if (title === 'Garantie') {
 
+  const isFixed = body.guarantee_type === 'fixed';
+
+  this.selectedBodyUpdate = {
+    name: {
+      value: body.name,
+      type: 'select',
+      options: this.getGuaranteeOptions(this.policy.category)
+    },
+
+    assured_capital: {
+      value: body.assured_capital,
+      type: 'number'
+    },
+
+    ...(isFixed
+      ? {
+          value: {
+            value: body.value,
+            type: 'number'
+          }
+        }
+      : {
+          rate: {
+            value: body.rate,
+            type: 'number'
+          }
+        }
+    )
+  };
 }else if(title=='Client'){
   console.log(body)
 this.selectedBodyUpdate = {'first_name':body.first_name, 'phone_number':body.phone_number, 'country':body.country, 'zone':body.zone, 'quartier':body.quartier, 'city':body.city, 'commune':body.commune}
 }else if(title=='Automobile'){
   console.log('tttt', title)
-  this.selectedBodyUpdate = {'plaque':body.plaque, 'chasis':body.chasis, 'usage':body.usage, 'limites_territoriales':body.limites_territoriales, 'marque':body.marque, 'model':body.model, 'annee_fabrication':body.annee_fabrication, 'puissance_moteur':body.puissance_moteur, 'places_cabine':body.places_cabine, 'places_plateau':body.places_plateau, 'numero_vignette':body.numero_vignette, 'classe':body.classe}
+  this.selectedBodyUpdate = {
+  plaque: { value: body.plaque, type: 'text' },
+  chasis: { value: body.chasis, type: 'text' },
+
+  usage: {
+    value: body.usage,
+    type: 'select',
+    options: this.usages
+  },
+
+  classe: {
+    value: body.classe,
+    type: 'select',
+    options: this.classes
+  },
+
+  marque: {
+    value: body.marque,
+    type: 'select',
+    options: this.marques
+  },
+
+  model: { value: body.model, type: 'text' },
+  annee_fabrication: { value: body.annee_fabrication, type: 'number' },
+  puissance_moteur: { value: body.puissance_moteur, type: 'number' },
+  places_cabine: { value: body.places_cabine, type: 'number' },
+  places_plateau: { value: body.places_plateau, type: 'number' },
+};
 }else if(title=='Incendie'){
   this.selectedBodyUpdate = {'nature_risque':body.nature_risque, 'quartier':body.quartier, 'province':body.province, 'cadastre':body.cadastre, 'titre':body.titre}
 }else if(title=='Transport'){
   this.selectedBodyUpdate = {'nature_marchandise':body.nature_marchandise, 'description':body.description, 'nature_emballage':body.nature_emballage, 'depart':body.depart, 'arrivee':body.arrivee, 'quantity':body.quantity, 'colis_number': body.colis_number, 'reference':body.reference, 'packaging': body.packaging, 'transport_type': body.transport_type, 'descriptif_marchandise': body.descriptif_marchandise}
 }else if(title=='Echeance'){
   console.log('eeeeeeee', body)
-this.selectedBodyUpdate = {'period':body.period, 'issue_date':body.issue_date}
+this.selectedBodyUpdate = {
+    period: {
+    value: body.period,
+    type: 'select',
+    options: [3,6,12]
+  },
+      issue_date: {
+    value: body.issue_date,
+    type: 'date',
+  }
+}
+
+
 }else if(title=='Membre'){
   console.log('eeeeeeee', body)
 this.selectedBodyUpdate = {'age':body.age, 'full_name':	body.full_name, "number_of_installments":body.number_of_installments, "credit_amount":body.credit_amount, "credit_rate":body.credit_rate, "addresse": body.addresse, "birth_year":body.birth_year, "phone_number":body.phone_number, "id_number":body.id_number, "employer":body.employer, "next_birth":body.next_birth, "email":body.email, "account_number":body.account_number}
@@ -388,6 +508,23 @@ deleteObject(){
       console.log(this.guaranteeForm.value, this.guaranteeForm.status)
     }
   }
+
+
+  getGuaranteeOptions(category: string): string[] {
+  switch (category) {
+    case 'auto':
+      return this.autoOptions;
+
+    case 'fire':
+      return this.fireOptions;
+
+    case 'transport':
+      return this.transportOptions;
+
+    default:
+      return [];
+  }
+}
 
 
   }
