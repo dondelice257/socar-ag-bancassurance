@@ -50,6 +50,8 @@ export class PolicyFormComponent {
   memberForm: FormGroup;
   // Converted capital amount in BIF currency
   capitalInBif = 0;
+  primeNette = 0;
+
   
   // Observable for the currently logged-in operator
   connectedOperator$!: Observable<any>;
@@ -184,6 +186,8 @@ export class PolicyFormComponent {
     this.connectedOperator$.subscribe((connectedOperator: any) => {
       this.connectedOperator = connectedOperator;
       console.log('from operatorrr conneccttteedd', this.connectedOperator);
+
+
       
       // Redirect logic (currently commented out)
       if (!connectedOperator) {
@@ -248,7 +252,23 @@ export class PolicyFormComponent {
         this.step++;
 
       }else{
+
         this.step=4;
+        if(this.selectedCategory=='auto'){
+
+                    const guarantee = {
+        name: 'RESPONSABILITE CIVILE',
+        assured_capital: 0,
+        guarantee_type: 'fixed',
+        value: this.primeNette,
+        rate: 0,
+      };
+      
+      this.selectedGuarantees.push(guarantee);
+
+        }
+
+
 
       }
     } else if (this.step === 3 && this.selectedGoods) {
@@ -703,6 +723,27 @@ submitGoods() {
   
     reader.readAsBinaryString(target.files[0]);
   }
+
+
+  getPrimeNette(event:any){
+    this.primeNette = event
+    console.log("eeeevent", event)
+
+
+  }
+
+
+
+  // addDefaultBeneficiaire(){
+  //         if(this.connectedOperator.agency.group=='CRDB' && this.selectedCategory=='fire'){
+  //       this.policyForm.patchValue({beneficiaire:'CRDB BANK BURUNDI S.A'})
+  //     }else{
+  //       this.policyForm.patchValue({beneficiaire:''})
+
+  //     }
+  // }
+
+
   
   
 }

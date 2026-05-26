@@ -409,4 +409,20 @@ ngOnChanges(changes: SimpleChanges) {
   }
 }
 
+
+saveOnPrint(row:any){
+    // if (this.form.invalid) return;
+
+    const req$ = this.generalService.Update('policy/policies', row.id, {"is_saved":true})
+    req$.subscribe({
+      next: (res) => {
+        console.log("save silently####################33", res)
+      },
+error: (err) => {
+
+}
+    });
+  }
+
+
 }

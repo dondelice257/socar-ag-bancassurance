@@ -128,7 +128,9 @@
             <span role="button" #updateModalBtn data-bs-toggle="modal" data-bs-target="#updateModal"></span>
           </p>
 
-          <p class="col-lg-4"><i class="fas fa-calendar-alt text-secondary"></i> <strong>Date d'effet:</strong> {{ policy.issue_date | date:'dd/MM/yyyy' }}                     
+          <p class="col-lg-4"><i class="fas fa-calendar-alt text-secondary"></i> <strong>Date d'effet:</strong> {{ policy.issue_date | date:'dd/MM/yyyy' }}    
+            
+                
                 <span 
                 role="button"  
                 (click)="chooseObjectUpdate('policy/policies', policy.id, 'Echeance', policy)" 
@@ -262,6 +264,8 @@
                   <p><strong>Modèle:</strong> {{ policy.auto_insurance.model }}</p>
                   <p><strong>Puissance moteur:</strong> {{ policy.auto_insurance?.puissance_moteur }}</p>
                   <p><strong>Usage:</strong> {{ policy.auto_insurance?.usage }}</p>
+                  <p><strong>Classe:</strong> {{ policy.auto_insurance?.classe }}</p>
+
                   <p><strong>Places cabine:</strong> {{ policy.auto_insurance?.places_cabine }}</p>
                   <p><strong>Places plateau:</strong> {{ policy.auto_insurance?.places_plateau }}</p>
 
@@ -377,6 +381,9 @@
                   <p><strong>Capital assure Devise:</strong> {{ policy.assured_capital_devise }}</p>
         <p><strong>Monnaie:</strong> {{ policy.currency }}</p>
         <p><strong>Taux du jour:</strong> {{ policy.daily_rate}}</p>
+        }
+        @if(policy.category=='fire'){
+          <p><strong>Beneficiaire: </strong>{{policy.beneficiaire }}</p>
         }
 
 

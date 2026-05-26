@@ -44,11 +44,15 @@ export class PoliciesListComponent {
         field: 'id',
       }, 
     },
+    { columnDef: 'id', header: 'ID Unique' },
+
     { columnDef: 'formatted_avenant', header: 'Avenant' },
     { columnDef: 'operator.full_name', header: 'Operateur' },
     { columnDef: 'agency.name', header: 'Agence' },
     { columnDef: 'agency.sub_agency', header: 'Sous agence' },
     { columnDef: 'category', header: 'Categorie' },
+    { columnDef: 'created_at', header: 'Date Prod.', type: 'date' },
+
     { columnDef: 'issue_date', header: 'Date effet', type: 'date' },
     { columnDef: 'expiration_date', header: 'Date echeance', type: 'date' },
     { columnDef: 'prime_base', header: 'Prime de base' },

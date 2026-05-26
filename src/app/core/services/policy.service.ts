@@ -240,4 +240,21 @@ markVignetteUsed(vignetteId: string) {
   );
     
   }
+
+  simulateTariff(body:any){
+    const url=`${environment.apiUrl}policy/tariff/simulate/`
+
+    const header={
+      'content-type': 'application/json',
+      'Authorization' : `Token ${this.token}`
+  
+    }
+  
+    return this.httpClient.post(url, body, {headers:header}).pipe(
+      map((data) => {
+          return data;
+      })
+  );
+    
+  }
 }

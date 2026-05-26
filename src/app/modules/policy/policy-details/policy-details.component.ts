@@ -387,7 +387,11 @@ this.selectedBodyUpdate = {'age':body.age, 'full_name':	body.full_name, "number_
   if(this.policy.category=='transport'){
     this.selectedBodyUpdate = {'assured_capital_bif':body.assured_capital_bif, 'assured_capital_devise':body.assured_capital_devise, 'daily_rate':body.daily_rate, 'currency':body.currency}
 
-  }else{
+  }else if(this.policy.category=='fire'){
+    this.selectedBodyUpdate = {'assured_capital_bif':body.assured_capital_bif, 'beneficiaire':body.beneficiaire}
+
+  }
+  else{
     this.selectedBodyUpdate = {'assured_capital_bif':body.assured_capital_bif}
 
   }

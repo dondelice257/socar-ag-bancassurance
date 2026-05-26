@@ -1,126 +1,336 @@
 <form [formGroup]="insuranceForm">
+
   <div class="row">
-    <!-- Chasis Number -->
+
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="text" class="form-control" formControlName="chasis" placeholder="No Chasis">
+        <input
+          type="text"
+          class="form-control border border-secondary"
+          formControlName="chasis"
+          placeholder="No Chasis"
+        >
         <label>Chasis</label>
       </div>
     </div>
 
-    <!-- Plaque -->
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="text" class="form-control" formControlName="plaque" placeholder="Plaque">
+        <input
+          type="text"
+          class="form-control border border-secondary"
+          formControlName="plaque"
+          placeholder="Plaque"
+        >
         <label>Plaque</label>
       </div>
     </div>
+
   </div>
 
   <div class="row">
-    <!-- Limites Territoriales -->
+
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="text" class="form-control" readonly formControlName="limites_territoriales" placeholder="Limites Territoriales">
+        <input
+          type="text"
+          class="form-control border border-secondary"
+          readonly
+          formControlName="limites_territoriales"
+          placeholder="Limites Territoriales"
+        >
         <label>Limites Territoriales</label>
       </div>
     </div>
 
-    <!-- Usage -->
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <select class="form-control" formControlName="usage">
-          <option value="" disabled selected>Choisir l usage</option>
-          <option *ngFor="let usage of usages" [value]="usage">{{ usage }}</option>
+        <select class="form-select border border-secondary" formControlName="usage">
+          <option value="">Choisir l usage</option>
+
+          <option
+            *ngFor="let usage of usages"
+            [value]="usage"
+          >
+            {{ usage }}
+          </option>
+
         </select>
+
         <label>Usage</label>
       </div>
     </div>
+
   </div>
 
   <div class="row">
-    <!-- Marque -->
+
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <select class="form-control" formControlName="marque">
-          <option value="" disabled selected>Choisir une marque</option>
-          <option *ngFor="let marque of marques" [value]="marque">{{ marque }}</option>
+
+        <select class="form-select border border-secondary" formControlName="marque">
+
+          <option value="">Choisir une marque</option>
+
+          <option
+            *ngFor="let marque of marques"
+            [value]="marque"
+          >
+            {{ marque }}
+          </option>
+
         </select>
+
         <label>Marque</label>
+
       </div>
     </div>
-    
-    
 
-    <!-- Model -->
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="text" class="form-control" formControlName="model" placeholder="Modèle">
+
+        <input
+          type="text"
+          class="form-control border border-secondary"
+          formControlName="model"
+          placeholder="Modèle"
+        >
+
         <label>Modèle</label>
+
       </div>
     </div>
+
   </div>
 
   <div class="row">
-    <!-- Année de Fabrication -->
+
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="number" class="form-control" formControlName="annee_fabrication" placeholder="Année de Fabrication">
+
+        <input
+          type="number"
+          class="form-control border border-secondary"
+          formControlName="annee_fabrication"
+          placeholder="Année"
+        >
+
         <label>Année de Fabrication</label>
+
       </div>
     </div>
 
-    <!-- Puissance Moteur -->
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="text" class="form-control" formControlName="puissance_moteur" placeholder="Puissance Moteur">
+
+        <input
+          type="text"
+          class="form-control border border-secondary"
+          formControlName="puissance_moteur"
+          placeholder="Puissance"
+        >
+
         <label>Puissance Moteur</label>
+
       </div>
     </div>
+
   </div>
 
   <div class="row">
-    <!-- Classe -->
+
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <select class="form-control" formControlName="classe">
-          <option value="" disabled selected>Choisir la categorie</option>
-          <option *ngFor="let class of classes" [value]="class">{{ class }}</option>
+
+        <select
+          class="form-select border border-secondary"
+          formControlName="classe"
+        >
+
+          <option value="">Choisir la categorie</option>
+
+          <option
+            *ngFor="let class of classes"
+            [value]="class"
+          >
+            {{ class }}
+          </option>
+
         </select>
+
         <label>Categorie vehicule</label>
+
       </div>
     </div>
 
-    <!-- Places en Cabine -->
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="number" class="form-control" formControlName="places_cabine" placeholder="Places en Cabine">
+
+        <input
+          type="number"
+          class="form-control border border-secondary"
+          formControlName="places_cabine"
+          placeholder="Places cabine"
+        >
+
         <label>Places en Cabine</label>
+
       </div>
     </div>
+
   </div>
 
   <div class="row">
-    <!-- Places sur le Plateau -->
+
     <div class="col-md-6 mb-3">
       <div class="form-floating">
-        <input type="number" class="form-control" formControlName="places_plateau" placeholder="Places sur le Plateau">
+
+        <input
+          type="number"
+          class="form-control border border-secondary"
+          formControlName="places_plateau"
+          placeholder="Places plateau"
+        >
+
         <label>Places sur le Plateau</label>
+
       </div>
     </div>
-        <!-- <div class="col-md-6 mb-3">
-     <div class="form-floating">
-        <input type="number" class="form-control" formControlName="numero_vignette" placeholder="Numero vignette">
-        <label>Numero vignette</label>
-      </div>
-            <h4 class="mb-1"><b>Rechercher la vignette a utiliser par code</b></h4>
-            <app-lookup
-            url='policy/vignette'
-            [option]="'lookup'"
-            itemsLabel="vignettes"
-            (selectedItemEvent)="vignetteSearch($event)">
-          </app-lookup>
-      
-    </div> -->
+
   </div>
+
+  <div class="d-flex justify-content-end">
+
+    <button
+      type="button"
+      class="btn bg-primary-2"
+      [disabled]="insuranceForm.invalid || isLoading"
+      (click)="calculatePrimeNette()"
+    >
+
+      <span *ngIf="!isLoading">
+        Calculer
+      </span>
+
+      <span *ngIf="isLoading">
+        <i class="fas fa-spinner fa-spin"></i>
+      </span>
+
+    </button>
+
+  </div>
+
 </form>
+
+@if(tariffResult){
+
+<div class="card border-0 shadow-sm mt-4">
+
+  <div class="card-header bg-success text-white">
+
+    <div class="fw-bold mb-2">
+      Résultat — Période : {{ tariffResult.details?.period }}
+    </div>
+
+    <div class="small">
+      <div>
+        Classe :
+        <b>{{ tariffResult.details?.classe }}</b>
+      </div>
+
+      <div>
+        Usage :
+        <b>{{ tariffResult.details?.usage }}</b>
+      </div>
+
+      <div>
+        Puissance :
+        <b>{{ tariffResult.details?.puissance }}</b>
+      </div>
+
+      <div>
+        Places cabine :
+        <b>{{ tariffResult.details?.places_cabine }}</b>
+      </div>
+
+      <div>
+        Places plateau :
+        <b>{{ tariffResult.details?.places_plateau }}</b>
+      </div>
+
+      <div>
+        Passagers :
+        <b>{{ tariffResult.details?.passengers }}</b>
+      </div>
+
+      <div>
+        Cle tarifaire :
+        <b>{{ tariffResult.tariff_key }}</b>
+      </div>
+
+    </div>
+
+  </div>
+
+  <table class="table mb-0">
+
+    <tbody>
+
+      <tr>
+        <td>
+          Prime Nette (PN)
+        </td>
+
+        <td class="text-end fw-bold">
+          {{ tariffResult.result?.prime_nette | number }}
+          BIF
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          Frais
+        </td>
+
+        <td class="text-end fw-bold">
+          {{ tariffResult.result?.frais | number }}
+          BIF
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          TVA
+        </td>
+
+        <td class="text-end fw-bold">
+          {{ tariffResult.result?.tva | number }}
+          BIF
+        </td>
+      </tr>
+
+      <tr class="table-primary">
+
+        <td class="fw-bold fs-5">
+          TOTAL TTC
+        </td>
+
+        <td class="text-end text-success fw-bold fs-4">
+          {{ tariffResult.result?.total_ttc | number }}
+          BIF
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+}
+@if(errorTariff){
+  <div class="bg-danger rounded p-3 text-white">
+    <b>{{errorTariff}}</b>
+  </div>
+}

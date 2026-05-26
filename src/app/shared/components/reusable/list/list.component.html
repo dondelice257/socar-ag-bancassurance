@@ -151,12 +151,14 @@
 
                 }
                 }
-
-                  <button matTooltip="Imprimer le contrat" data-bs-toggle="modal" data-bs-target="#printModal" class="btn bg-main text-white" (click)="selectAction(element, 'print'); $event.stopPropagation()">
+                  @if((!element.is_saved) && (element.status !='cancelled' || !element.is_cancelled)){
+                        <button matTooltip="Imprimer le contrat" data-bs-toggle="modal" data-bs-target="#printModal" class="btn bg-main text-white" (click)="selectAction(element, 'print'); $event.stopPropagation(); saveOnPrint(element)">
                     <b>
                       <i class="fa fa-print fs-3"></i>
                     </b>
                   </button>
+                  }
+
               </div>
          }
 

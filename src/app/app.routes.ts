@@ -26,6 +26,7 @@ import { VignettesListComponent } from './modules/policy/vignettes-list/vignette
 import { CreateVignetteComponent } from './modules/policy/create-vignette/create-vignette.component';
 import { PolicyChangementPlaqueComponent } from './modules/policy/policy-changement-plaque/policy-changement-plaque.component';
 import { PolicyPerteCarteComponent } from './modules/policy/policy-perte-carte/policy-perte-carte.component';
+import { ExpiredPoliciesComponent } from './modules/policy/expired-policies/expired-policies.component';
 
 export const routes: Routes = [
     {
@@ -99,6 +100,10 @@ export const routes: Routes = [
             {
                 path: 'policy/list',
                 component: PoliciesListComponent
+            },
+            {
+                path: 'policy/expired',
+                component: ExpiredPoliciesComponent
             },
             {
                 path: 'policy/declarations',
