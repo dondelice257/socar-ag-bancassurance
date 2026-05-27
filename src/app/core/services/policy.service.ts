@@ -211,7 +211,7 @@ export class PolicyService {
 
 
 markVignetteUsed(vignetteId: string) {
-  const url = `${environment.apiUrl}policy/vignette/${vignetteId}/mark_used/`  // ← Added =
+  const url = `${environment.apiUrl}policy/vignette/${vignetteId}/mark_printed/`  // ← Added =
   const header = {
     'content-type': 'application/json',
     'Authorization': `Token ${this.token}`

@@ -60,11 +60,8 @@
             @if(policy.category=="auto"){
               
               <li>
-                @if(policy.auto_insurance?.vignette_data?.is_used){
-
-
-                }@else{
-                <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='card'">
+                @if(!policy.auto_insurance?.vignette_data?.is_printed){
+                                    <button class="dropdown-item btn-action" data-bs-toggle="modal" data-bs-target="#myModal" (click)="isModalShown=true; documentToPrint='card'">
                   <i class="fas fa-print me-2"></i> Imprimer la carte
                 </button>
 
@@ -130,14 +127,16 @@
 
           <p class="col-lg-4"><i class="fas fa-calendar-alt text-secondary"></i> <strong>Date d'effet:</strong> {{ policy.issue_date | date:'dd/MM/yyyy' }}    
             
-                
+                @if(policy.is_demo){
                 <span 
                 role="button"  
                 (click)="chooseObjectUpdate('policy/policies', policy.id, 'Echeance', policy)" 
                 data-bs-toggle="modal" 
                 data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>
-                </span>
+                </span> 
+                }
+
 
               </p>
           <p class="col-lg-4"><i class="fas fa-calendar-check text-secondary"></i> <strong>Date d'expiration:</strong> {{ policy.expiration_date | date:'dd/MM/yyyy'}}</p>
@@ -237,11 +236,13 @@
                 @case("fire"){
 
 
-                  <div class="d-flex justify-content-end">
+                    @if(policy.is_demo){
+                                        <div class="d-flex justify-content-end">
                     <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/fire-insurance', policy.fire_insurance?.id, 'Incendie', policy.fire_insurance)" data-bs-toggle="modal" data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>
                 </span>
                   </div>
+                    }
 
                   <!-- Fire Insurance Risk Info -->
                   <p><strong>Nature du risque:</strong> <span class="text-success">{{ policy.fire_insurance?.nature_risque }}</span></p>
@@ -251,11 +252,15 @@
                   <p><strong>N° cadastre:</strong> {{ policy.fire_insurance?.cadastre }}</p>
                 }
                 @case("auto"){
-                                    <div class="d-flex justify-content-end">
+                                    
+                  @if(policy.is_demo){
+                                      <div class="d-flex justify-content-end">
                     <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/auto-insurance', policy.auto_insurance?.id, 'Automobile', policy.auto_insurance)" data-bs-toggle="modal" data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>
                 </span>
                   </div>
+                  }
+
 
                   <!-- Auto Insurance Risk Info -->
                   <p><strong>Plaque:</strong> <span class="text-success">{{ policy.auto_insurance?.plaque }}</span></p>
@@ -269,17 +274,21 @@
                   <p><strong>Places cabine:</strong> {{ policy.auto_insurance?.places_cabine }}</p>
                   <p><strong>Places plateau:</strong> {{ policy.auto_insurance?.places_plateau }}</p>
 
-                  <p><strong>Numero vignette:</strong> {{ policy.auto_insurance?.numero_vignette }}</p>
+                  <p><strong>Numero vignette:</strong> {{ policy.auto_insurance?.vignette_data?.code }}</p>
 
                 }
                 @case("transport"){
 
+                  @if(policy.is_demo){
+                    <div class="d-flex justify-content-end">
+                      <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/transport-insurance', policy.transport_insurance?.id, 'Transport', policy.transport_insurance)" data-bs-toggle="modal" data-bs-target="#updateModal">
+                        <i class="fa fa-pen fs-5"></i>
+                      </span>
+                    </div>
+                  }
 
-                                                      <div class="d-flex justify-content-end">
-                    <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/transport-insurance', policy.transport_insurance?.id, 'Transport', policy.transport_insurance)" data-bs-toggle="modal" data-bs-target="#updateModal">
-                  <i class="fa fa-pen fs-5"></i>
-                </span>
-                  </div>
+
+
 
                   <!-- Transport Insurance Risk Info -->
                   <p><strong>Nature marchandise:</strong> <span class="text-success">{{ policy.transport_insurance?.nature_marchandise }}</span></p>
@@ -323,9 +332,14 @@
       <div class="d-flex justify-content-center w-100">
         <b class="text-primary">Info du client</b>
         <!-- @if(!policy.is_approved){ -->
-                        <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('user/list', policy.client?.user?.id, 'Client', policy.client?.user)" data-bs-toggle="modal" data-bs-target="#updateModal">
+
+                        @if(policy.is_demo){
+                                                  <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('user/list', policy.client?.user?.id, 'Client', policy.client?.user)" data-bs-toggle="modal" data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>
                 </span>
+
+                        }
+
         <!-- } -->
 
 
@@ -367,7 +381,8 @@
          <div class="col-md-4">
       <div class="d-flex justify-content-center w-100">
         <b class="text-primary">Info general contrat</b>
-                @if(!policy.is_saved){
+                @if(policy.is_demo){
+
                                   <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/policies', policy.id, 'Info contrat', policy)" data-bs-toggle="modal" data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>
                 </span>
@@ -413,7 +428,7 @@
     <div class="card mt-4 p-4">
       <div class="w-100 d-flex justify-content-between align-items-center">
       <h4 class="fw-bold">Garanties</h4>
-      @if(!policy.is_saved){
+      @if(policy.is_demo){
                                   <button type="button" class="w-auto py-2 pe-2 rounded bg-transparent border border-dark text-dark w-100" (click)="addingGuarantee=!addingGuarantee">
 
                       <b>
@@ -441,7 +456,7 @@
             <td>{{ guarantee.assured_capital | currency:'BIF' }}</td>
             <td>{{ guarantee.prime | currency:'BIF' }}</td>
             <td>
-              @if(!policy.is_saved){
+              @if(!policy.is_demo && (guarantee.guarantee_type !='fixed')){
               <div class="d-flex">
                 <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/guarantee', guarantee.id, 'Garantie', guarantee)" data-bs-toggle="modal" data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>

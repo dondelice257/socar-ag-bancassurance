@@ -128,7 +128,7 @@ export class AutoFormComponent {
       classe: ['', Validators.required],
       places_cabine: ['', Validators.required],
       places_plateau: ['', Validators.required],
-    });
+    }); 
   }
 
   ngOnInit(): void {
