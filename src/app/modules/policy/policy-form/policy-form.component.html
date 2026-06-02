@@ -518,12 +518,12 @@
                     </div>
             
                     <!-- Credit Rate -->
-                    <div class="col-lg-6 mb-3">
+                    <!-- <div class="col-lg-6 mb-3">
                       <div class="form-floating">
                         <input type="number" class="form-control border border-secondary" formControlName="bank_interest_rate" placeholder="Taux banque" />
                         <label>Taux banque</label>
                       </div>
-                    </div>
+                    </div> -->
             
                     <!-- Refinancing fields -->
                     <ng-container *ngIf="specificInsurance?.is_refinancing">
@@ -653,7 +653,7 @@
                     <td>{{ member.full_name }}</td>
                     <td>{{ member.credit_amount | number }}</td>
                     <td>{{ member.number_of_installments }}</td>
-                    <td>{{ member.bank_interest_rate | number }}</td>
+                    <!-- <td>{{ member.bank_interest_rate | number }}</td> -->
                     <td>
                       <button class="text-white bg-danger p-2 rounded" (click)="removeMember(i)">
                         Supprimer

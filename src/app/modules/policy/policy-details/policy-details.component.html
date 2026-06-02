@@ -164,7 +164,7 @@
           @if(policy.category =="credit"){
           <p class="col-lg-4">
             <!-- <i class="fas fa-hashtag text-secondary"></i> -->
-             <strong>Beneficiaire:</strong> {{ policy.credit_insurance?.raison_sociale }}</p>
+             <strong>Beneficiaire:</strong> {{ policy.agency?.name }}</p>
           <p class="col-lg-4">
             <!-- <i class="fas fa-hashtag text-secondary"></i> -->
              <strong>Type:</strong> {{ policy.credit_insurance?.is_refinancing? "Refinancement":"Nouveau"}}</p>
@@ -456,7 +456,7 @@
             <td>{{ guarantee.assured_capital | currency:'BIF' }}</td>
             <td>{{ guarantee.prime | currency:'BIF' }}</td>
             <td>
-              @if(!policy.is_demo && (guarantee.guarantee_type !='fixed')){
+              @if(policy.is_demo && (guarantee.guarantee_type !='fixed')){
               <div class="d-flex">
                 <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/guarantee', guarantee.id, 'Garantie', guarantee)" data-bs-toggle="modal" data-bs-target="#updateModal">
                   <i class="fa fa-pen fs-5"></i>

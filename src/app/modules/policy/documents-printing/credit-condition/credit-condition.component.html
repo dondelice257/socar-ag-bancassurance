@@ -158,7 +158,13 @@
                     }
                 </div>
                 <div class="d-grid align-items-center text-center w-33">
+                    @if(policy.agency.group=='CRDB'){
                     <span>BANQUE/BENEFICIAIRE</span>
+
+
+                    }@else {
+                        <span>BENERFICIAIRE</span>
+                    }
                     <b>{{policy.agency?.name}}</b>
                 </div>
                 <div class="d-grid align-items-center text-center w-33">
@@ -171,7 +177,7 @@
         '\nPreneur d\'assurance: ' + policy.credit_insurance?.members[0].full_name +
         '\nDate: ' + (policy.issue_date | date:'dd/MM/yyyy') +
         '\nValidité: ' + (policy.expiration_date | date:'dd/MM/yyyy')+
-        '\nBANQUE/BENEFICIAIRE :' + policy.agency?.name + 
+        '\nBENEFICIAIRE :' + policy.agency?.name + 
 
         '\nCompagnie d\'assurance: ' + (policy.company?.name) 
 }}"
@@ -185,10 +191,14 @@ size="120"
 
                 </div>
             </div>
-                                            <div class="mt-1 d-flex align-items-center">
+            @if(policy.agency.group =='CRDB'){
+                                                            <div class="mt-1 d-flex align-items-center">
     <span>Bancassurance : </span>
     <b>{{policy.agency?.name}}</b>
 </div>
+
+            }
+
         </div>
     </div>
     <!-- Main Content -->

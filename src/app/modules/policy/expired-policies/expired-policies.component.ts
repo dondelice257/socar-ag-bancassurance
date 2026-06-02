@@ -21,9 +21,11 @@ export class ExpiredPoliciesComponent {
         field: 'id',
       }, 
     },
+    { columnDef: 'category', header: 'Categorie' },
+
     { columnDef: 'formatted_avenant', header: 'Avenant' },
 
-    { columnDef: 'client.full_name', header: 'Client' },
+    { columnDef: 'client.user_full_name', header: 'Client' },
     { columnDef: 'client.user_phone_number', header: 'Tel' },
     { columnDef: 'operator.full_name', header: 'Operateur' },
 

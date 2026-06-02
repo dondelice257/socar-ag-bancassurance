@@ -187,8 +187,13 @@ export class PoliciesListComponent {
       
           { columnDef: 'operator.full_name', header: 'Operateur' },
           { columnDef: 'agency.name', header: 'Agence' },
+                    { columnDef: 'credit_insurance.individual_name', header: 'Client' },
+          { columnDef: 'credit_insurance.individual_age', header: 'Age' },
+
+          { columnDef: 'credit_insurance.raison_sociale', header: 'Raison sociale' },
 
           { columnDef: 'credit_insurance.is_group', header: 'Groupe' },
+
           { columnDef: 'period', header: 'Mensualites' },
           // { columnDef: 'status', header: 'Statut' },
 
