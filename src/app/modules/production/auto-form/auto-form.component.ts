@@ -39,7 +39,7 @@ export class AutoFormComponent {
     'JAGUAR', 'LEXUS', 'ACURA', 'INFINITI', 'MINI', 'DODGE',
     'CHRYSLER', 'CITROËN', 'SAAB', 'ALFA ROMEO',
     'SUZUKI', 'HONDA', 'MERCEDES', 'VOLVO', 'HOWO', 'MACHINE',
-    'DAIHATSU'
+    'DAIHATSU', 'TVS'
   ];
 
   classes:string[]= [

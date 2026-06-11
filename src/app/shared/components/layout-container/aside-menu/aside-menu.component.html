@@ -43,14 +43,14 @@
               <span class="text-center">Compte de versement des primes ( {{connectedOperator.agency?.name}} ) :</span>
               <b class="text-center">{{connectedOperator.agency?.premium_account}} </b>
             </div> -->
-            @if(!connectedOperator.company.is_non_vie){
+            <!-- @if(connectedOperator.company.is_non_vie){
               <button type="button" class="btn btn-outline-light me-3" data-bs-toggle="modal" data-bs-target="#tarifModal" *ngIf="!connectedOperator?.company?.is_non_vie">
-                <i class="fa fa-info-circle me-1"></i> Tarifs & Commission
+                <i class="fa fa-info-circle me-1"></i> Notes
             </button>
-            }
+            } -->
 
             <div
-             class="border my-2 border-danger rounded p-2 text-danger d-flex justify-content-between"
+             class="border my-2 rounded p-2 text-danger d-flex justify-content-between"
              (click)="logout()"              
              role="button"
              >
