@@ -84,7 +84,7 @@ export class ListComponent implements AfterViewInit {
   @Output() updateBranch = new EventEmitter<{}>();
   
 
-  hasHeader : boolean =false
+  hasHeader : boolean =true
 
 
   @Input() actions: any= [];
@@ -340,42 +340,38 @@ export class ListComponent implements AfterViewInit {
   const headers = this.columns.map(col => col.header);
   worksheet.addRow(headers);
 
-  this.data.forEach((row: any) => {
-    const rowData = this.columns.map(col => {
-      const value = this.getNestedValue(row, col.columnDef);
-      
-      // Convert to number if it's a numeric string
-      if (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value))) {
-        return Number(value);
-      }
-      
-      return value;
-    });
-    
-    const excelRow = worksheet.addRow(rowData);
-    
-    // Apply formatting to each cell based on its type
-    excelRow.eachCell((cell, colNumber) => {
-      const value = cell.value;
-      
-      // Set number format for numeric values
-      if (typeof value === 'number') {
-        cell.numFmt = '#,##0.00'; // Adjust format as needed
-      }
-    });
-    
-    // Check if the row has cancelled status
-    const status = this.getNestedValue(row, 'status') || this.getNestedValue(row, 'bill.status');
-    if (status === 'cancelled') {
-      excelRow.eachCell((cell) => {
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: 'FFFF0000' }
-        };
-      });
+this.data.forEach((row: any) => {
+  const rowData = this.columns.map(col => {
+    const value = this.getNestedValue(row, col.columnDef);
+
+    if (col.type === 'currency' || col.type === 'number') {
+      const num = Number(value);
+      return isNaN(num) ? value : num;
+    }
+
+    return value;
+  });
+
+  const excelRow = worksheet.addRow(rowData);
+
+  excelRow.eachCell((cell, colNumber) => {
+    const col = this.columns[colNumber - 1];
+    if (col?.type === 'currency' && typeof cell.value === 'number') {
+      cell.numFmt = '#,##0';
     }
   });
+
+  const status = this.getNestedValue(row, 'status') || this.getNestedValue(row, 'bill.status');
+  if (status === 'cancelled') {
+    excelRow.eachCell((cell) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFFF0000' }
+      };
+    });
+  }
+});
 
   workbook.xlsx.writeBuffer().then(buffer => {
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });

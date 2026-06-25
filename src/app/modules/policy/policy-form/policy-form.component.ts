@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { LookupComponent } from '../../../shared/components/reusable/lookup/lookup.component';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -33,7 +33,8 @@ import { noFutureDateValidator } from '../../../core/pipes/no-past-date.pipe';
     MatCardModule, 
     MatCheckboxModule, 
     FormsModule, 
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FormsModule,
 
   ],
   templateUrl: './policy-form.component.html',
@@ -63,6 +64,9 @@ export class PolicyFormComponent {
   selectedMembers: any[] = [];
 
   selectedGoods: any[] = [];
+
+  // selectedGoods: { name: string; assured_capital: number; guarantees: any[] }[] = [];
+  activeGoodsIndex: number | null = null;
   
   // IDs for created entities
   policyId: string | null = null;
@@ -77,6 +81,8 @@ export class PolicyFormComponent {
   
   // Currently selected insurance category
   selectedCategory: any;
+
+  guaranteeTemplates: any[] = [];
 
 
   currencies = [
@@ -114,6 +120,17 @@ export class PolicyFormComponent {
   minDate: string;
 
 
+  get gName() { return this.guaranteeForm.get('name') as FormControl; }
+  get gType() { return this.guaranteeForm.get('guarantee_type') as FormControl; }
+  get gValue() { return this.guaranteeForm.get('value') as FormControl; }
+  get gRate() { return this.guaranteeForm.get('rate') as FormControl; }
+  get gAssuredCapital() { return this.guaranteeForm.get('assured_capital') as FormControl; }
+
+  get gSelectedTemplate() { return this.guaranteeForm.get('selected_template') as FormControl; }
+
+get selectedTemplate() {
+  return this.guaranteeTemplates.find(t => t.id == this.guaranteeForm.value.selected_template) ?? null;
+}
   
   constructor(
     private fb: FormBuilder,
@@ -123,13 +140,14 @@ export class PolicyFormComponent {
     private toastr : ToastrService
   ) {
     // Initialize guarantee form with validations
-    this.guaranteeForm = this.fb.group({
-      name: ['', Validators.required],
-      assured_capital: ['', [Validators.required, Validators.min(0)]],
-      rate: [0, Validators.max(100)],
-      guarantee_type: ['percentage', [Validators.required]],
-      value: [0],
-    });
+this.guaranteeForm = this.fb.group({
+  selected_template: [null],
+  name: ['', Validators.required],
+  assured_capital: ['', [Validators.required, Validators.min(0)]],
+  rate: [0],
+  guarantee_type: ['percentage', Validators.required],
+  value: [0],
+});
 
       this.memberForm = this.fb.group({
       full_name: ['', Validators.required],
@@ -164,6 +182,8 @@ export class PolicyFormComponent {
       issue_date: ['', [Validators.required, noFutureDateValidator()]],
       period: ['', Validators.required],
       beneficiaire: [''],
+      note: [''],
+
       category: ['', Validators.required],
       custom_days: [0],
       daily_rate: [1],
@@ -214,7 +234,38 @@ export class PolicyFormComponent {
     this.selectedCategory = this.policyForm.value.category;
 
     });
+
+    this.policyForm.get('category')?.valueChanges.subscribe(category => {
+  if (category) {
+    this.loadGuaranteeTemplates(category);
   }
+});
+  }
+
+  loadGuaranteeTemplates(category: string) {
+  this.policyService.getGuaranteeTemplates(category).subscribe((templates: any) => {
+    this.guaranteeTemplates = templates;
+  });
+}
+
+onTemplateSelected(templateId: any) {
+  const template = this.guaranteeTemplates.find(t => t.id == templateId);
+  if (!template) return;
+
+  this.guaranteeForm.patchValue({
+    name: template.name,
+    guarantee_type: template.guarantee_type,
+    rate: template.min_value ?? 0,
+  });
+
+  // Mettre à jour la validation du taux selon min/max du template
+  const rateControl = this.guaranteeForm.get('rate');
+  rateControl?.setValidators([
+    Validators.required,
+    Validators.min(template.min_value ?? 0),
+  ]);
+  rateControl?.updateValueAndValidity();
+}
 
   /**
    * Calculates the capital value in BIF based on exchange rate
@@ -241,61 +292,92 @@ export class PolicyFormComponent {
   /**
    * Advances to the next step if current step validation passes
    */
+  // onNext() {
+  //   if (this.step === 1 && this.policyForm.valid) {
+  //     if(this.selectedCategory=='transport'){
+  //       this.policyForm.patchValue({assujeti_tva:true});
+  //     }
+  //     this.step++;
+  //   } else if (this.step === 2 && this.isSpecificInsuranceValid) {
+  //     if(this.selectedCategory=="fire"){
+  //       this.step++;
+
+  //     }else{
+
+  //       this.step=4;
+  //       if(this.selectedCategory=='auto'){
+
+  //                   const guarantee = {
+  //       name: 'RESPONSABILITE CIVILE',
+  //       assured_capital: 0,
+  //       guarantee_type: 'fixed',
+  //       value: this.primeNette,
+  //       rate: 0,
+  //     };
+      
+  //     this.selectedGuarantees.push(guarantee);
+
+  //       }
+
+
+
+  //     }
+  //   } else if (this.step === 3 && this.selectedGoods) {
+  //     this.step++;
+  //   }
+  // }
+
   onNext() {
-    if (this.step === 1 && this.policyForm.valid) {
-      if(this.selectedCategory=='transport'){
-        this.policyForm.patchValue({assujeti_tva:true});
-      }
-      this.step++;
-    } else if (this.step === 2 && this.isSpecificInsuranceValid) {
-      if(this.selectedCategory=="fire"){
-        this.step++;
-
-      }else{
-
-        this.step=4;
-        if(this.selectedCategory=='auto'){
-
-                    const guarantee = {
+  if (this.step === 1 && this.policyForm.valid) {
+    if (this.selectedCategory === 'transport') {
+      this.policyForm.patchValue({ assujeti_tva: true });
+    }
+    this.step++;
+  } else if (this.step === 2 && this.isSpecificInsuranceValid) {
+    this.step = 4;
+    if (this.selectedCategory === 'auto') {
+      const guarantee = {
         name: 'RESPONSABILITE CIVILE',
         assured_capital: 0,
         guarantee_type: 'fixed',
         value: this.primeNette,
         rate: 0,
       };
-      
       this.selectedGuarantees.push(guarantee);
-
-        }
-
-
-
-      }
-    } else if (this.step === 3 && this.selectedGoods) {
-      this.step++;
     }
   }
+}
+
+// Inspired by policy-form, apply guaranteeTemplates things in policyDetails too
   
   /**
    * Goes back to the previous step
    */
+  // onBack() {
+  //   if (this.step > 1){
+  //     if(this.step == 4){
+  //       if(this.selectedCategory=="fire"){
+  //         this.step--;
+  
+  //       }else{
+  //         this.step=2;
+  
+  //       }
+  //     }else{
+  //       this.step--;
+
+  //     }
+
+  //   } 
+  // }
+
   onBack() {
-    if (this.step > 1){
-      if(this.step == 4){
-        if(this.selectedCategory=="fire"){
-          this.step--;
-  
-        }else{
-          this.step=2;
-  
-        }
-      }else{
-        this.step--;
-
-      }
-
-    } 
+  if (this.step === 4) {
+    this.step = 2;
+  } else if (this.step > 1) {
+    this.step--;
   }
+}
 
   /**
    * Tracks selected category changes from the form
@@ -355,12 +437,45 @@ createPolicy() {
     this.policyService.createSpecificInsurance(body, this.selectedCategory).subscribe(
       (response: any) => {
         this.specificInsuranceId = response.id;
-        if(this.connectedOperator.company?.is_non_vie){
-          this.submitGuarantees();
+        // if(this.connectedOperator.company?.is_non_vie){
+        //   this.submitGuarantees();
   
-        }else{
-          this.submitMembers()
+        // }else{
+        //   this.submitMembers()
+        // }
+
+//         if (this.connectedOperator.company?.is_non_vie) {
+//           if (this.selectedCategory === 'fire') {
+//         this.submitGoods();
+//     // garanties déjà soumises dans submitGoods
+//     this.router.navigateByUrl('/policy/list');
+//   } else {
+//     this.submitGuarantees();
+//   }
+// } else {
+//   this.submitMembers();
+// }
+
+        if (this.connectedOperator.company?.is_non_vie) {
+          if(this.selectedCategory !='fire'){
+  this.submitGuarantees();
+
+
+
+          }else{
+
+                    if (this.policyForm.value.is_demo) {
+          this.router.navigateByUrl('/policy/offer');
+        } else {
+          this.router.navigateByUrl('/policy/list');
+          // this.policyService.sendHqNotification({policy_id:this.policyId}).subscribe(()=>{
+          //   this.toastr.success('Notification envoyée au siege avec succès', 'Succès');
+          // })
         }
+          }
+} else {
+  this.submitMembers();
+}
         this.isSubmitting = false;
         this.toastr.success('L’assurance' +response.category + ' a été créée avec succès !', 'Succès');
         console.log('Assurance spécifique créée:', response);
@@ -376,29 +491,57 @@ createPolicy() {
    * Adds a guarantee to the selected guarantees list
    * from the guarantee form data
    */
-  addGuarantee() {
-    if (this.guaranteeForm.valid) {
-      const guarantee = {
-        name: this.guaranteeForm.value.name,
-        assured_capital: this.guaranteeForm.value.assured_capital,
-        guarantee_type: this.guaranteeForm.value.guarantee_type,
-        value: this.guaranteeForm.value.value,
-        rate: this.guaranteeForm.value.rate,
-      };
+  // addGuarantee() {
+  //   if (this.guaranteeForm.valid) {
+  //     const guarantee = {
+  //       name: this.guaranteeForm.value.name,
+  //       assured_capital: this.guaranteeForm.value.assured_capital,
+  //       guarantee_type: this.guaranteeForm.value.guarantee_type,
+  //       value: this.guaranteeForm.value.value,
+  //       rate: this.guaranteeForm.value.rate,
+  //     };
       
-      this.selectedGuarantees.push(guarantee);
+  //     this.selectedGuarantees.push(guarantee);
       
-      // Reset form fields after adding
-      this.guaranteeForm.patchValue({
-        name: '',
-        rate: 0,
-        guarantee_type: '',
-        value: 0,
-      });
-    }else{
-      console.log(this.guaranteeForm.value, this.guaranteeForm.status)
-    }
+  //     // Reset form fields after adding
+  //     this.guaranteeForm.patchValue({
+  //       name: '',
+  //       rate: 0,
+  //       guarantee_type: '',
+  //       value: 0,
+  //     });
+  //   }else{
+  //     console.log(this.guaranteeForm.value, this.guaranteeForm.status)
+  //   }
+  // }
+
+
+addGuarantee() {
+  if (!this.guaranteeForm.valid) return;
+
+  const guarantee = {
+    name: this.guaranteeForm.value.name,
+    assured_capital: this.guaranteeForm.value.assured_capital,
+    guarantee_type: this.guaranteeForm.value.guarantee_type,
+    value: this.guaranteeForm.value.value,
+    rate: this.guaranteeForm.value.rate,
+  };
+
+  if (this.selectedCategory === 'fire' && this.activeGoodsIndex !== null) {
+    this.selectedGoods[this.activeGoodsIndex].guarantees.push(guarantee);
+    this.selectedGuarantees.push(guarantee); // ← pour débloquer le bouton submit
+  } else {
+    this.selectedGuarantees.push(guarantee);
   }
+
+  this.guaranteeForm.patchValue({ name: '', rate: 0, guarantee_type: 'percentage', value: 0 });
+
+  const rateControl = this.guaranteeForm.get('rate');
+rateControl?.setValidators([Validators.max(100)]);
+rateControl?.updateValueAndValidity();
+this.guaranteeForm.patchValue({ selected_template: null, name: '', rate: 0, value: 0, guarantee_type: 'percentage' });
+
+}
   
 
 
@@ -458,30 +601,41 @@ createPolicy() {
 
 
 
-  addGoods() {
-    if (this.goodsForm.valid) {
-      const goods = {
-        name: this.goodsForm.value.name,
-        assured_capital: this.goodsForm.value.assured_capital,
-      };
-      
-      this.selectedGoods.push(goods);
-      
-      // Reset form fields after adding
-      this.goodsForm.patchValue({
-        name: '',
-        assured_capital: '',
-      });
-    }
+// Deux changements ciblés :
+// 1. addGoods() — patcher assured_capital de la garantie avec celui du bien ts
+addGoods() {
+  if (this.goodsForm.valid) {
+    const goods = {
+      name: this.goodsForm.value.name,
+      assured_capital: this.goodsForm.value.assured_capital,
+      guarantees: [],
+    };
+    this.selectedGoods.push(goods);
+    this.goodsForm.patchValue({ name: '', assured_capital: '' });
+
+    // Pré-remplir le capital de la garantie avec celui du bien ajouté
+    this.activeGoodsIndex = this.selectedGoods.length - 1;
+    this.guaranteeForm.patchValue({ assured_capital: goods.assured_capital });
   }
+}
   
   /**
    * Removes a guarantee from the selected list by index
    * @param index Array index to remove
    */
-  removeGuarantee(index: number) {
+  // removeGuarantee(index: number) {
+  //   this.selectedGuarantees.splice(index, 1);
+  // }
+
+removeGuarantee(index: number, goodsIndex?: number) {
+  if (this.selectedCategory === 'fire' && goodsIndex !== undefined) {
+    this.selectedGoods[goodsIndex].guarantees.splice(index, 1);
+    // Reconstruire selectedGuarantees depuis tous les biens
+    this.selectedGuarantees = this.selectedGoods.flatMap(g => g.guarantees);
+  } else {
     this.selectedGuarantees.splice(index, 1);
   }
+}
 
 
     removeMember(index: number) {
@@ -492,9 +646,20 @@ createPolicy() {
    * Removes an insured asset from the selected list by index
    * @param index Array index to remove
    */
-  removeGoods(index: number) {
-    this.selectedGoods.splice(index, 1);
+  // removeGoods(index: number) {
+  //   this.selectedGoods.splice(index, 1);
+  // }
+
+removeGoods(index: number) {
+  this.selectedGoods.splice(index, 1);
+  if (this.activeGoodsIndex === index) this.activeGoodsIndex = null;
+  else if (this.activeGoodsIndex !== null && this.activeGoodsIndex > index) this.activeGoodsIndex--;
+  
+  // Reconstruire selectedGuarantees
+  if (this.selectedCategory === 'fire') {
+    this.selectedGuarantees = this.selectedGoods.flatMap(g => g.guarantees);
   }
+}
   
   /**
    * Soumet toutes les garanties sélectionnées à l'API
@@ -503,10 +668,13 @@ createPolicy() {
   submitGuarantees() {
     this.isSubmitting = true;
 
-    const guaranteesWithInsurance = this.selectedGuarantees.map(guarantee => ({
-      ...guarantee,
-      policy: this.policyId
-    }));
+    console.log("calling submit guaranteee")
+
+
+const guaranteesWithInsurance = this.selectedGuarantees.map(guarantee => ({
+  ...guarantee,
+  policy: this.policyId
+}));
 
     const promises = guaranteesWithInsurance.map(guarantee =>
       this.policyService.createGuarantee(guarantee).toPromise()
@@ -577,28 +745,47 @@ createPolicy() {
    * Soumet tous les biens assurés sélectionnés à l'API
    * et les associe à la police créée.
    */
-submitGoods() {
-  this.isSubmitting = true;
+// submitGoods() {
+//   this.isSubmitting = true;
 
-  const goodsWithInsurance = this.selectedGoods.map((goods:any) => ({
-    ...goods,
-    policy: this.policyId
-  }));
+//   const goodsWithInsurance = this.selectedGoods.map((goods:any) => ({
+//     ...goods,
+//     policy: this.policyId
+//   }));
 
-  const promises = goodsWithInsurance.map((goods:any) =>
-    this.policyService.createGoods(goods).toPromise()
+//   const promises = goodsWithInsurance.map((goods:any) =>
+//     this.policyService.createGoods(goods).toPromise()
+//   );
+
+//   Promise.all(promises)
+//     .then(responses => {
+//       this.isSubmitting = false;
+//       this.toastr.success('Tous les biens assurés ont été soumis avec succès !', 'Succès');
+//       console.log('Biens soumis:', responses);
+//     })
+//     .catch(error => {
+//       this.isSubmitting = false;
+//       this.handleError(error);
+//     });
+// }
+
+async submitGoods(): Promise<void> {
+  if (this.selectedGoods.length === 0) return;
+
+  const results = await Promise.all(
+    this.selectedGoods.map(goods =>
+      this.policyService.createGoods({ name: goods.name, assured_capital: goods.assured_capital, policy: this.policyId }).toPromise()
+    )
   );
 
-  Promise.all(promises)
-    .then(responses => {
-      this.isSubmitting = false;
-      this.toastr.success('Tous les biens assurés ont été soumis avec succès !', 'Succès');
-      console.log('Biens soumis:', responses);
-    })
-    .catch(error => {
-      this.isSubmitting = false;
-      this.handleError(error);
-    });
+  // Soumettre les garanties liées à chaque bien
+  const guaranteePromises = results.flatMap((goodsResponse: any, i: number) =>
+    this.selectedGoods[i].guarantees.map((g: any) =>
+      this.policyService.createGuarantee({ ...g, policy: this.policyId, assured_goods: goodsResponse.id }).toPromise()
+    )
+  );
+
+  await Promise.all(guaranteePromises);
 }
 
   
@@ -614,7 +801,21 @@ submitGoods() {
     } else {
 
       if(this.connectedOperator.company?.is_non_vie){
+
+        if(this.selectedCategory!='fire'){
         this.submitGuarantees();
+
+
+        }else{
+                  if (this.policyForm.value.is_demo) {
+          this.router.navigateByUrl('/policy/offer');
+        } else {
+          this.router.navigateByUrl('/policy/list');
+          // this.policyService.sendHqNotification({policy_id:this.policyId}).subscribe(()=>{
+          //   this.toastr.success('Notification envoyée au siege avec succès', 'Succès');
+          // })
+        }
+        }
 
       }else{
         this.submitMembers()
@@ -731,6 +932,14 @@ submitGoods() {
 
 
   }
+
+
+  onSelectGoodsForGuarantee(index: number) {
+  this.activeGoodsIndex = index;
+  this.guaranteeForm.patchValue({
+    assured_capital: this.selectedGoods[index].assured_capital
+  });
+}
 
 
 

@@ -32,10 +32,10 @@ export class PoliciesOffersComponent {
 
     { columnDef: 'type_avenant', header: 'Type' },
     // { columnDef: 'status', header: 'Status' },
-    { columnDef: 'premium_amount', header: 'Prime totale' },
+    { columnDef: 'premium_amount', header: 'Prime totale', type:'currency' },
 
 
-    { columnDef: 'tva', header: 'TVA' },
+    { columnDef: 'tva', header: 'TVA', type:'currency' },
 
     { columnDef: 'issue_date', header: 'Date effet', type: 'date' },
     { columnDef: 'expiration_date', header: 'Date echeance', type: 'date' },

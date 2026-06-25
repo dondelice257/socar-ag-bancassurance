@@ -399,6 +399,8 @@
         }
         @if(policy.category=='fire'){
           <p><strong>Beneficiaire: </strong>{{policy.beneficiaire }}</p>
+          <p><strong>Note: </strong>{{policy.note }}</p>
+
         }
 
 
@@ -425,6 +427,157 @@
   
   <!-- Guarantees Table Card -->
    @if(policy.category !="credit"){
+
+
+    @if(policy.category=='fire'){
+
+<div class="card mt-4 p-4">
+  <h4 class="fw-bold">Biens assurés & Garanties</h4>
+
+  @for(goods of policy.assured_goods; track goods.id) {
+    <div class="card mt-3 p-3 border">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <div>
+          <b>{{ goods.name }}</b>
+          <span class="ms-3 text-secondary">Capital : {{ goods.assured_capital | currency:'BIF' }}</span>
+        </div>
+        @if(!policy.is_saved) {
+          <div class="d-flex gap-2">
+            <span role="button" (click)="chooseObjectUpdate('policy/goods', goods.id, 'Bien', goods)" data-bs-toggle="modal" data-bs-target="#updateModal">
+              <i class="fa fa-pen"></i>
+            </span>
+            <span role="button" class="text-danger" (click)="chooseObjectDelete('policy/goods', goods.id, 'Bien', goods)" data-bs-toggle="modal" data-bs-target="#deleteModal">
+              <i class="fa fa-trash"></i>
+            </span>
+          </div>
+        }
+      </div>
+
+      @if(goods.guarantees?.length > 0) {
+        <table class="table table-sm table-striped mb-0">
+          <thead>
+            <tr>
+              <th>Garantie</th>
+              <th>Capital Assuré</th>
+              <th>Taux</th>
+              <th>Prime</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(guarantee of goods.guarantees; track guarantee.id) {
+              <tr>
+                <td>{{ guarantee.name }}</td>
+                <td>{{ guarantee.assured_capital | currency:'BIF' }}</td>
+                <td>{{ guarantee.rate }}%</td>
+                <td>{{ guarantee.prime | currency:'BIF' }}</td>
+                <td>
+                  @if(!policy.is_saved && guarantee.guarantee_type !== 'fixed') {
+                    <div class="d-flex gap-2">
+                      <span role="button" (click)="chooseObjectUpdate('policy/guarantee', guarantee.id, 'Garantie', guarantee)" data-bs-toggle="modal" data-bs-target="#updateModal">
+                        <i class="fa fa-pen"></i>
+                      </span>
+                      <span role="button" class="text-danger" (click)="chooseObjectDelete('policy/guarantee', guarantee.id, 'Garantie', guarantee)" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="fa fa-trash"></i>
+                      </span>
+                    </div>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <small class="text-muted">Aucune garantie pour ce bien</small>
+      }
+
+      @if(!policy.is_saved) {
+        <button type="button" class="btn btn-outline-dark btn-sm mt-2 w-auto"
+          (click)="activeGoodsId = activeGoodsId === goods.id ? null : goods.id">
+          <i class="fa fa-plus"></i> Ajouter une garantie
+        </button>
+
+        @if(activeGoodsId === goods.id) {
+          <div class="border rounded p-3 mt-2">
+            <form [formGroup]="guaranteeForm">
+              <div class="row align-items-end">
+                <!-- <div class="col-md-2">
+                  <label class="form-label small">Type</label>
+                  <select class="form-select form-select-sm" formControlName="guarantee_type">
+                    <option value="percentage">Taux</option>
+                    <option value="fixed">Montant</option>
+                  </select>
+                </div> -->
+<div class="col-md-4">
+  <label class="form-label small">Garantie</label>
+  <select class="form-select form-select-sm" formControlName="selected_template"
+    (change)="onTemplateSelected(guaranteeForm.value.selected_template)">
+    <option [value]="null">-- Choisir --</option>
+    <option *ngFor="let t of guaranteeTemplates" [value]="t.id">{{ t.name }}</option>
+  </select>
+</div>
+<div class="col-md-2">
+  <label class="form-label small">Capital assuré</label>
+  <input type="number" class="form-control form-control-sm" formControlName="assured_capital" />
+</div>
+@if(guaranteeForm.value.guarantee_type === 'fixed') {
+  <div class="col-md-2">
+    <label class="form-label small">Prime</label>
+    <input type="number" class="form-control form-control-sm" formControlName="value" />
+  </div>
+} @else {
+  <div class="col-md-2">
+    <label class="form-label small">Taux (%)</label>
+    <input type="number" class="form-control form-control-sm" formControlName="rate" />
+    @if(guaranteeForm.get('rate')?.errors?.['min']) {
+      <small class="text-danger">Min {{ selectedTemplate?.min_value }}%</small>
+    }
+  </div>
+}
+                <div class="col-md-2 d-flex align-items-end">
+                  <button type="button" class="p-2 rounded text-white bg-primary-2 w-100"
+                    (click)="addGuaranteeToGoods(goods)">
+                    + Garantie
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        }
+      }
+    </div>
+  }
+
+  @if(!policy.is_saved) {
+    <button type="button" class="btn btn-outline-dark mt-3 w-auto" (click)="addingGoods = !addingGoods">
+      <i class="fa fa-plus"></i> Ajouter un bien
+    </button>
+    @if(addingGoods) {
+      <div class="card p-4 mt-3 shadow-sm">
+        <h5 class="text-center mb-3">Ajouter un bien</h5>
+        <form [formGroup]="goodsForm">
+          <div class="row align-items-end">
+            <div class="col-md-4">
+              <label class="form-label">Nom du bien</label>
+              <input type="text" class="form-control" formControlName="name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Capital assuré</label>
+              <input type="number" class="form-control" formControlName="assured_capital" />
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button type="button" class="p-2 rounded text-white bg-primary-2 w-100" (click)="addGoods()">Ajouter</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    }
+  }
+</div>
+
+
+
+    }@else{
     <div class="card mt-4 p-4">
       <div class="w-100 d-flex justify-content-between align-items-center">
       <h4 class="fw-bold">Garanties</h4>
@@ -478,27 +631,23 @@
               <form [formGroup]="guaranteeForm">
                 <div class="row">
                   <!-- Guarantee type selection -->
-                  <div class="col-lg-2">
+                  <!-- <div class="col-lg-2">
                     <label for="name" class="form-label">Type de garantie</label>
                     <select class="form-select" formControlName="guarantee_type">
                       <option [value]="'percentage'">Taux</option>
                       <option [value]="'fixed'">Montant</option>
                     </select>
-                  </div>
+                  </div> -->
                   
                   <!-- Guarantee name field -->
-                  <div class="col-lg-4">
-                    <label for="name" class="form-label">Garantie</label>
-                                            <input
-                          id="name"
-                          type="text"
-                          class="form-control"
-                          formControlName="name"
-                          placeholder="Nom du garantie"
-                        />
-    <!-- Display select based on selectedCategory -->
-
-                  </div>
+<div class="col-lg-4">
+  <label class="form-label">Garantie</label>
+  <select class="form-select border border-secondary" formControlName="selected_template"
+    (change)="onTemplateSelected(guaranteeForm.value.selected_template)">
+    <option [value]="null">-- Choisir --</option>
+    <option *ngFor="let t of guaranteeTemplates" [value]="t.id">{{ t.name }}</option>
+  </select>
+</div>
                   
                   <!-- Insured capital amount -->
                   <div class="col-lg-2">
@@ -537,6 +686,11 @@
                           formControlName="rate"
                           placeholder="Taux"
                         />
+                                          @if(guaranteeForm.get('rate')?.errors?.['min']) {
+      <small class="text-danger">
+        Minima: {{ selectedTemplate?.min_value }}% 
+      </small>
+    }
                       </div>
                     }
                   }
@@ -557,108 +711,10 @@
         <strong>Total Prime de Base:</strong>
         <span class="fw-bold text-success">{{ totalPrimeBase | number:'1.0-0' }} BIF</span>    </div> -->
     </div>
-  
-    <!-- Insured Goods Table Card -->
-    @if(policy.category=='fire'){
-    <div class="card mt-4 p-4">
-      <div class="w-100 d-flex justify-content-between align-items-center">
-      <h4 class="fw-bold">Bien a assurer</h4>
-      @if(!policy.is_saved){
-                                  <button type="button" class="w-auto py-2 pe-2 rounded bg-transparent border border-dark text-dark w-100" (click)="addingGoods=!addingGoods">
-                      <b>
-                        <i class="fa fa-plus fw-bold"></i>
-                        Ajouter
-                      </b>
-                    </button>
-
-      }
-
-
-
-      </div>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Bien a assurer</th>
-            <th>Capital Assuré</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let goods of policy.assured_goods">
-            <td>{{ goods.name }}</td>
-            <td>{{ goods.assured_capital | currency:'BIF' }}</td>
-            <td>
-              @if(!policy.is_saved){
-                              <div class="d-flex">
-                <span role="button" id="updateBtn"  (click)="chooseObjectUpdate('policy/goods', goods.id, 'Bien', goods)" data-bs-toggle="modal" data-bs-target="#updateModal">
-                  <i class="fa fa-pen fs-5"></i>
-                </span>   
-                <span role="button" id="deleteBtn" class="text-danger"  (click)="chooseObjectDelete('policy/goods', goods.id, 'Garantie', goods)" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                  <i class="fa fa-trash fs-5"></i>
-                </span>                 
-
-              </div>
-              }
-
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      @if(addingGoods){
-                          <div class="card p-4 mt-3 shadow-sm">
-              <h4 class="text-center mb-4">Ajouter un bien</h4>
-              <form [formGroup]="goodsForm">
-                <div class="row">
-
-                  
-                  <!-- Guarantee name field -->
-                  <div class="col-lg-4">
-                    <label for="name" class="form-label">Bien a assurer</label>
-                                            <input
-                          id="name"
-                          type="text"
-                          class="form-control"
-                          formControlName="name"
-                          placeholder="Nom du bien"
-                        />
-    <!-- Display select based on selectedCategory -->
-
-                  </div>
-                  
-                  <!-- Insured capital amount -->
-                  <div class="col-lg-2">
-                    <label for="capital" class="form-label">Capital Assuré</label>
-                    <input
-                      id="capital"
-                      type="number"
-                      class="form-control"
-  
-                      formControlName="assured_capital"
-                      placeholder="Capital assuré"
-                    />
-                  </div>
-                  
-                  <!-- Conditional fields based on guarantee type -->
-
-                  
-                  <!-- Add button -->
-                  <div class="col-lg-2 d-flex align-items-end">
-                    <button type="button" class="p-2 rounded text-white bg-primary-2 w-100" (click)="addGoods()">
-                      Ajouter
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-      }
-
-      
-      <!-- <div class="d-flex justify-content-end mt-3">
-        <strong>Total Prime de Base:</strong>
-        <span class="fw-bold text-success">{{ totalPrimeBase | number:'1.0-0' }} BIF</span>    </div> -->
-    </div>
     }
+
+  
+
    }@else{
     <div class="card mt-4 p-4">
       <h4 class="fw-bold">Les crediteurs</h4>
@@ -770,6 +826,7 @@
    }
 
 </div>
+
 }@else{
     <div
   style="transition: all 2s; z-index:2"
@@ -934,12 +991,12 @@ class="modal-overlay d-grid align-items-center justify-content-center"
           @if(policy.company.is_non_vie){
           @if(policy.is_approved || policy.is_demo){
                       <div class="d-flex justify-content-between align-items-center">
-                        @if(policy.company?.is_non_vie){
+                        <!-- @if(policy.company?.is_non_vie){
                           <div class="col-lg-3 mb-3" title="">
                             <mat-checkbox class="example-margin" [(ngModel)]="hasHeader">Imprimer avec entete</mat-checkbox>
               
                         </div>     
-                        }
+                        } -->
                                
             <button class="bg-main p-2 rounded text-white" 
                     ngxPrint 

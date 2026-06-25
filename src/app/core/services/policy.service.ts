@@ -47,6 +47,25 @@ export class PolicyService {
     
   }
 
+  getGuaranteeTemplates(category:string){
+    const url=`${environment.apiUrl}policy/guarantee-template/?category=${category}`
+  
+    const header={
+      'content-type': 'application/json',
+      'Authorization' : `Token ${this.token}`
+  
+    }
+  
+    return this.httpClient.get(url, {headers:header}).pipe(
+      map((data) => {
+          return data;
+      })
+  );
+    
+  }
+
+
+
 
   getPolicyDetails(policyId:string){
     const url=`${environment.apiUrl}policy/policies/${policyId}/`

@@ -55,16 +55,16 @@ export class PoliciesListComponent {
 
     { columnDef: 'issue_date', header: 'Date effet', type: 'date' },
     { columnDef: 'expiration_date', header: 'Date echeance', type: 'date' },
-    { columnDef: 'prime_base', header: 'Prime de base' },
-    { columnDef: 'frais', header: 'Frais' },
-    { columnDef: 'prime_nette', header: 'Prime nette' },
-    { columnDef: 'charges_diverses', header: 'Charges diverses' },
-    { columnDef: 'charges_arca', header: 'Charges ARCA' },
-    { columnDef: 'tva', header: 'TVA' },
-    { columnDef: 'premium_amount', header: 'Prime totale' },
+    { columnDef: 'prime_base', header: 'Prime de base', type:'currency' },
+    { columnDef: 'frais', header: 'Frais', type:'currency' },
+    { columnDef: 'prime_nette', header: 'Prime nette', type:'currency' },
+    { columnDef: 'charges_diverses', header: 'Charges diverses', type:'currency' },
+    { columnDef: 'charges_arca', header: 'Charges ARCA', type:'currency' },
+    { columnDef: 'tva', header: 'TVA' , type:'currency'},
+    { columnDef: 'premium_amount', header: 'Prime totale' , type:'currency'},
     { columnDef: 'commission', header: 'Commission' },
     { columnDef: 'is_saved', header: 'Systeme' },
-    { columnDef: 'assured_capital_bif', header: 'VA' },
+    { columnDef: 'assured_capital_bif', header: 'VA' , type:'currency'},
   ];
 
   // Branch-specific columns
@@ -199,15 +199,15 @@ export class PoliciesListComponent {
 
 
           { columnDef: 'credit_insurance.is_refinancing', header: 'Refinancement' },
-          { columnDef: 'credit_insurance.credit_amount', header: 'Montant du credit' },
+          { columnDef: 'credit_insurance.credit_amount', header: 'Montant du credit', type:'currency' },
 
 
 
           
       
       
-          { columnDef: 'premium_amount', header: 'Prime totale' },
-          { columnDef: 'commission', header: 'Commission' },
+          { columnDef: 'premium_amount', header: 'Prime totale', type:'currency' },
+          { columnDef: 'commission', header: 'Commission', type:'currency' },
 
 
 

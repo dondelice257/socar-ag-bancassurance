@@ -56,8 +56,9 @@ connectedOperator: any;
 policy:any
 isModalShown:boolean=false
 isLoading:boolean=false
-hasHeader : boolean = false
+hasHeader : boolean = true
 addingGuarantee = false
+activeGoodsId: number | null = null;
 
 totalPrimeBase = 0
 documentToPrint ='contrat'
@@ -80,6 +81,9 @@ goodsForm:FormGroup
      'CHRYSLER', 'CITROËN', 'SAAB', 'ALFA ROMEO', 
     'SUZUKI', 'HONDA', 'MERCEDES', 'VOLVO', 'HOWO', 'MACHINE', 'DAIHATSU'
   ];
+
+
+
 
   classes:string[]= [
     'Vehicule (4pass.)','Vehicule (+4pass.)','Voiture taxi (4 pass.)','Voiture taxi (6-8 pass.)','Minibus 10 passagers','Minibus 14 passagers', 'Minibus(<=11 pass)','Jeep (4 pass.)','Jeep(+4 pass)','Camionnette(-4t)','Camionnette(+=4t)','Camionnette (d.cab)','Bus(45 pass)','Bus(15 pass)','Bus(18 pass)','Bus(25 pass)','Bus(30 pass)','Bus(35 pass)','Bus(42 pass)','Bus(46-60 pass)','Bus(80 pass)','Bus(100 pass)','Camion','Camion remorque','Semi-remorque','Remorque','Tous veh. (4pass.)','Tous veh. (8 pass)','Tous veh.(+11 pass.)', 'Tous veh.', 'Non design', 'Veh. prioritaires', 'Engins speciaux', 'Vehicules de sport', 'Moto (2 Roues)', 'Tricycle (3 roues)', 'Taxi Moto'
@@ -132,6 +136,12 @@ transportOptions = [
   selectedIdDelete!: string;
   addingGoods: boolean = false;
 
+  guaranteeTemplates: any[] = [];
+
+  get selectedTemplate() {
+  return this.guaranteeTemplates.find(t => t.id == this.guaranteeForm.value.selected_template) ?? null;
+}
+
 
 
   constructor(
@@ -150,13 +160,14 @@ transportOptions = [
       assured_capital_bif: [0, Validators.required],
     });
 
-    this.guaranteeForm = this.fb.group({
-      name: ['', Validators.required],
-      assured_capital: [0, [Validators.required, Validators.min(0)]],
-      rate: [0, Validators.max(100)],
-      guarantee_type: ['percentage', [Validators.required]],
-      value: [0],
-    });
+this.guaranteeForm = this.fb.group({
+  selected_template: [null],
+  name: ['', Validators.required],
+  assured_capital: [0, [Validators.required, Validators.min(0)]],
+  rate: [0],
+  guarantee_type: ['percentage', Validators.required],
+  value: [0],
+});
 
 
         this.goodsForm = this.fb.group({
@@ -196,13 +207,38 @@ transportOptions = [
   }
 
 
+  loadGuaranteeTemplates(category: string) {
+  this.policyService.getGuaranteeTemplates(category).subscribe((templates: any) => {
+    this.guaranteeTemplates = templates;
+  });
+}
+
+onTemplateSelected(templateId: any) {
+  const template = this.guaranteeTemplates.find(t => t.id == templateId);
+  if (!template) return;
+
+  this.guaranteeForm.patchValue({
+    name: template.name,
+    guarantee_type: template.guarantee_type,
+    rate: template.min_value ?? 0,
+  });
+
+  const rateControl = this.guaranteeForm.get('rate');
+  rateControl?.setValidators([
+    Validators.required,
+    Validators.min(template.min_value ?? 0),
+  ]);
+  rateControl?.updateValueAndValidity();
+}
+
+
   getPolicyDetails(){
     this.policy=undefined
     this.policyService.getPolicyDetails(this.policyId).subscribe((data:any)=>{
       console.log('policy details', data)
 
       this.policy = data
-
+this.loadGuaranteeTemplates(this.policy.category);
 
       this.calculateTotalPrimeBase();
     })
@@ -364,7 +400,10 @@ this.selectedBodyUpdate = {'first_name':body.first_name, 'phone_number':body.pho
   this.selectedBodyUpdate = {'nature_marchandise':body.nature_marchandise, 'description':body.description, 'nature_emballage':body.nature_emballage, 'depart':body.depart, 'arrivee':body.arrivee, 'quantity':body.quantity, 'colis_number': body.colis_number, 'reference':body.reference, 'packaging': body.packaging, 'transport_type': body.transport_type, 'descriptif_marchandise': body.descriptif_marchandise}
 }else if(title=='Echeance'){
   console.log('eeeeeeee', body)
-this.selectedBodyUpdate = {
+
+  if(this.policy.category=='auto'){
+
+    this.selectedBodyUpdate = {
     period: {
     value: body.period,
     type: 'select',
@@ -375,6 +414,18 @@ this.selectedBodyUpdate = {
     type: 'date',
   }
 }
+
+  }else{
+    this.selectedBodyUpdate = {
+
+      issue_date: {
+    value: body.issue_date,
+    type: 'date',
+  }
+}
+  }
+
+
 
 
 }else if(title=='Membre'){
@@ -388,7 +439,7 @@ this.selectedBodyUpdate = {'age':body.age, 'full_name':	body.full_name, "number_
     this.selectedBodyUpdate = {'assured_capital_bif':body.assured_capital_bif, 'assured_capital_devise':body.assured_capital_devise, 'daily_rate':body.daily_rate, 'currency':body.currency}
 
   }else if(this.policy.category=='fire'){
-    this.selectedBodyUpdate = {'assured_capital_bif':body.assured_capital_bif, 'beneficiaire':body.beneficiaire}
+    this.selectedBodyUpdate = {'assured_capital_bif':body.assured_capital_bif, 'beneficiaire':body.beneficiaire, 'note':body.note}
 
   }
   else{
@@ -481,7 +532,12 @@ deleteObject(){
         value: 0,
       });
 
-    })      
+    })     
+    
+    const rateControl = this.guaranteeForm.get('rate');
+rateControl?.setValidators([Validators.max(100)]);
+rateControl?.updateValueAndValidity();
+this.guaranteeForm.patchValue({ selected_template: null, name: '', rate: 0, value: 0, guarantee_type: 'percentage' });
 
     }else{
       console.log(this.guaranteeForm.value, this.guaranteeForm.status)
@@ -528,6 +584,31 @@ deleteObject(){
     default:
       return [];
   }
+}
+
+
+
+addGuaranteeToGoods(good: any) {
+  console.log("gddddddddddd", this.guaranteeForm.value, good)
+
+  if (!this.guaranteeForm.valid) return;
+
+
+  
+  const payload = {
+    ...this.guaranteeForm.value,
+    policy: this.policy.id,
+    assured_goods: good.id,
+  };
+
+  this.policyService.createGuarantee(payload).subscribe({
+    next: () => {
+      this.toastr.success('Garantie ajoutée avec succès', 'Succès');
+      this.activeGoodsId = null;
+      this.guaranteeForm.reset({ guarantee_type: 'percentage', rate: 0, value: 0 });
+this.getPolicyDetails()    },
+    // error: (err) => this.hand(err)
+  });
 }
 
 

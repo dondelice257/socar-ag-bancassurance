@@ -96,36 +96,33 @@
       </div> -->
   
       <!-- Premium Summary -->
-      <div class="premium-summary">
-        <div class="header-row row">
-          <div class="col-3" style="font-size:10px">BIENS A ASSURER</div>
-          <div class="col-4" style="font-size:10px">DETAILS/GARANTIES</div>
-          <div class="col-2 text-end" style="font-size:10px">CAPITAUX(Fbu)</div>
-          <div class="col-3 text-end" style="font-size:10px">PRIME NETTE(Fbu)</div>
-        </div>
-      
-        <div class="data-row" *ngFor="let goods of policy.assured_goods">
-          <div class="col-3">*{{ goods.name }}</div>
-          <div class="col-4"></div>
-          <div class="col-2 text-end">{{goods.assured_capital | number}}</div>
-          <div class="col-3 text-end"></div>
-        </div>
-      
-        <div class="border-btm">
-          <div *ngFor="let guarantee of policy.guarantees" class="row ">
-            <div class="col-3"></div>
-            <div class="col-4">{{guarantee.name}}</div>
-            <div class="col-2 text-end">{{guarantee.assured_capital | number}}</div>
-            <div class="col-3 text-end">{{guarantee.prime | number}}</div>
-          </div>
-        </div>
-      
-        <!-- <div class="total-row">
-          <div class="col-8 text-end"><strong>Totaux:</strong></div>
-          <div class="col-2 text-end"><strong>{{policy.fire_insurance?.default_assured_capital | number}}</strong></div>
-          <div class="col-2 text-end"><strong>{{policy.prime_base | number}}</strong></div>
-        </div> -->
-      </div>
+<div class="premium-summary">
+  <div class="header-row row">
+    <div class="col-3" style="font-size:10px">BIENS A ASSURER</div>
+    <div class="col-4" style="font-size:10px">DETAILS/GARANTIES</div>
+    <div class="col-2 text-end" style="font-size:10px">CAPITAUX(Fbu)</div>
+    <div class="col-3 text-end" style="font-size:10px">PRIME NETTE(Fbu)</div>
+  </div>
+
+  <div *ngFor="let goods of policy.assured_goods" class="mb-2">
+    <!-- Ligne du bien -->
+    <div class="data-row row">
+      <div class="col-3"><strong>* {{ goods.name }}</strong></div>
+      <div class="col-4"></div>
+      <div class="col-2 text-end fw-bold">{{ goods.assured_capital | number }}</div>
+      <div class="col-3 text-end"></div>
+    </div>
+
+    <!-- Garanties de ce bien -->
+    <div *ngFor="let guarantee of goods.guarantees" class="row">
+      <div class="col-3"></div>
+      <div class="col-4" style="font-size:10px">- {{ guarantee.name }}</div>
+      <div class="col-2 text-end">{{ guarantee.assured_capital | number }}</div>
+      <div class="col-3 text-end">{{ guarantee.prime | number }}</div>
+    </div>
+  </div>
+  <hr>
+</div>
       
       <!-- Premium Summary -->
       <div class="d-flex justify-content-end">
@@ -195,6 +192,14 @@
   <div class="mt-2">BÉNÉFICIAIRE : En cas de sinistre, les indemnités seront versées à {{policy.beneficiaire}}, qui est bénéficiaire de cette police d'assurance.</div>
   }
 </div>
+
+@if(policy.note){
+  <div class="my-2 d-grid">
+  <div class="fw-bold">Observation :</div>
+  <span>{{policy.note}}</span>
+</div>
+}
+
 
 <div class="d-grid">
   <strong>Le preneur d'assurance déclare avoir pris connaissance des conditions générales et particulières.</strong>
