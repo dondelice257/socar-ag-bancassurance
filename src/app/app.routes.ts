@@ -27,6 +27,7 @@ import { CreateVignetteComponent } from './modules/policy/create-vignette/create
 import { PolicyChangementPlaqueComponent } from './modules/policy/policy-changement-plaque/policy-changement-plaque.component';
 import { PolicyPerteCarteComponent } from './modules/policy/policy-perte-carte/policy-perte-carte.component';
 import { ExpiredPoliciesComponent } from './modules/policy/expired-policies/expired-policies.component';
+import { CreateUserComponent } from './modules/authentication/create-user/create-user.component';
 
 export const routes: Routes = [
     {
@@ -56,6 +57,10 @@ export const routes: Routes = [
             {
                 path: 'user',
                 component: UsersListComponent
+            },
+            {
+                path: 'user/create',
+                component: CreateUserComponent
             },
             {
                 path: 'settings/change-password',

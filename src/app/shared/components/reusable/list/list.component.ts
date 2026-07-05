@@ -265,9 +265,14 @@ export class ListComponent implements AfterViewInit {
       this.selectedAgency = selectedAgency;
       this.filterForm.patchValue({ agency: selectedAgency });
             if(!this.selectedAgency){
-              this.selectedAgency=agencies[0].id
+              // console.log("hehheehehehhheeheh", this.selectedAgency)
+              if(!this.connectedOperator.is_operator_super_admin){
+                              this.selectedAgency=agencies[0].id
     this.store.dispatch(new SetSelectedAgency(this.selectedAgency));
       this.filterForm.patchValue({ agency: this.selectedAgency });
+
+
+              }
 
 
       this.getData();
